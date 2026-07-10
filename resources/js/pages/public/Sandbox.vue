@@ -21,7 +21,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 // Ya no necesitamos definir props porque hemos puesto el texto y la imagen fijos directamente en el HTML de arriba.
 </script>
 

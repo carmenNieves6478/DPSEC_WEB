@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import {
     Sun,
@@ -11,22 +10,20 @@ import {
     Mail,
     Phone,
     MapPin,
-    Globe,
     Calendar,
     FileText,
     LogIn,
     User,
-    ArrowRight,
-    Award
+    ArrowRight
 } from '@lucide/vue';
-import { useAppearance } from '@/composables/useAppearance';
+import { ref, computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useAppearance } from '@/composables/useAppearance';
 
 // Props
 defineProps<{

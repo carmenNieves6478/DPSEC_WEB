@@ -1,16 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
 import { Link } from '@inertiajs/vue3';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { 
     Award, 
     Calendar, 
     Users, 
     ArrowRight, 
     FileText, 
-    BookOpen, 
     Heart, 
     Leaf, 
     MapPin, 
@@ -21,6 +16,9 @@ import {
     X,
     UserCheck
 } from '@lucide/vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { Button } from '@/components/ui/button';
+import PublicLayout from '@/layouts/PublicLayout.vue';
 
 // Modal states
 const selectedActivity = ref<any>(null);
@@ -126,6 +124,7 @@ const handleScroll = () => {
         const windowHeight = window.innerHeight;
         // Pinned at center top-1/2 (scrollY + windowHeight/2) + half height + margin
         const barBottomEdge = scrollY + (windowHeight / 2) + 140;
+
         if (barBottomEdge >= footerTop) {
             collidesWithFooter = true;
         }
@@ -160,7 +159,10 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-    if (timer) clearInterval(timer);
+    if (timer) {
+clearInterval(timer);
+}
+
     window.removeEventListener('scroll', handleScroll);
 });
 </script>

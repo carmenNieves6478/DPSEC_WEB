@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import { Button } from '@/components/ui/button';
-import { Mail, GraduationCap, ArrowLeft, ArrowRight, Bell, Sparkles } from '@lucide/vue';
 import { Link } from '@inertiajs/vue3';
+import { Mail, GraduationCap, ArrowLeft, ArrowRight, Bell, Sparkles } from '@lucide/vue';
+import { ref } from 'vue';
+import { Button } from '@/components/ui/button';
+import PublicLayout from '@/layouts/PublicLayout.vue';
 
 const email = ref('');
 const subscribed = ref(false);
 
 const handleSubscribe = (e: Event) => {
     e.preventDefault();
+
     if (email.value.trim()) {
         subscribed.value = true;
         email.value = '';

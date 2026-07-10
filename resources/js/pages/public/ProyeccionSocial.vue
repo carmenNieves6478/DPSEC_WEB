@@ -1,18 +1,10 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { 
     Search, 
     Filter, 
     Calendar, 
     MapPin, 
     Users, 
-    Award, 
-    BookOpen, 
-    Share2, 
-    ExternalLink, 
     PlusCircle,
     UserCheck,
     CheckCircle,
@@ -21,6 +13,9 @@ import {
     X,
     ChevronRight
 } from '@lucide/vue';
+import { ref, computed } from 'vue';
+import { Button } from '@/components/ui/button';
+import PublicLayout from '@/layouts/PublicLayout.vue';
 
 // Modal states
 const selectedActivity = ref<any>(null);
@@ -133,6 +128,7 @@ const filteredActivities = computed(() => {
                               activity.location.toLowerCase().includes(search.value.toLowerCase());
         const matchesCategory = activeCategory.value === 'Todos' || activity.category === activeCategory.value;
         const matchesStatus = activeStatus.value === 'Todos' || activity.status === activeStatus.value;
+
         return matchesSearch && matchesCategory && matchesStatus;
     });
 });

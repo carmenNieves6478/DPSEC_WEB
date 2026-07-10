@@ -1,23 +1,19 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { 
     Users, 
-    Target, 
-    BookOpen, 
-    Award, 
     Heart, 
     Lightbulb, 
     ShieldCheck, 
     Flame, 
-    CheckCircle2, 
     Building2, 
     TrendingUp, 
     Scale, 
     UsersRound,
     Leaf
 } from '@lucide/vue';
+import { onMounted } from 'vue';
+import { Card, CardTitle } from '@/components/ui/card';
+import PublicLayout from '@/layouts/PublicLayout.vue';
 
 // Team members list
 const team = [

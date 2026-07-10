@@ -1,18 +1,16 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import PublicLayout from '@/layouts/PublicLayout.vue';
-import { Button } from '@/components/ui/button';
 import { 
     Search, 
-    FileText, 
     Download, 
     ExternalLink, 
     Calendar, 
     Tag, 
-    ArrowRight, 
     HelpCircle,
     Info
 } from '@lucide/vue';
+import { ref, computed } from 'vue';
+import { Button } from '@/components/ui/button';
+import PublicLayout from '@/layouts/PublicLayout.vue';
 
 const search = ref('');
 const activeCategory = ref('Todos');
@@ -83,6 +81,7 @@ const filteredDocuments = computed(() => {
                               doc.code.toLowerCase().includes(search.value.toLowerCase()) || 
                               doc.description.toLowerCase().includes(search.value.toLowerCase());
         const matchesCategory = activeCategory.value === 'Todos' || doc.category === activeCategory.value;
+
         return matchesSearch && matchesCategory;
     });
 });
