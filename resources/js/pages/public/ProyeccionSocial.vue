@@ -16,6 +16,7 @@ import {
 import { ref, computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { eventsList } from '@/lib/eventsData';
 
 // Modal states
 const selectedActivity = ref<any>(null);
@@ -38,87 +39,8 @@ const search = ref('');
 const activeCategory = ref('Todos');
 const activeStatus = ref('Todos');
 
-// Mock activities based on actual UNA Puno activities published on FB
-const activities = [
-    {
-        id: 1,
-        title: 'Programa de Voluntariado Ambiental: Rescate del Lago Titicaca',
-        category: 'Voluntariado Universitario',
-        status: 'En Curso',
-        statusColor: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-        date: '02 Ago 2026 - 15 Dic 2026',
-        location: 'Bahía Interior de Puno',
-        beneficiaries: 'Comunidades ribereñas e islas flotantes',
-        coordinator: 'Mg. Juan Carlos Quispe (Ing. Ambiental)',
-        description: 'Jornadas de limpieza de residuos sólidos, concientización ecológica a la población local y reforestación de totorales en el sector costero del lago.',
-        image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3', // Placeholder representing water/shore
-    },
-    {
-        id: 2,
-        title: 'Taller de Capacitación en Sanidad Animal y Manejo de Alpacas',
-        category: 'Proyección Social',
-        status: 'En Curso',
-        statusColor: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
-        date: '10 Set 2026 - 30 Nov 2026',
-        location: 'Mazocruz, El Collao',
-        beneficiaries: '320 familias de criadores de camélidos',
-        coordinator: 'Dra. Elsa Choquehuanca (Medicina Veterinaria)',
-        description: 'Asistencia técnica veterinaria gratuita, dosificación antiparasitaria y capacitación en selección de fibra de alpaca para mejorar la economía local.',
-        image: 'https://images.unsplash.com/photo-1594142404563-64cccaf5a10f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3', // Alpaca/andes animal placeholder
-    },
-    {
-        id: 3,
-        title: 'Encuentro Universitario Interfacultades de Música y Danzas del Altiplano',
-        category: 'Extensión Cultural',
-        status: 'Planificado',
-        statusColor: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
-        date: '20 Oct 2026',
-        location: 'Coliseo Cerrado Eduardo Rodríguez',
-        beneficiaries: 'Público en general y comunidad universitaria',
-        coordinator: 'Lic. Wilfredo Mamani (Extensión Cultural)',
-        description: 'Promoción y revaloración de danzas autóctonas en peligro de extinción, sikuris y trajes de luces tradicionales en conmemoración del aniversario de Puno.',
-        image: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3', // Cultural/performance placeholder
-    },
-    {
-        id: 4,
-        title: 'Campaña de Asesoría Legal Gratuita y Conciliación Familiar',
-        category: 'Proyección Social',
-        status: 'Concluido',
-        statusColor: 'bg-neutral-500/10 text-neutral-600 dark:text-neutral-400',
-        date: '15 Abr 2026 - 30 Jun 2026',
-        location: 'Juliaca (San Román)',
-        beneficiaries: 'Población de bajos recursos económicos',
-        coordinator: 'Abog. Marina Flores (Derecho)',
-        description: 'Servicio social de consultorías legales presenciales para familias en temas de alimentos, herencias, violencia familiar y asesoramiento en microempresas.',
-        image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3', // Legal placeholder
-    },
-    {
-        id: 5,
-        title: 'Seminario de Preservación de la Lengua Quechua y Aymara en la Región Puno',
-        category: 'Extensión Cultural',
-        status: 'Concluido',
-        statusColor: 'bg-neutral-500/10 text-neutral-600 dark:text-neutral-400',
-        date: '14 May 2026',
-        location: 'Auditorio Magno UNA Puno',
-        beneficiaries: 'Docentes, estudiantes y lingüistas',
-        coordinator: 'Mg. Zenobia Calisaya (Ciencias Sociales)',
-        description: 'Ponencias magistrales sobre la didáctica de lenguas originarias y políticas lingüísticas aplicadas en zonas bilingües rurales de Puno.',
-        image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3', // Education/books placeholder
-    },
-    {
-        id: 6,
-        title: 'Campaña Odontológica y Preventiva de Salud Bucal Infantil',
-        category: 'Proyección Social',
-        status: 'Planificado',
-        statusColor: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
-        date: '10 Nov 2026 - 15 Nov 2026',
-        location: 'Chucuito y Platería',
-        beneficiaries: 'Niños en edad escolar de 6 a 12 años',
-        coordinator: 'Dr. Víctor Hugo Ramos (Odontología)',
-        description: 'Atención primaria, profilaxis y charlas dinámicas sobre lavado de dientes y nutrición saludable en escuelas primarias rurales.',
-        image: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3', // Dental/health placeholder
-    }
-];
+// Filter shared activities specifically for Proyección Social
+const activities = eventsList.filter(e => e.isProyeccionSocial);
 
 // Computed list based on search and filters
 const filteredActivities = computed(() => {

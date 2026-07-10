@@ -12,7 +12,6 @@ import {
     Leaf
 } from '@lucide/vue';
 import { onMounted } from 'vue';
-import { Card, CardTitle } from '@/components/ui/card';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
 // Team members list
@@ -136,6 +135,22 @@ const objectives = [
         color: 'text-purple-600 dark:text-purple-400 bg-purple-500/10'
     }
 ];
+
+const getObjectiveStyle = (index: number) => {
+    const positions = [
+        { top: '6%', left: '50%' },
+        { top: '35%', left: '83%' },
+        { top: '82%', left: '72%' },
+        { top: '82%', left: '28%' },
+        { top: '35%', left: '17%' }
+    ];
+
+    return {
+        top: positions[index].top,
+        left: positions[index].left,
+        transform: 'translate(-50%, -50%)'
+    };
+};
 
 // Values list
 const values = [
@@ -367,32 +382,73 @@ onMounted(() => {
         </section>
 
         <!-- 4. STRATEGIC OBJECTIVES SECTION -->
-        <section class="reveal-section py-20 lg:py-28 max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <section class="reveal-section py-20 lg:py-28 max-w-7xl mx-auto px-6 lg:px-8 border-t border-neutral-200/50 dark:border-neutral-800/30">
+            <div class="space-y-16">
                 
-                <!-- Left Sticky Header -->
-                <div class="lg:col-span-4 lg:sticky lg:top-28 text-left space-y-4">
+                <!-- Centered Header -->
+                <div class="text-center max-w-3xl mx-auto space-y-4">
                     <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Plan de Desarrollo</span>
-                    <h2 class="text-3xl font-extrabold tracking-tight">Objetivos Estratégicos</h2>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Objetivos Estratégicos</h2>
                     <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
                         Trazamos metas específicas a corto y mediano plazo para garantizar que nuestra labor tenga un impacto medible, estructurado y sostenible en la sociedad puneña.
                     </p>
                 </div>
 
-                <!-- Right Objectives List -->
-                <div class="lg:col-span-8 space-y-6">
-                    <Card v-for="(obj, index) in objectives" :key="obj.title" class="overflow-hidden border border-neutral-200/80 dark:border-neutral-800/80 bg-white dark:bg-neutral-900/60 rounded-2xl flex items-start gap-5 p-6 text-left shadow-xs hover:border-neutral-300 dark:hover:border-neutral-700 transition-colors">
-                        <div class="p-3.5 rounded-xl shrink-0" :class="obj.color">
-                            <component :is="obj.icon" class="size-6" />
+                <!-- Mobile / Tablet layout (Grid) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 md:hidden">
+                    <div 
+                        v-for="(obj, index) in objectives" 
+                        :key="obj.title" 
+                        class="group relative flex items-start gap-4 p-6 rounded-2xl border border-neutral-200/80 dark:border-neutral-800/80 bg-white/95 dark:bg-neutral-900/60 shadow-sm hover:shadow-md transition-all duration-300 text-left"
+                    >
+                        <span class="absolute top-4 right-6 text-[10px] font-black text-neutral-300 dark:text-neutral-700 select-none">
+                            0{{ index + 1 }}
+                        </span>
+                        <div class="p-3 rounded-xl shrink-0" :class="obj.color">
+                            <component :is="obj.icon" class="size-5" />
                         </div>
-                        <div class="space-y-1.5">
-                            <div class="flex items-center gap-2">
-                                <span class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Objetivo 0{{ index + 1 }}</span>
+                        <div class="space-y-1">
+                            <h3 class="text-sm font-extrabold text-neutral-900 dark:text-white leading-tight">
+                                {{ obj.title }}
+                            </h3>
+                            <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-normal font-normal">
+                                {{ obj.description }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Circular Layout -->
+                <div class="relative w-full max-w-4xl mx-auto h-[620px] hidden md:block select-none overflow-visible py-10">
+                    <!-- Concentric background rotating ring 1 (Dashed) -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[430px] h-[430px] rounded-full border-2 border-dashed border-indigo-500/20 dark:border-indigo-400/25 animate-[spin_60s_linear_infinite] z-0"></div>
+                    <!-- Concentric background rotating ring 2 (Dashed, opposite) -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[460px] rounded-full border-2 border-dashed border-emerald-500/10 dark:border-emerald-400/15 animate-[spin_90s_linear_infinite_reverse] z-0"></div>
+
+                    <!-- Center Badge Circle -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center justify-center text-center size-36 rounded-full bg-gradient-to-tr from-indigo-600 via-indigo-700 to-emerald-600 dark:from-indigo-950 dark:via-indigo-900 dark:to-emerald-950 text-white shadow-2xl border-4 border-white dark:border-neutral-900 transition-transform duration-500 hover:scale-105 group">
+                        <div class="absolute inset-0 rounded-full bg-indigo-500/20 blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+                        <span class="relative z-10 text-[9px] font-extrabold uppercase tracking-widest text-indigo-200 dark:text-indigo-300">DPESEC</span>
+                        <h3 class="relative z-10 text-sm font-black uppercase mt-1 leading-tight tracking-wider">Objetivos<br/>Clave</h3>
+                        <div class="relative z-10 size-1.5 rounded-full bg-emerald-400 mt-2 animate-ping"></div>
+                    </div>
+
+                    <!-- Dynamic Objective Cards around Center -->
+                    <div 
+                        v-for="(obj, index) in objectives" 
+                        :key="obj.title + '-circular'" 
+                        class="absolute z-10 w-[220px] flex flex-col p-5 bg-white/95 dark:bg-neutral-900/90 border border-neutral-200/80 dark:border-neutral-800/80 rounded-2xl shadow-md transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-indigo-500/50 dark:hover:border-indigo-400/50 hover:z-30 text-left"
+                        :style="getObjectiveStyle(index)"
+                    >
+                        <div class="flex items-center gap-2.5">
+                            <div class="p-2.5 rounded-lg text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 shrink-0">
+                                <component :is="obj.icon" class="size-4.5" />
                             </div>
-                            <CardTitle class="text-base font-extrabold text-neutral-900 dark:text-white">{{ obj.title }}</CardTitle>
-                            <p class="text-xs md:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">{{ obj.description }}</p>
+                            <span class="text-[9px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Objetivo 0{{ index + 1 }}</span>
                         </div>
-                    </Card>
+                        <h4 class="text-xs font-black text-neutral-900 dark:text-white mt-3 leading-snug">{{ obj.title }}</h4>
+                        <p class="text-[11px] text-neutral-500 dark:text-neutral-400 mt-1 leading-normal font-normal line-clamp-3">{{ obj.description }}</p>
+                    </div>
                 </div>
 
             </div>

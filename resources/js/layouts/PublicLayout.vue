@@ -365,7 +365,7 @@ const suboffices = [
                         </a>
 
                         <!-- WhatsApp -->
-                        <a href="#" target="_blank" rel="noopener noreferrer"
+                        <a href="https://wa.me/51987947628?text=Hola,%20deseo%20realizar%20una%20consulta." target="_blank" rel="noopener noreferrer"
                             class="size-9 rounded-lg bg-neutral-900 hover:bg-green-900/60 hover:text-green-500 flex items-center justify-center text-neutral-300 transition-colors">
                             <svg class="size-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path

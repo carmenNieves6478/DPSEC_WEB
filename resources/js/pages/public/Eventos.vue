@@ -13,6 +13,7 @@ import {
 import { ref, computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { eventsList } from '@/lib/eventsData';
 
 const activeFilter = ref('Proximos');
 
@@ -29,100 +30,7 @@ const closeEventModal = () => {
     isModalOpen.value = false;
 };
 
-// Mock events based on UNA Puno FB activity calendar
-const events = [
-    {
-        id: 1,
-        title: 'Festival Interfacultades de Danzas Autóctonas UNA Puno 2026',
-        type: 'Cultural',
-        status: 'Proximos',
-        date: '04 Nov 2026',
-        time: '08:00 AM',
-        location: 'Estadio Monumental UNA Puno',
-        organizer: 'Dirección de Proyección Social y Extensión Cultural',
-        description: 'La máxima expresión folclórica universitaria del Altiplano. Las 35 escuelas profesionales compiten presentando danzas autóctonas tradicionales, revalorando nuestra identidad cultural y rindiendo homenaje al aniversario de la ciudad de Puno.',
-        image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3', // Festival/dance placeholder
-        fbLink: 'https://www.facebook.com/ProyeccionSocialUNAPuno'
-    },
-    {
-        id: 2,
-        title: 'Campaña Odontológica Preventiva "Sonrisas Altiplánicas"',
-        type: 'Campaña Social',
-        status: 'Proximos',
-        date: '10 Nov 2026',
-        time: '09:00 AM - 02:00 PM',
-        location: 'Plaza Principal de Chucuito',
-        organizer: 'Facultad de Odontología y DPESEC',
-        description: 'Campaña de salud gratuita dirigida a niños de 5 a 12 años. Brindaremos servicios de profilaxis, aplicación de flúor, obturaciones simples y charlas preventivas a padres de familia sobre salud bucal infantil.',
-        image: 'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3', // Medical placeholder
-        fbLink: 'https://www.facebook.com/ProyeccionSocialUNAPuno'
-    },
-    {
-        id: 3,
-        title: 'Jornada Universitaria de Arborización y Limpieza en la Bahía de Puno',
-        type: 'Ambiental',
-        status: 'Proximos',
-        date: '22 Nov 2026',
-        time: '07:30 AM',
-        location: 'Bahía Interior del Lago Titicaca',
-        organizer: 'Suboficina de Gestión Ambiental y Voluntariado',
-        description: 'Invitamos a toda la comunidad universitaria a sumarse a esta jornada masiva de limpieza y plantación de especies nativas en las riberas del Lago Titicaca. ¡Suma horas de proyección social y ayuda al medio ambiente!',
-        image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3', // Planting/environment placeholder
-        fbLink: 'https://www.facebook.com/ProyeccionSocialUNAPuno'
-    },
-    {
-        id: 6,
-        title: 'Campaña de Recolección de Residuos Electrónicos "Eco-UNA 2026"',
-        type: 'Ambiental',
-        status: 'EnCurso',
-        date: '05 Jul 2026 - 12 Jul 2026',
-        time: '08:00 AM - 03:00 PM',
-        location: 'Puntos de acopio en Ciudad Universitaria (Puerta Floral y Sesquicentenario)',
-        organizer: 'Sub Unidad de Gestión Ambiental',
-        description: 'Recolección y adecuada disposición final de celulares en desuso, computadoras, cargadores y baterías. Los estudiantes participantes obtendrán constancia de horas ambientales y de proyección.',
-        image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
-        fbLink: 'https://www.facebook.com/ProyeccionSocialUNAPuno'
-    },
-    {
-        id: 7,
-        title: 'Tercer Ciclo de Cine Universitario y Debate Social',
-        type: 'Cultural',
-        status: 'EnCurso',
-        date: '01 Jul 2026 - 15 Jul 2026',
-        time: '05:00 PM',
-        location: 'Auditorio de la Facultad de Ingeniería Estadística',
-        organizer: 'Sub Unidad de Extensión Universitaria y Proyección Social',
-        description: 'Ciclo de proyecciones semanales sobre documentales de ecología andina e historia altiplánica, seguido de mesas de debate estudiantil dirigidas por docentes de Ciencias Sociales.',
-        image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
-        fbLink: 'https://www.facebook.com/ProyeccionSocialUNAPuno'
-    },
-    {
-        id: 4,
-        title: 'Seminario Internacional: Retos del Desarrollo Social Altoandino',
-        type: 'Académico',
-        status: 'Pasados',
-        date: '15 Jun 2026',
-        time: '10:00 AM',
-        location: 'Auditorio Magno UNA Puno',
-        organizer: 'Dirección de Proyección Social y Extensión Cultural',
-        description: 'Ciclo de ponencias magistrales a cargo de especialistas de Perú, Bolivia y Ecuador sobre las políticas públicas, retos agrícolas y adaptabilidad al cambio climático de las comunidades altoandinas en el siglo XXI.',
-        image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3', // Academic conference placeholder
-        fbLink: 'https://www.facebook.com/ProyeccionSocialUNAPuno'
-    },
-    {
-        id: 5,
-        title: 'Campaña Solidaria "Abrigo UNA Puno": Donación para Zonas de Heladas',
-        type: 'Campaña Social',
-        status: 'Pasados',
-        date: '03 Jul 2026',
-        time: '08:00 AM - 04:00 PM',
-        location: 'Puerta Principal Ciudad Universitaria',
-        organizer: 'Comisión de Voluntariado DPESEC',
-        description: 'Recolección masiva de mantas, ropa de abrigo en buen estado y alimentos no perecibles para ser distribuidos en las comunidades rurales altoandinas de Puno más afectadas por el friaje de la temporada invernal.',
-        image: 'https://images.unsplash.com/photo-1584263343329-8a6f31ab2881?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3', // Charity/winter clothes placeholder
-        fbLink: 'https://www.facebook.com/ProyeccionSocialUNAPuno'
-    }
-];
+const events = eventsList;
 
 const filteredEvents = computed(() => {
     if (activeFilter.value === 'Todos') {
