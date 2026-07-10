@@ -316,7 +316,6 @@ onMounted(() => {
                         >
                             <div class="card-top">
                                 <div class="avatar">
-                                    <span class="avatar-ring"></span>
                                     <img 
                                         :src="team[0].image" 
                                         :alt="team[0].name" 
@@ -333,6 +332,19 @@ onMounted(() => {
                                 <p class="subunit">{{ team[0].department }}</p>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Organigrama Connectors (Visible only on md screens and up) -->
+                    <div class="hidden md:flex flex-col items-center w-full max-w-5xl relative h-16 z-0 opacity-40 hover:opacity-70 transition-opacity duration-500 animate-[pulse_8s_cubic-bezier(0.4,0,0.6,1)_infinite]">
+                        <!-- Line going down from Director's Card -->
+                        <div class="w-[2px] h-8 bg-gradient-to-b from-indigo-500 to-indigo-500/40 dark:from-indigo-400 dark:to-indigo-400/40"></div>
+                        <!-- Horizontal connection bar stretching from left card center to right card center -->
+                        <div class="absolute top-8 left-[16.67%] right-[16.67%] h-[2px] bg-gradient-to-r from-transparent via-indigo-500 to-transparent dark:via-indigo-400"></div>
+                        
+                        <!-- Connecting lines going down to each Subunit -->
+                        <div class="absolute top-8 left-[16.67%] w-[2px] h-8 bg-gradient-to-b from-indigo-500 to-transparent dark:from-indigo-400"></div>
+                        <div class="absolute top-8 left-1/2 -translate-x-1/2 w-[2px] h-8 bg-gradient-to-b from-indigo-500 to-transparent dark:from-indigo-400"></div>
+                        <div class="absolute top-8 right-[16.67%] w-[2px] h-8 bg-gradient-to-b from-indigo-500 to-transparent dark:from-indigo-400"></div>
                     </div>
 
                     <!-- Subunits Grid (3 Columns) -->
@@ -357,7 +369,6 @@ onMounted(() => {
                         >
                             <div class="card-top">
                                 <div class="avatar">
-                                    <span class="avatar-ring"></span>
                                     <img 
                                         :src="member.image" 
                                         :alt="member.name" 
@@ -593,26 +604,6 @@ onMounted(() => {
   transform: scale(1.08) translateY(-5px);
 }
 
-.avatar-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  border: 2px solid var(--glow-ring, rgba(99, 102, 241, 0.4));
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0.8);
-  transition: opacity 0.35s ease, transform 0.35s ease;
-  z-index: 1;
-}
-
-.team-card:hover .avatar-ring {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-  animation: pulseRing 1.8s ease-out infinite;
-}
-
 /* Barra Inferior */
 .card-bottom {
   position: absolute;
@@ -686,10 +677,5 @@ onMounted(() => {
 @keyframes floatIdle {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
-}
-
-@keyframes pulseRing {
-  0% { box-shadow: 0 0 0 0 var(--glow-ring-pulse, rgba(99, 102, 241, 0.35)); }
-  100% { box-shadow: 0 0 0 16px rgba(99, 102, 241, 0); }
 }
 </style>
