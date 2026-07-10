@@ -58,7 +58,7 @@ const suboffices = [
     {
         name: 'Gestión Ambiental',
         description: 'Oficina encargada de la sostenibilidad y ecoeficiencia de la UNA Puno.',
-        href: 'https://www.unap.edu.pe', // We can update this when they have the specific external link
+        href: 'https://gestionambiental.unap.edu.pe', // We can update this when they have the specific external link
         external: true
     },
     {

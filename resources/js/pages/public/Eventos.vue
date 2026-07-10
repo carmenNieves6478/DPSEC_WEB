@@ -146,7 +146,7 @@ const filteredEvents = computed(() => {
             
             <div class="max-w-7xl mx-auto w-full px-6 lg:px-8 text-left relative z-20 space-y-3">
                 <span class="text-xs font-bold uppercase tracking-widest text-blue-400">Agenda Institucional</span>
-                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Eventos y Campañas</h1>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Eventos y Certificados</h1>
                 <p class="text-xs md:text-sm text-white/80 max-w-3xl leading-relaxed">
                     Sigue nuestro cronograma de festivales culturales, campañas de salud descentralizadas, convocatorias a voluntariados ecológicos y seminarios académicos de proyección social.
                 </p>
