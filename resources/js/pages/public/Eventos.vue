@@ -76,15 +76,15 @@ const events = [
     },
     {
         id: 6,
-        title: 'Campaña de Recolección de Residuos Electrónicos "Eco-UNA 2026"',
+        title: '𝗘𝗦𝗧𝗥𝗧𝗔𝗧𝗘𝗚𝗜𝗔𝗦 𝗗𝗘 𝗘𝗦𝗧𝗨𝗗𝗜𝗢𝗦 𝗬 𝗢𝗥𝗜𝗘𝗡𝗧𝗔𝗖𝗜Ó𝗡 𝗩𝗢𝗖𝗔𝗖𝗜𝗢𝗡𝗔𝗟',
         type: 'Ambiental',
         status: 'EnCurso',
         date: '05 Jul 2026 - 12 Jul 2026',
         time: '08:00 AM - 03:00 PM',
         location: 'Puntos de acopio en Ciudad Universitaria (Puerta Floral y Sesquicentenario)',
         organizer: 'Sub Unidad de Gestión Ambiental',
-        description: 'Recolección y adecuada disposición final de celulares en desuso, computadoras, cargadores y baterías. Los estudiantes participantes obtendrán constancia de horas ambientales y de proyección.',
-        image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3',
+        description: 'Con éxito se concluyeron las actividades de 𝗘𝗦𝗧𝗥𝗧𝗔𝗧𝗘𝗚𝗜𝗔𝗦 𝗗𝗘 𝗘𝗦𝗧𝗨𝗗𝗜𝗢𝗦 𝗬 𝗢𝗥𝗜𝗘𝗡𝗧𝗔𝗖𝗜Ó𝗡 𝗩𝗢𝗖𝗔𝗖𝗜𝗢𝗡𝗔𝗟, jornada en la que hoy visitó la ciudad universitaria el colegio José Olaya Balandra de la ciudad de Juliaca. Durante la visita, los estudiantes participaron en actividades informativas que les permitieron conocer la oferta académica y la importancia de una adecuada preparación para la educación superior. La iniciativa buscó orientar a los escolares en la toma de decisiones sobre su futuro profesional. Asimismo, se promovió el interés por la vida universitaria. Como parte del recorrido, se visitaron los laboratorios de Ciencias Básicas de Ingeniería Química y el laboratorio Forense de la Escuela Profesional de Antropología. Los estudiantes regresaron a su lugar de procedencia, Juliaca, muy satisfechos por la experiencia vivida y los conocimientos adquiridos. Esta actividad tuvo como propósito 𝗺𝗲𝗷𝗼𝗿𝗮𝗿 𝘆 𝗽𝗿𝗼𝗺𝗼𝘃𝗲𝗿 𝗹𝗮 𝗲𝗱𝘂𝗰𝗮𝗰𝗶ó𝗻 𝘀𝘂𝗽𝗲𝗿𝗶𝗼𝗿. De esta manera, se contribuye a la formación de jóvenes 𝗰𝗼𝗺𝗽𝗿𝗼𝗺𝗲𝘁𝗶𝗱𝗼𝘀 𝗰𝗼𝗻 𝗲𝗹 𝗱𝗲𝘀𝗮𝗿𝗿𝗼𝗹𝗹𝗼 𝘀𝗼𝘀𝘁𝗲𝗻𝗶𝗯𝗹𝗲 𝗱𝗲 𝗹𝗮 𝗿𝗲𝗴𝗶ó𝗻.',
+        image: 'https://scontent.flim20-1.fna.fbcdn.net/v/t39.30808-6/600213971_884476940600206_3204076433823904720_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeG7Kc0p3pmcFQ02I9QjOcYHsfvwDQVFnlqx-_ANBUWeWqA632CGJ4SN1p7f2mvB1L5MbDPZWvphSyXm6Q7g-tGt&_nc_ohc=e6IFlUR2Ca4Q7kNvwE2HYKl&_nc_oc=Adq1CLdvc_2vfR5La6S1R2H_RfaVQzz1hHJrYLX9kzQk5rIvVFSWcWOXXN7oKNgbWGk&_nc_zt=23&_nc_ht=scontent.flim20-1.fna&_nc_gid=IZkTxIzqIDyL6No8pfkNHQ&_nc_ss=7b2a8&oh=00_AQDOi9qm7zOem46iGmNXFqMVwAsR7zNf6k3Q0oupVDmR4A&oe=6A5576FC',
         fbLink: 'https://www.facebook.com/ProyeccionSocialUNAPuno'
     },
     {
