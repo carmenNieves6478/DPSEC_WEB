@@ -33,7 +33,8 @@ class Event extends Model
      */
     public function getStatusAttribute(): string
     {
-        if (!$this->event_date) return 'Proximos';
+        $date = $this->getRawOriginal('event_date');
+        if (!$date) return 'Proximos';
         $today = Carbon::today();
         if ($this->event_date->lt($today)) return 'Pasados';
         if ($this->event_date->eq($today)) return 'EnCurso';
@@ -58,15 +59,19 @@ class Event extends Model
         };
     }
 
-    /** @param Builder<Event> $query */
-    /** @return Builder<Event> */
+    /**
+     * @param  Builder<Event>  $query
+     * @return Builder<Event>
+     */
     public function scopeActive(Builder $query): Builder
     {
         return $query->orderBy('sort_order');
     }
 
-    /** @param Builder<Event> $query */
-    /** @return Builder<Event> */
+    /**
+     * @param  Builder<Event>  $query
+     * @return Builder<Event>
+     */
     public function scopeProyeccionSocial(Builder $query): Builder
     {
         return $query->where('is_proyeccion_social', true);
