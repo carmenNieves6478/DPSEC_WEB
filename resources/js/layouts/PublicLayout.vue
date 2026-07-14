@@ -100,7 +100,7 @@ const suboffices = [
 
 
                     <!-- Right Logo (DPESEC) -->
-                    <img src="https://scontent.flim20-1.fna.fbcdn.net/v/t39.30808-6/272960757_4628681473926778_6629600432458897605_n.jpg?stp=dst-jpg_tt6&cstp=mx2017x2017&ctp=s2017x2017&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFwoY5VGZH3hlU48PfJZARR_CXAVRfTpML8JcBVF9OkwrC9BOm-u6d9o2bYrn-K9hnAhcZ_K8MOtrpUpcmof7qX&_nc_ohc=fcjDGRXXNs8Q7kNvwEOcz46&_nc_oc=AdqMrKDpChKUbiO7QAvDbVXq3IW2jYASZsAtOJpgzc9Kk-OM8EstUnsw3tevTI4eV6I&_nc_zt=23&_nc_ht=scontent.flim20-1.fna&_nc_gid=yevOV1uBOUHfauFrt7pfUg&_nc_ss=7b2a8&oh=00_AQAQIv_PDOhfEfMUmVxQng5YNKNRLP2VBFlTAKzx-zdAmw&oe=6A519F1C"
+                    <img src="https://scontent.fjul2-1.fna.fbcdn.net/v/t39.30808-6/272960757_4628681473926778_6629600432458897605_n.jpg?stp=dst-jpg_tt6&cstp=mx2017x2017&ctp=s2017x2017&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHBaLf3J-81ufN0a_aKDiM2_CXAVRfTpML8JcBVF9Okwi-ObQPJ2l_hpgobWaEa8kvwLwtiV8c6FSYlkmzkTl4w&_nc_ohc=wrHV8WCWZycQ7kNvwHCZBew&_nc_oc=AdpbL63KeM5lnk0dupHqlJkx7YdzBDcOuit1qi_ES7WKMaltLuOyChY9C5pAtRf2hKWmMOiRLBAZObJKdHoLjLcV&_nc_zt=23&_nc_ht=scontent.fjul2-1.fna&_nc_gid=ybk99yY1IxM4T39rXAqzfg&_nc_ss=7b2a8&oh=00_AQDQrgwIrLO0Czx6e42gIVAom26iOnD5tKk4Uw8MiohZ_Q&oe=6A5C9B9C"
                         alt="Logo DPESEC"
                         class="h-10 sm:h-12 w-auto object-contain rounded-full border border-neutral-200/50 dark:border-neutral-800/50 transition-transform duration-300 group-hover:scale-105" />
                 </Link>
@@ -193,13 +193,13 @@ const suboffices = [
                             Mi Cuenta
                         </Button>
                     </Link>
-                    <!-- <Link v-else href="/login">
+                    <Link v-else href="/login">
                         <Button
                             class="rounded-xl bg-gradient-to-r from-indigo-700 to-indigo-900 text-white shadow-md shadow-indigo-600/10 hover:opacity-90 transition-opacity flex items-center gap-2">
                             <LogIn class="size-4" />
                             Intranet
                         </Button>
-                    </Link> -->
+                    </Link>
                 </div>
 
                 <!-- Mobile Menu Button -->
