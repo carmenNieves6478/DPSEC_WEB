@@ -4,7 +4,6 @@ import {
     Filter, 
     Calendar, 
     MapPin, 
-    Users, 
     PlusCircle,
     UserCheck,
     CheckCircle,

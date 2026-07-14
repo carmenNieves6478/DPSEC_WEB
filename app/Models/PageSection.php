@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class PageSection extends Model
@@ -18,7 +19,7 @@ class PageSection extends Model
         ];
     }
 
-    public function scopeForPage($query, string $pageSlug)
+    public function scopeForPage(Builder $query, string $pageSlug): Builder
     {
         return $query->where('page_slug', $pageSlug);
     }

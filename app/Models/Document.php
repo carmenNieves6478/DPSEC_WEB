@@ -21,6 +21,7 @@ class Document extends Model
     }
 
     /** @param Builder<Document> $query */
+    /** @return Builder<Document> */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true)->orderBy('sort_order');

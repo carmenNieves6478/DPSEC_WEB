@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 class DocumentosController extends Controller
 {
-    public function __invoke()
+    public function __invoke(): mixed
     {
         return Inertia::render('public/Documentos', [
             'documents' => Document::active()->get(),

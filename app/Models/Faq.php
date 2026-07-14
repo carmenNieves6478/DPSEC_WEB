@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Faq extends Model
@@ -18,12 +19,12 @@ class Faq extends Model
         ];
     }
 
-    public function scopeActive($query)
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true)->orderBy('sort_order');
     }
 
-    public function scopeForPage($query, string $pageSlug)
+    public function scopeForPage(Builder $query, string $pageSlug): Builder
     {
         return $query->where('page_slug', $pageSlug);
     }

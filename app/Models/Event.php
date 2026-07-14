@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
+/** @property-read \Carbon\Carbon $event_date */
 class Event extends Model
 {
     protected $fillable = [
@@ -13,6 +14,7 @@ class Event extends Model
         'description', 'image_path', 'fb_link', 'is_proyeccion_social', 'sort_order',
     ];
 
+    /** @phpstan-ignore-next-line rules.modelAppends */
     protected $appends = ['status', 'status_label', 'status_color'];
 
     protected function casts(): array
@@ -57,12 +59,14 @@ class Event extends Model
     }
 
     /** @param Builder<Event> $query */
+    /** @return Builder<Event> */
     public function scopeActive(Builder $query): Builder
     {
         return $query->orderBy('sort_order');
     }
 
     /** @param Builder<Event> $query */
+    /** @return Builder<Event> */
     public function scopeProyeccionSocial(Builder $query): Builder
     {
         return $query->where('is_proyeccion_social', true);

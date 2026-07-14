@@ -12,7 +12,7 @@ interface SectionItem {
     background_image?: string;
 }
 
-const props = defineProps<{
+defineProps<{
     sections: Record<string, SectionItem>;
 }>();
 
