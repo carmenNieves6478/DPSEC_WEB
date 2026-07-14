@@ -45,7 +45,7 @@ return events;
     <PublicLayout title="Cronograma de Eventos">
         <!-- Hero Header -->
         <section 
-            class="relative h-[45vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
+            class="relative h-[65vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
             style="background-image: url('https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/599715893_884448530603047_8830935029040207180_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHQTG8nj3AVQPEHA1wTgQHYKeP-NFCKFbkp4_40UIoVuSWAiJSKTpXbty2XufqHJ3TjfkBChQkMKeic-hENsQFS&_nc_ohc=y0aeGiZKoI8Q7kNvwHlWwdS&_nc_oc=AdrAcbj07hIEXl4hMGQ0WxmZ3uxiOjPk3rSDXBstr9iXtNUKrJ_uMeBgXLuI-L3q0iQ&_nc_zt=23&_nc_ht=scontent.fjul1-1.fna&_nc_gid=4KCvHQKz0MhLi4lQ3kNatQ&_nc_ss=7b2a8&oh=00_AQCPYaYVBsK7Adxqddq_DlU6zk0tr2nCG3amFSJjCR6x5g&oe=6A547587');"
         >
             <!-- Gradient Overlay for readability -->

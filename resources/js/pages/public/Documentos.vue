@@ -91,7 +91,7 @@ const filteredDocuments = computed(() => {
     <PublicLayout title="Documentos Oficiales">
         <!-- Hero Header -->
         <section 
-            class="relative h-[45vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
+            class="relative h-[65vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
             style="background-image: url('https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/542755889_802384058809495_3360460449534539912_n.jpg?stp=dst-jpg_tt6&cstp=mx1587x1070&ctp=s1587x1070&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGK8nkkJ7s06V2ZTVhy2TeTOd4IIEV67rI53gggRXrusmZbd7XsoGiigDXbN-hIbBQHBUWnZ-k3RejgeSlnDk7N&_nc_ohc=t-uGLIpD9dUQ7kNvwEoC1df&_nc_oc=Adp5CetGnPE31yY4gVz-csYuAzdfbewcaHaxtC2fKxIF0tcfvEtdZDdvwGnRhjej2ek&_nc_zt=23&_nc_ht=scontent.fjul1-1.fna&_nc_gid=9slzNv_uaYRWr2IuZG-1nA&_nc_ss=7b2a8&oh=00_AQAedMPmXVlTlw5RV1VhOKPG8VAPcJvOKeETee504zDo8Q&oe=6A548F4B');"
         >
             <!-- Gradient Overlay for readability -->

@@ -22,7 +22,7 @@ const handleSubscribe = (e: Event) => {
     <PublicLayout title="Seguimiento al Graduado">
         <!-- Hero Header -->
         <section 
-            class="relative h-[45vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
+            class="relative h-[65vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
             style="background-image: url('https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/605296083_769669972809513_1888138256417761411_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1267&ctp=s2048x1267&_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeErCVDX-2bhd-oXj91oxi8uP3zmIbV9bRQ_fOYhtX1tFEc26QCfmlKGVmIt8eHzOj4lP3fH8TmfbOE-Qa7r3CBf&_nc_ohc=y4O89CSTX3kQ7kNvwFpldty&_nc_oc=AdpXVqBXvCSHpZcxdtDOuOmzbcQxOARxVFWoV-b-eBj1cMdhr10LjIsIwnH7cQ57iro&_nc_zt=23&_nc_ht=scontent.fjul1-1.fna&_nc_gid=TRYXVfnqnL40UwnauglLhg&_nc_ss=7b2a8&oh=00_AQB07yMVCLvM2dYj9ZC6nRoS-85sQQP7yXNsWz-wd2SgUA&oe=6A5470B5');"
         >
             <!-- Gradient Overlay for readability -->

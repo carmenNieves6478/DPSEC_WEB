@@ -213,7 +213,7 @@ onUnmounted(() => {
                     <Link href="/eventos">
                         <Button variant="ghost"
                             class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-semibold group flex items-center gap-1 cursor-pointer">
-                            Ver Cronograma Completo
+                            Ver mas Actividades
                             <ChevronRight class="size-4 group-hover:translate-x-1 transition-transform" />
                         </Button>
                     </Link>
@@ -300,7 +300,7 @@ onUnmounted(() => {
                     <!-- Video 1 -->
                     <div
                         class="group relative flex flex-col bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
-                        <div class="relative aspect-video overflow-hidden bg-neutral-950">
+                        <div class="    relative aspect-video overflow-hidden bg-neutral-950">
                             <iframe class="w-full h-full border-0" src="https://www.youtube.com/embed/t-jVFZWDpqU"
                                 title="Video Institucional 1"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -315,7 +315,9 @@ onUnmounted(() => {
                                 </h3>
                                 <p
                                     class="text-xs text-neutral-500 dark:text-neutral-400 mt-1.5 leading-relaxed line-clamp-2">
-                                    Chunchos de Esquilaya, Danza originaria de Puno presentado por la Escuela Profesional de Educación Primaria en el Festival del Folklore de la Universidad Nacional del Altiplano.
+                                    Chunchos de Esquilaya, Danza originaria de Puno presentado por la Escuela
+                                    Profesional de Educación Primaria en el Festival del Folklore de la Universidad
+                                    Nacional del Altiplano.
                                 </p>
                             </div>
                         </div>
