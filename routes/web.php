@@ -1,17 +1,25 @@
 <?php
 
+use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\DocumentosController;
+use App\Http\Controllers\EventosController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProyeccionSocialController;
+use App\Http\Controllers\SeguimientoGraduadoController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'public/Home')->name('home');
-Route::inertia('/nosotros', 'public/AboutUs')->name('about-us');
-Route::inertia('/proyeccion-social', 'public/ProyeccionSocial')->name('proyeccion-social');
-Route::inertia('/seguimiento-graduado', 'public/SeguimientoGraduado')->name('seguimiento-graduado');
-Route::inertia('/documentos', 'public/Documentos')->name('documentos');
-Route::inertia('/eventos', 'public/Eventos')->name('eventos');
+Route::get('/', HomeController::class)->name('home');
+Route::get('/nosotros', AboutUsController::class)->name('about-us');
+Route::get('/proyeccion-social', ProyeccionSocialController::class)->name('proyeccion-social');
+Route::get('/seguimiento-graduado', SeguimientoGraduadoController::class)->name('seguimiento-graduado');
+Route::get('/documentos', DocumentosController::class)->name('documentos');
+Route::get('/eventos', EventosController::class)->name('eventos');
 Route::inertia('/sandbox', 'public/Sandbox')->name('sandbox');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'Dashboard')->name('dashboard');
+    Route::get('dashboard', AdminDashboardController::class)->name('dashboard');
 });
 
 require __DIR__.'/settings.php';
+require __DIR__.'/admin.php';

@@ -13,7 +13,35 @@ import {
 import { ref, computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/PublicLayout.vue';
-import { eventsList } from '@/lib/eventsData';
+
+interface EventItem {
+    id: number;
+    title: string;
+    type: string;
+    category: string;
+    status: 'Proximos' | 'EnCurso' | 'Pasados';
+    status_label: string;
+    status_color: string;
+    event_date: string;
+    time: string;
+    location: string;
+    organizer: string;
+    description: string;
+    image_path: string;
+    fb_link: string;
+}
+
+interface SectionItem {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    background_image?: string;
+}
+
+const props = defineProps<{
+    events: EventItem[];
+    sections: Record<string, SectionItem>;
+}>();
 
 const activeFilter = ref('Proximos');
 
@@ -30,15 +58,17 @@ const closeEventModal = () => {
     isModalOpen.value = false;
 };
 
-const events = eventsList;
-
 const filteredEvents = computed(() => {
-    if (activeFilter.value === 'Todos') {
-return events;
-}
-
-    return events.filter(event => event.status === activeFilter.value);
+    if (activeFilter.value === 'Todos') return props.events;
+    return props.events.filter(event => event.status === activeFilter.value);
 });
+
+const formatDate = (dateStr: string) => {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    return `${date.getDate()} de ${months[date.getMonth()]}`;
+};
 </script>
 
 <template>
@@ -46,16 +76,16 @@ return events;
         <!-- Hero Header -->
         <section 
             class="relative h-[45vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
-            style="background-image: url('https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/599715893_884448530603047_8830935029040207180_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHQTG8nj3AVQPEHA1wTgQHYKeP-NFCKFbkp4_40UIoVuSWAiJSKTpXbty2XufqHJ3TjfkBChQkMKeic-hENsQFS&_nc_ohc=y0aeGiZKoI8Q7kNvwHlWwdS&_nc_oc=AdrAcbj07hIEXl4hMGQ0WxmZ3uxiOjPk3rSDXBstr9iXtNUKrJ_uMeBgXLuI-L3q0iQ&_nc_zt=23&_nc_ht=scontent.fjul1-1.fna&_nc_gid=4KCvHQKz0MhLi4lQ3kNatQ&_nc_ss=7b2a8&oh=00_AQCPYaYVBsK7Adxqddq_DlU6zk0tr2nCG3amFSJjCR6x5g&oe=6A547587');"
+            :style="sections.hero?.background_image ? { backgroundImage: `url(${sections.hero.background_image})` } : {}"
         >
             <!-- Gradient Overlay for readability -->
             <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/90 via-neutral-950/70 to-transparent z-10"></div>
             
             <div class="max-w-7xl mx-auto w-full px-6 lg:px-8 text-left relative z-20 space-y-3">
-                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">Agenda Institucional</span>
-                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Eventos y Certificados</h1>
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">{{ sections.hero?.eyebrow ?? 'Agenda Institucional' }}</span>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ sections.hero?.title ?? 'Eventos y Certificados' }}</h1>
                 <p class="text-xs md:text-sm text-white/80 max-w-3xl leading-relaxed">
-                    Sigue nuestro cronograma de festivales culturales, campañas de salud descentralizadas, convocatorias a voluntariados ecológicos y seminarios académicos de proyección social.
+                    {{ sections.hero?.description ?? 'Sigue nuestro cronograma de festivales culturales, campañas de salud descentralizadas, convocatorias a voluntariados ecológicos y seminarios académicos de proyección social.' }}
                 </p>
             </div>
         </section>
@@ -123,7 +153,7 @@ return events;
                     <!-- Image Section -->
                     <div class="h-52 relative overflow-hidden bg-neutral-150 dark:bg-neutral-950 shrink-0">
                         <img 
-                            :src="ev.image" 
+                            :src="ev.image_path" 
                             :alt="ev.title" 
                             class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                         />
@@ -134,13 +164,9 @@ return events;
                             </span>
                             <span 
                                 class="text-[9px] font-extrabold uppercase tracking-wider px-2.5 py-1.5 rounded-lg text-white shadow-xs"
-                                :class="{
-                                    'bg-indigo-600': ev.status === 'Proximos',
-                                    'bg-emerald-600': ev.status === 'EnCurso',
-                                    'bg-neutral-500': ev.status === 'Pasados'
-                                }"
+                                :class="ev.status_color"
                             >
-                                {{ ev.status === 'Proximos' ? 'Próximo' : ev.status === 'EnCurso' ? 'En Curso' : 'Finalizado' }}
+                                {{ ev.status_label }}
                             </span>
                         </div>
                     </div>
@@ -152,7 +178,7 @@ return events;
                             <div class="flex flex-wrap items-center gap-2.5 text-[11px] text-neutral-500 dark:text-neutral-400 font-semibold">
                                 <span class="flex items-center gap-1">
                                     <Calendar class="size-3.5 text-indigo-600/70 dark:text-indigo-400/70" />
-                                    {{ ev.date }}
+                                    {{ formatDate(ev.event_date) }}
                                 </span>
                                 <span class="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700"></span>
                                 <span class="flex items-center gap-1">
@@ -226,7 +252,7 @@ return events;
                     <div class="grid grid-cols-1 md:grid-cols-12 w-full h-full">
                         <!-- Left side: Image -->
                         <div class="md:col-span-5 relative h-[180px] sm:h-[220px] md:h-full overflow-hidden bg-neutral-100 dark:bg-neutral-950 shrink-0">
-                            <img :src="selectedEvent.image" :alt="selectedEvent.title" class="w-full h-full object-cover" />
+                            <img :src="selectedEvent.image_path" :alt="selectedEvent.title" class="w-full h-full object-cover" />
                             <div class="absolute top-4 left-4">
                                 <span class="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-indigo-600 text-white shadow-md">
                                     {{ selectedEvent.type }}
@@ -241,13 +267,9 @@ return events;
                                 <div class="flex items-center justify-between">
                                     <span 
                                         class="text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-md"
-                                        :class="{
-                                            'bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400': selectedEvent.status === 'Proximos',
-                                            'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400': selectedEvent.status === 'EnCurso',
-                                            'bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400': selectedEvent.status === 'Pasados'
-                                        }"
+                                        :class="selectedEvent.status_color"
                                     >
-                                        {{ selectedEvent.status === 'Proximos' ? 'Próximo' : selectedEvent.status === 'EnCurso' ? 'En Curso' : 'Finalizado' }}
+                                        {{ selectedEvent.status_label }}
                                     </span>
                                     
                                     <!-- Close Button -->
@@ -277,7 +299,7 @@ return events;
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                                     <div class="flex items-center gap-2 text-neutral-600 dark:text-neutral-300">
                                         <Calendar class="size-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
-                                        <span class="font-semibold">{{ selectedEvent.date }}</span>
+                                        <span class="font-semibold">{{ formatDate(selectedEvent.event_date) }}</span>
                                     </div>
                                     <div class="flex items-center gap-2 text-neutral-600 dark:text-neutral-300">
                                         <Clock class="size-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
@@ -305,7 +327,7 @@ return events;
                             <div class="border-t border-neutral-100 dark:border-neutral-800/80 pt-4 mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
                                 <a 
                                     v-if="selectedEvent.status !== 'Pasados'"
-                                    :href="selectedEvent.fbLink"
+                                    :href="selectedEvent.fb_link || 'https://www.facebook.com/ProyeccionSocialUNAPuno'"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     class="w-full sm:w-auto"
@@ -321,7 +343,7 @@ return events;
                                 </span>
 
                                 <a 
-                                    :href="selectedEvent.fbLink" 
+                                    :href="selectedEvent.fb_link || 'https://www.facebook.com/ProyeccionSocialUNAPuno'" 
                                     target="_blank" 
                                     class="text-xs text-neutral-400 hover:text-blue-500 transition-colors flex items-center gap-1"
                                     @click.stop

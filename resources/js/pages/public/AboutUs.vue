@@ -1,140 +1,64 @@
 <script setup lang="ts">
-import { 
-    Users, 
-    Heart, 
-    Lightbulb, 
-    ShieldCheck, 
-    Flame, 
-    Building2, 
-    TrendingUp, 
-    Scale, 
-    UsersRound,
-    Leaf
-} from '@lucide/vue';
 import { onMounted } from 'vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
+import { iconMap } from '@/lib/iconMap';
 
-// Team members list
-const team = [
-    {
-        name: 'Dra. Milder Zanabria Ortega',
-        role: 'Directora',
-        department: 'Dirección de Proyección Social y Extensión Cultural',
-        initials: 'MZ',
-        image: 'https://cdn.phototourl.com/free/2026-07-08-0148c525-1fa2-46ce-8343-d43e2fd7c5ca.png',
-        textColor: 'text-indigo-600 dark:text-indigo-400',
-        bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
-        // Hover custom variables: Verde medio degradado
-        glowStart: 'rgba(68, 165, 76, 0.3)',
-        glowEnd: 'rgba(152, 209, 43, 0.1)',
-        glowHoverStart: 'rgba(68, 165, 76, 0.6)',
-        glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
-        glowShadow: 'rgba(68, 165, 76, 0.05)',
-        glowShadowHover: 'rgba(68, 165, 76, 0.15)',
-        glowBorderHover: 'rgba(181, 228, 86, 0.5)',
-        glowRing: 'rgba(68, 165, 76, 0.4)',
-        glowRingPulse: 'rgba(68, 165, 76, 0.35)',
-        bottomBgLight: 'rgba(244, 249, 244, 0.88)',
-        bottomBgDark: 'rgba(8, 22, 10, 0.90)'
-    },
-    {
-        name: 'M.Sc. Wilkerson Palza Meza',
-        role: 'Jefe de Sub Unidad',
-        department: 'Sub Unidad de Proyección Social y Extensión Universitaria',
-        initials: 'WP',
-        image: 'https://cdn.phototourl.com/free/2026-07-09-8662ddab-51eb-4547-91ce-de75938f1053.png',
-        textColor: 'text-indigo-600 dark:text-indigo-400',
-        bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
-        // Hover custom variables: Verde medio degradado
-        glowStart: 'rgba(68, 165, 76, 0.3)',
-        glowEnd: 'rgba(152, 209, 43, 0.1)',
-        glowHoverStart: 'rgba(68, 165, 76, 0.6)',
-        glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
-        glowShadow: 'rgba(68, 165, 76, 0.05)',
-        glowShadowHover: 'rgba(68, 165, 76, 0.15)',
-        glowBorderHover: 'rgba(181, 228, 86, 0.5)',
-        glowRing: 'rgba(68, 165, 76, 0.4)',
-        glowRingPulse: 'rgba(68, 165, 76, 0.35)',
-        bottomBgLight: 'rgba(244, 249, 244, 0.88)',
-        bottomBgDark: 'rgba(8, 22, 10, 0.90)'
-    },
-    {
-        name: 'Ing. Yumy Romero Talavera',
-        role: 'Jefa de Sub Unidad',
-        department: 'Sub Unidad de Seguimiento y Desarrollo del Graduado',
-        initials: 'YR',
-        image: 'https://cdn.phototourl.com/free/2026-07-09-a6257f35-bbb0-483f-909e-18f184a22061.png',
-        textColor: 'text-indigo-600 dark:text-indigo-400',
-        bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
-        // Hover custom variables: Verde medio degradado
-        glowStart: 'rgba(68, 165, 76, 0.3)',
-        glowEnd: 'rgba(152, 209, 43, 0.1)',
-        glowHoverStart: 'rgba(68, 165, 76, 0.6)',
-        glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
-        glowShadow: 'rgba(68, 165, 76, 0.05)',
-        glowShadowHover: 'rgba(68, 165, 76, 0.15)',
-        glowBorderHover: 'rgba(181, 228, 86, 0.5)',
-        glowRing: 'rgba(68, 165, 76, 0.4)',
-        glowRingPulse: 'rgba(68, 165, 76, 0.35)',
-        bottomBgLight: 'rgba(244, 249, 244, 0.88)',
-        bottomBgDark: 'rgba(8, 22, 10, 0.90)'
-    },
-    {
-        name: 'M.Sc. Marco Vera Zuñiga',
-        role: 'Jefe de Sub Unidad',
-        department: 'Sub Unidad de Gestión Ambiental',
-        initials: 'MV',
-        image: 'https://cdn.phototourl.com/free/2026-07-08-5a3b67b1-4af0-4dcb-9f3f-b6b2d73858dc.png',
-        textColor: 'text-indigo-600 dark:text-indigo-400',
-        bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
-        // Hover custom variables: Verde medio degradado
-        glowStart: 'rgba(68, 165, 76, 0.3)',
-        glowEnd: 'rgba(152, 209, 43, 0.1)',
-        glowHoverStart: 'rgba(68, 165, 76, 0.6)',
-        glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
-        glowShadow: 'rgba(68, 165, 76, 0.05)',
-        glowShadowHover: 'rgba(68, 165, 76, 0.15)',
-        glowBorderHover: 'rgba(181, 228, 86, 0.5)',
-        glowRing: 'rgba(68, 165, 76, 0.4)',
-        glowRingPulse: 'rgba(68, 165, 76, 0.35)',
-        bottomBgLight: 'rgba(244, 249, 244, 0.88)',
-        bottomBgDark: 'rgba(8, 22, 10, 0.90)'
-    }
-];
+interface TeamItem {
+    id: number;
+    name: string;
+    role: string;
+    department: string;
+    initials: string;
+    image_path: string;
+}
 
-// Strategic Objectives list
-const objectives = [
-    {
-        title: 'Fortalecimiento Institucional',
-        description: 'Consolidar nuestra organización como referente en el sector, con procesos eficientes y un equipo altamente capacitado.',
-        icon: Building2,
-        color: 'text-indigo-600 dark:text-indigo-400 bg-indigo-500/10'
-    },
-    {
-        title: 'Impacto Social Ampliado',
-        description: 'Incrementar nuestro alcance beneficiando a un 30% más de personas en los próximos 5 años.',
-        icon: TrendingUp,
-        color: 'text-blue-600 dark:text-blue-400 bg-blue-500/10'
-    },
-    {
-        title: 'Innovación Continua',
-        description: 'Desarrollar al menos 3 nuevos programas innovadores anuales que respondan a necesidades emergentes.',
-        icon: Lightbulb,
-        color: 'text-amber-500 dark:text-amber-400 bg-amber-500/10'
-    },
-    {
-        title: 'Sostenibilidad Financiera',
-        description: 'Diversificar nuestras fuentes de financiamiento para garantizar la continuidad de nuestros proyectos.',
-        icon: Scale,
-        color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10'
-    },
-    {
-        title: 'Alianzas Estratégicas',
-        description: 'Establecer colaboraciones con al menos 10 nuevas organizaciones afines en los próximos 3 años.',
-        icon: UsersRound,
-        color: 'text-purple-600 dark:text-purple-400 bg-purple-500/10'
-    }
-];
+interface ObjectiveItem {
+    id: number;
+    title: string;
+    description: string;
+    icon_name: string;
+    color_class: string;
+}
+
+interface ValueItem {
+    id: number;
+    title: string;
+    description: string;
+    icon_name: string;
+    glow_bg_class: string;
+    icon_container_class: string;
+    accent_line_class: string;
+}
+
+interface SectionItem {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    background_image?: string;
+    extra_data?: any;
+}
+
+defineProps<{
+    team: TeamItem[];
+    objectives: ObjectiveItem[];
+    values: ValueItem[];
+    sections: Record<string, SectionItem>;
+}>();
+
+// Styling config constants for Team members (Verde medio degradado)
+const glowProps = {
+    glowStart: 'rgba(68, 165, 76, 0.3)',
+    glowEnd: 'rgba(152, 209, 43, 0.1)',
+    glowHoverStart: 'rgba(68, 165, 76, 0.6)',
+    glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
+    glowShadow: 'rgba(68, 165, 76, 0.05)',
+    glowShadowHover: 'rgba(68, 165, 76, 0.15)',
+    glowBorderHover: 'rgba(181, 228, 86, 0.5)',
+    glowRing: 'rgba(68, 165, 76, 0.4)',
+    glowRingPulse: 'rgba(68, 165, 76, 0.35)',
+    bottomBgLight: 'rgba(244, 249, 244, 0.88)',
+    bottomBgDark: 'rgba(8, 22, 10, 0.90)'
+};
 
 const getObjectiveStyle = (index: number) => {
     const positions = [
@@ -146,63 +70,11 @@ const getObjectiveStyle = (index: number) => {
     ];
 
     return {
-        top: positions[index].top,
-        left: positions[index].left,
+        top: positions[index] ? positions[index].top : '0%',
+        left: positions[index] ? positions[index].left : '0%',
         transform: 'translate(-50%, -50%)'
     };
 };
-
-// Values list
-const values = [
-    {
-        title: 'Compromiso',
-        description: 'Nos dedicamos plenamente a nuestra misión y a las comunidades que servimos.',
-        icon: Heart,
-        glowBg: 'bg-rose-500',
-        iconContainerClass: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 dark:bg-rose-500/20',
-        accentLine: 'bg-rose-500'
-    },
-    {
-        title: 'Innovación',
-        description: 'Buscamos constantemente nuevas soluciones a los desafíos sociales.',
-        icon: Lightbulb,
-        glowBg: 'bg-amber-500',
-        iconContainerClass: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 dark:bg-amber-500/20',
-        accentLine: 'bg-amber-500'
-    },
-    {
-        title: 'Trabajo en Equipo',
-        description: 'Creemos en el poder de la colaboración y el esfuerzo colectivo.',
-        icon: Users,
-        glowBg: 'bg-blue-500',
-        iconContainerClass: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 dark:bg-blue-500/20',
-        accentLine: 'bg-blue-500'
-    },
-    {
-        title: 'Integridad',
-        description: 'Actuamos con transparencia y ética en todas nuestras acciones.',
-        icon: ShieldCheck,
-        glowBg: 'bg-emerald-500',
-        iconContainerClass: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 dark:bg-emerald-500/20',
-        accentLine: 'bg-emerald-500'
-    },
-    {
-        title: 'Pasión',
-        description: 'Nos apasiona nuestro trabajo y el impacto que generamos.',
-        icon: Flame,
-        glowBg: 'bg-orange-500',
-        iconContainerClass: 'bg-orange-500/10 text-orange-600 dark:text-orange-400 dark:bg-orange-500/20',
-        accentLine: 'bg-orange-500'
-    },
-    {
-        title: 'Sostenibilidad',
-        description: 'Trabajamos por soluciones que perduren en el tiempo.',
-        icon: Leaf,
-        glowBg: 'bg-teal-500',
-        iconContainerClass: 'bg-teal-500/10 text-teal-600 dark:text-teal-400 dark:bg-teal-500/20',
-        accentLine: 'bg-teal-500'
-    }
-];
 
 // Scroll Reveal Intersection Observer
 onMounted(() => {
@@ -229,16 +101,16 @@ onMounted(() => {
         <!-- 1. HERO SECTION -->
         <section 
             class="relative h-[45vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
-            style="background-image: url('https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/536276174_796288509419050_1500971593146748128_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEZ0QOsNIB00jHh4bUAb0thSrljtwlEgXZKuWO3CUSBds7SYH_gDYG_0R2VfGo0vFaQf8RVyKkB9FtnY9Rq_1wD&_nc_ohc=ousF8M3j-KEQ7kNvwEDqhrC&_nc_oc=AdrHhbppRZWmAUI6au-ONJdpC2udbx2Axnhkbn2bDEK_YdRSf-zfh_iZf5VtXp4shA0&_nc_zt=23&_nc_ht=scontent.fjul1-1.fna&_nc_gid=sPmAI6QRXx3MzuPa6kS7Uw&_nc_ss=7b2a8&oh=00_AQDNODsPpOywvQ6UFtqDPnT4bEqSxVMpLRtrX-Dgrwj87A&oe=6A548E80');"
+            :style="sections.hero?.background_image ? { backgroundImage: `url(${sections.hero.background_image})` } : {}"
         >
             <!-- Gradient Overlay for readability -->
             <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/90 via-neutral-950/70 to-transparent z-10"></div>
             
             <div class="max-w-7xl mx-auto w-full px-6 lg:px-8 text-left relative z-20 space-y-3">
-                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">¿Quiénes Somos?</span>
-                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Nosotros</h1>
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">{{ sections.hero?.eyebrow ?? '¿Quiénes Somos?' }}</span>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ sections.hero?.title ?? 'Nosotros' }}</h1>
                 <p class="text-xs md:text-sm text-white/80 max-w-3xl leading-relaxed">
-                    Conoce la misión, los valores y el equipo de profesionales que lidera la Dirección de Proyección Social y Extensión Cultural en su compromiso de vincular a la Universidad Nacional del Altiplano con el desarrollo de la región.
+                    {{ sections.hero?.description ?? 'Conoce la misión, los valores y el equipo de profesionales que lidera la Dirección de Proyección Social y Extensión Cultural en su compromiso de vincular a la Universidad Nacional del Altiplano con el desarrollo de la región.' }}
                 </p>
             </div>
         </section>
@@ -249,11 +121,11 @@ onMounted(() => {
                 
                 <!-- Left Details -->
                 <div class="lg:col-span-5 space-y-6 text-left">
-                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Propósito Institucional</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Nuestra Misión</h2>
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{{ sections.mission?.eyebrow ?? 'Propósito Institucional' }}</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ sections.mission?.title ?? 'Nuestra Misión' }}</h2>
                     <div class="w-12 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></div>
                     <p class="text-neutral-600 dark:text-neutral-400 text-sm md:text-base leading-relaxed">
-                        Definimos el norte de nuestro trabajo en base a la responsabilidad social universitaria, promoviendo el desarrollo de capacidades humanas en estrecha relación con las comunidades locales y la herencia cultural altiplánica.
+                        {{ sections.mission?.description ?? 'Definimos el norte de nuestro trabajo en base a la responsabilidad social universitaria, promoviendo el desarrollo de capacidades humanas en estrecha relación con las comunidades locales y la herencia cultural altiplánica.' }}
                     </p>
                 </div>
 
@@ -264,14 +136,14 @@ onMounted(() => {
                         
                         <blockquote class="relative z-10">
                             <p class="text-lg md:text-xl font-medium text-neutral-800 dark:text-neutral-100 leading-relaxed italic">
-                                Formar profesionales y posgraduados competitivos, con capacidad de investigación, emprendimiento, la responsabilidad social e identidad cultural para contribuir al desarrollo humano y desarrollo sostenible de la región y del país.
+                                {{ sections.mission?.extra_data?.blockquote ?? 'Formar profesionales y posgraduados competitivos, con capacidad de investigación, emprendimiento, la responsabilidad social e identidad cultural para contribuir al desarrollo humano y desarrollo sostenible de la región y del país.' }}
                             </p>
                         </blockquote>
                         
                         <div class="mt-6 flex items-center gap-3">
                             <div class="h-px w-8 bg-neutral-300 dark:bg-neutral-700"></div>
                             <span class="text-xs font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
-                                Estatuto UNA Puno
+                                {{ sections.mission?.extra_data?.attribution ?? 'Estatuto UNA Puno' }}
                             </span>
                         </div>
                     </div>
@@ -286,10 +158,10 @@ onMounted(() => {
                 
                 <!-- Section Header -->
                 <div class="text-center max-w-3xl mx-auto space-y-4">
-                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Liderazgo y Gestión</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Nuestro Equipo</h2>
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{{ sections.team_intro?.eyebrow ?? 'Liderazgo y Gestión' }}</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ sections.team_intro?.title ?? 'Nuestro Equipo' }}</h2>
                     <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                        Contamos con un equipo multidisciplinario de profesionales apasionados por el cambio social, comprometidos con nuestros valores y enfocados en lograr resultados transformadores.
+                        {{ sections.team_intro?.description ?? 'Contamos con un equipo multidisciplinario de profesionales apasionados por el cambio social, comprometidos con nuestros valores y enfocados en lograr resultados transformadores.' }}
                     </p>
                 </div>
 
@@ -297,27 +169,27 @@ onMounted(() => {
                 <div class="space-y-12 flex flex-col items-center">
                     
                     <!-- Director Card (Top Row, Centered and Prominent) -->
-                    <div class="flex justify-center w-full">
+                    <div v-if="team.length > 0" class="flex justify-center w-full">
                         <div 
                             class="team-card"
                             :style="{
-                                '--glow-start': team[0].glowStart,
-                                '--glow-end': team[0].glowEnd,
-                                '--glow-hover-start': team[0].glowHoverStart,
-                                '--glow-hover-end': team[0].glowHoverEnd,
-                                '--glow-shadow': team[0].glowShadow,
-                                '--glow-shadow-hover': team[0].glowShadowHover,
-                                '--glow-border-hover': team[0].glowBorderHover,
-                                '--glow-ring': team[0].glowRing,
-                                '--glow-ring-pulse': team[0].glowRingPulse,
-                                '--bottom-bg-light': team[0].bottomBgLight,
-                                '--bottom-bg-dark': team[0].bottomBgDark
+                                '--glow-start': glowProps.glowStart,
+                                '--glow-end': glowProps.glowEnd,
+                                '--glow-hover-start': glowProps.glowHoverStart,
+                                '--glow-hover-end': glowProps.glowHoverEnd,
+                                '--glow-shadow': glowProps.glowShadow,
+                                '--glow-shadow-hover': glowProps.glowShadowHover,
+                                '--glow-border-hover': glowProps.glowBorderHover,
+                                '--glow-ring': glowProps.glowRing,
+                                '--glow-ring-pulse': glowProps.glowRingPulse,
+                                '--bottom-bg-light': glowProps.bottomBgLight,
+                                '--bottom-bg-dark': glowProps.bottomBgDark
                             }"
                         >
                             <div class="card-top">
                                 <div class="avatar">
                                     <img 
-                                        :src="team[0].image" 
+                                        :src="team[0].image_path" 
                                         :alt="team[0].name" 
                                         class="avatar-image" 
                                     />
@@ -325,7 +197,7 @@ onMounted(() => {
                             </div>
                             <div class="card-bottom">
                                 <h3 class="name">{{ team[0].name }}</h3>
-                                <div class="inline-flex px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold mt-0.5 mb-1.5" :class="[team[0].textColor, team[0].bgLight]">
+                                <div class="inline-flex px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold mt-0.5 mb-1.5 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/20">
                                     {{ team[0].role }}
                                 </div>
                                 <div class="w-[85%] border-t border-neutral-200/50 dark:border-neutral-800 my-1"></div>
@@ -354,23 +226,23 @@ onMounted(() => {
                             :key="member.name" 
                             class="team-card"
                             :style="{
-                                '--glow-start': member.glowStart,
-                                '--glow-end': member.glowEnd,
-                                '--glow-hover-start': member.glowHoverStart,
-                                '--glow-hover-end': member.glowHoverEnd,
-                                '--glow-shadow': member.glowShadow,
-                                '--glow-shadow-hover': member.glowShadowHover,
-                                '--glow-border-hover': member.glowBorderHover,
-                                '--glow-ring': member.glowRing,
-                                '--glow-ring-pulse': member.glowRingPulse,
-                                '--bottom-bg-light': member.bottomBgLight,
-                                '--bottom-bg-dark': member.bottomBgDark
+                                '--glow-start': glowProps.glowStart,
+                                '--glow-end': glowProps.glowEnd,
+                                '--glow-hover-start': glowProps.glowHoverStart,
+                                '--glow-hover-end': glowProps.glowHoverEnd,
+                                '--glow-shadow': glowProps.glowShadow,
+                                '--glow-shadow-hover': glowProps.glowShadowHover,
+                                '--glow-border-hover': glowProps.glowBorderHover,
+                                '--glow-ring': glowProps.glowRing,
+                                '--glow-ring-pulse': glowProps.glowRingPulse,
+                                '--bottom-bg-light': glowProps.bottomBgLight,
+                                '--bottom-bg-dark': glowProps.bottomBgDark
                             }"
                         >
                             <div class="card-top">
                                 <div class="avatar">
                                     <img 
-                                        :src="member.image" 
+                                        :src="member.image_path" 
                                         :alt="member.name" 
                                         class="avatar-image" 
                                     />
@@ -378,7 +250,7 @@ onMounted(() => {
                             </div>
                             <div class="card-bottom">
                                 <h3 class="name">{{ member.name }}</h3>
-                                <div class="inline-flex px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold mt-0.5 mb-1.5" :class="[member.textColor, member.bgLight]">
+                                <div class="inline-flex px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold mt-0.5 mb-1.5 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/20">
                                     {{ member.role }}
                                 </div>
                                 <div class="w-[85%] border-t border-neutral-200/50 dark:border-neutral-800 my-1"></div>
@@ -398,10 +270,10 @@ onMounted(() => {
                 
                 <!-- Centered Header -->
                 <div class="text-center max-w-3xl mx-auto space-y-4">
-                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Plan de Desarrollo</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Objetivos Estratégicos</h2>
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{{ sections.objectives_intro?.eyebrow ?? 'Plan de Desarrollo' }}</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ sections.objectives_intro?.title ?? 'Objetivos Estratégicos' }}</h2>
                     <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                        Trazamos metas específicas a corto y mediano plazo para garantizar que nuestra labor tenga un impacto medible, estructurado y sostenible en la sociedad puneña.
+                        {{ sections.objectives_intro?.description ?? 'Trazamos metas específicas a corto y mediano plazo para garantizar que nuestra labor tenga un impacto medible, estructurado y sostenible en la sociedad puneña.' }}
                     </p>
                 </div>
 
@@ -415,8 +287,8 @@ onMounted(() => {
                         <span class="absolute top-4 right-6 text-[10px] font-black text-neutral-300 dark:text-neutral-700 select-none">
                             0{{ index + 1 }}
                         </span>
-                        <div class="p-3 rounded-xl shrink-0" :class="obj.color">
-                            <component :is="obj.icon" class="size-5" />
+                        <div class="p-3 rounded-xl shrink-0" :class="obj.color_class">
+                            <component :is="iconMap[obj.icon_name]" class="size-5" />
                         </div>
                         <div class="space-y-1">
                             <h3 class="text-sm font-extrabold text-neutral-900 dark:text-white leading-tight">
@@ -453,7 +325,7 @@ onMounted(() => {
                     >
                         <div class="flex items-center gap-2.5">
                             <div class="p-2.5 rounded-lg text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 shrink-0">
-                                <component :is="obj.icon" class="size-4.5" />
+                                <component :is="iconMap[obj.icon_name]" class="size-4.5" />
                             </div>
                             <span class="text-[9px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Objetivo 0{{ index + 1 }}</span>
                         </div>
@@ -471,10 +343,10 @@ onMounted(() => {
                 
                 <!-- Section Header -->
                 <div class="text-center max-w-3xl mx-auto space-y-4">
-                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Filosofía de Trabajo</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Valores Institucionales</h2>
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{{ sections.values_intro?.eyebrow ?? 'Filosofía de Trabajo' }}</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ sections.values_intro?.title ?? 'Valores Institucionales' }}</h2>
                     <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                        Nuestra cultura organizacional se cimenta sobre principios éticos que guían cada proyecto, voluntariado y expresión cultural.
+                        {{ sections.values_intro?.description ?? 'Nuestra cultura organizacional se cimenta sobre principios éticos que guían cada proyecto, voluntariado y expresión cultural.' }}
                     </p>
                 </div>
 
@@ -486,7 +358,7 @@ onMounted(() => {
                         class="group relative overflow-hidden p-8 rounded-3xl border border-neutral-200/60 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 flex flex-col justify-between text-left h-[260px]"
                     >
                         <!-- Background Light Glow (Hover effect) -->
-                        <div class="absolute -right-16 -top-16 size-36 rounded-full blur-3xl opacity-20 group-hover:opacity-45 transition-opacity duration-500" :class="val.glowBg"></div>
+                        <div class="absolute -right-16 -top-16 size-36 rounded-full blur-3xl opacity-20 group-hover:opacity-45 transition-opacity duration-500" :class="val.glow_bg_class"></div>
                         
                         <!-- Large Transparent Background Number -->
                         <div class="absolute right-6 bottom-4 text-7xl font-black text-neutral-100 dark:text-neutral-800/10 select-none group-hover:scale-110 group-hover:text-neutral-200/30 dark:group-hover:text-neutral-800/25 transition-all duration-500">
@@ -495,8 +367,8 @@ onMounted(() => {
 
                         <div class="relative z-10 space-y-6">
                             <!-- Icon with colorful bubble background -->
-                            <div class="inline-flex size-14 rounded-2xl items-center justify-center shadow-md transition-transform duration-500 group-hover:rotate-12" :class="val.iconContainerClass">
-                                <component :is="val.icon" class="size-7" />
+                            <div class="inline-flex size-14 rounded-2xl items-center justify-center shadow-md transition-transform duration-500 group-hover:rotate-12" :class="val.icon_container_class">
+                                <component :is="iconMap[val.icon_name]" class="size-7" />
                             </div>
 
                             <!-- Content -->
@@ -511,7 +383,7 @@ onMounted(() => {
                         </div>
 
                         <!-- Decorative Bottom Color Accent Line -->
-                        <div class="absolute bottom-0 left-0 h-1.5 w-0 group-hover:w-full transition-all duration-500" :class="val.accentLine"></div>
+                        <div class="absolute bottom-0 left-0 h-1.5 w-0 group-hover:w-full transition-all duration-500" :class="val.accent_line_class"></div>
                     </div>
                 </div>
 
