@@ -20,6 +20,10 @@ class SubUnit extends Model
         ];
     }
 
+    /**
+     * @param  Builder<SubUnit>  $query
+     * @return Builder<SubUnit>
+     */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true)->orderBy('sort_order');

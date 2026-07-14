@@ -19,6 +19,10 @@ class Video extends Model
         ];
     }
 
+    /**
+     * @param  Builder<Video>  $query
+     * @return Builder<Video>
+     */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true)->orderBy('sort_order');

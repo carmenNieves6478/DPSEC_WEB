@@ -19,6 +19,10 @@ class PageSection extends Model
         ];
     }
 
+    /**
+     * @param  Builder<PageSection>  $query
+     * @return Builder<PageSection>
+     */
     public function scopeForPage(Builder $query, string $pageSlug): Builder
     {
         return $query->where('page_slug', $pageSlug);

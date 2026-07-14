@@ -19,8 +19,10 @@ class TeamMember extends Model
         ];
     }
 
-    /** @param Builder<TeamMember> $query */
-    /** @return Builder<TeamMember> */
+    /**
+     * @param  Builder<TeamMember>  $query
+     * @return Builder<TeamMember>
+     */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true)->orderBy('sort_order');

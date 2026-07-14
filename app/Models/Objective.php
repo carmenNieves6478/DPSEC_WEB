@@ -19,8 +19,10 @@ class Objective extends Model
         ];
     }
 
-    /** @param Builder<Objective> $query */
-    /** @return Builder<Objective> */
+    /**
+     * @param  Builder<Objective>  $query
+     * @return Builder<Objective>
+     */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true)->orderBy('sort_order');

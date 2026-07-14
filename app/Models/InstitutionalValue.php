@@ -20,6 +20,10 @@ class InstitutionalValue extends Model
         ];
     }
 
+    /**
+     * @param  Builder<InstitutionalValue>  $query
+     * @return Builder<InstitutionalValue>
+     */
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true)->orderBy('sort_order');
