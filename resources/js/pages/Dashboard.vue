@@ -62,12 +62,25 @@ interface StatsItem {
     totalProyeccionSocial: number;
 }
 
-const props = defineProps<{
-    events: EventItem[];
-    documents: DocumentItem[];
-    stats: StatsItem;
+import CertificateTab from '@/components/CertificateTab.vue';
+
+const props = withDefaults(defineProps<{
+    events?: EventItem[];
+    documents?: DocumentItem[];
+    stats?: StatsItem;
     flash?: { success?: string; error?: string };
-}>();
+    templates?: any[];
+    fonts?: any[];
+    certificates?: any;
+    activeTab?: 'overview' | 'events' | 'docs' | 'certificates';
+}>(), {
+    events: () => [],
+    documents: () => [],
+    stats: () => ({ totalEvents: 0, totalDocs: 0, totalProyeccionSocial: 0 }),
+    templates: () => [],
+    fonts: () => [],
+    activeTab: 'overview',
+});
 
 defineOptions({
     layout: {
@@ -81,7 +94,8 @@ defineOptions({
 });
 
 // ─── Active Tab ──────────────────────────────────────────────────────────────
-const activeTab = ref<'overview' | 'events' | 'docs'>('overview');
+const activeTab = ref<'overview' | 'events' | 'docs' | 'certificates'>(props.activeTab);
+
 
 // ─── Search filters ──────────────────────────────────────────────────────────
 const eventQuery = ref('');
@@ -304,7 +318,15 @@ const deleteDoc = (id: number) => {
                 >
                     Documentos
                 </button>
+                <button 
+                    @click="activeTab = 'certificates'"
+                    class="px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer"
+                    :class="activeTab === 'certificates' ? 'bg-white dark:bg-neutral-800 shadow-xs text-indigo-600 dark:text-indigo-400' : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900'"
+                >
+                    Certificados
+                </button>
             </div>
+
         </div>
 
         <!-- 1. OVERVIEW TAB PANEL -->
@@ -603,6 +625,16 @@ const deleteDoc = (id: number) => {
                 </div>
             </div>
         </div>
+
+        <!-- 4. CERTIFICATES TAB PANEL -->
+        <div v-if="activeTab === 'certificates'" class="space-y-6 animate-in fade-in duration-300">
+            <CertificateTab 
+                :templates="templates" 
+                :fonts="fonts" 
+                :certificates="certificates" 
+            />
+        </div>
+
 
         <!-- ═══════════════════════════════════════════════════════════════ -->
         <!-- MODAL: AGREGAR EVENTO -->

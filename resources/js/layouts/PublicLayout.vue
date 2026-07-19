@@ -14,7 +14,8 @@ import {
     FileText,
     LogIn,
     User,
-    ArrowRight
+    ArrowRight,
+    Award
 } from '@lucide/vue';
 import { ref, computed } from 'vue';
 import { Button } from '@/components/ui/button';
@@ -174,7 +175,15 @@ const suboffices = [
                         <Calendar class="size-4" />
                         Eventos
                     </Link>
+
+                    <Link href="/certificados"
+                        class="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-1.5"
+                        :class="page.url.startsWith('/certificados') ? 'text-indigo-600 dark:text-indigo-400 font-semibold' : 'text-neutral-600 dark:text-neutral-300'">
+                        <Award class="size-4" />
+                        Certificados
+                    </Link>
                 </nav>
+
 
                 <!-- Action buttons -->
                 <div class="hidden lg:flex items-center gap-4">
@@ -284,7 +293,16 @@ const suboffices = [
                             <Calendar class="size-5" />
                             Eventos
                         </Link>
+
+                        <Link href="/certificados"
+                            class="text-base font-semibold px-2 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors flex items-center gap-2"
+                            :class="page.url.startsWith('/certificados') ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900' : 'text-neutral-700 dark:text-neutral-300'"
+                            @click="mobileMenuOpen = false">
+                            <Award class="size-5" />
+                            Certificados
+                        </Link>
                     </nav>
+
 
                     <div class="h-px bg-neutral-200 dark:bg-neutral-800 my-4"></div>
 
