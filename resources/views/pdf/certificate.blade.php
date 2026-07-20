@@ -8,7 +8,7 @@
         $nameY = (floatval($nameY) - 3.0) . '%';
     }
     if (str_ends_with($roleY, '%')) {
-        $roleY = (floatval($roleY) - 3.0) . '%';
+        $roleY = (floatval($roleY) - 1.5) . '%';
     }
 @endphp
 <!DOCTYPE html>
