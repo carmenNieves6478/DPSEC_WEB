@@ -16,11 +16,35 @@ import {
     X,
     UserCheck
 } from '@lucide/vue';
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
-import { eventsList } from '@/lib/eventsData';
+const props = defineProps<{
+    events?: any[];
+    documents?: any[];
+    stats?: any[];
+    videos?: any[];
+    subUnits?: any[];
+    sections?: any[];
+}>();
+
+// Map string icon names to Lucide components
+const iconMap: Record<string, any> = {
+    Award,
+    Calendar,
+    Users,
+    ArrowRight,
+    FileText,
+    Heart,
+    Leaf,
+    MapPin,
+    FlameKindling,
+    TrendingUp,
+    ExternalLink,
+    X,
+    UserCheck
+};
 
 // Modal states
 const selectedActivity = ref<any>(null);
@@ -35,42 +59,109 @@ const closeActivityModal = () => {
     isModalOpen.value = false;
 };
 
-// Mock data representing UNA Puno cultural and social activities
-const stats = [
-    { label: 'Proyectos de Proyección', value: '184', description: 'Ejecutados este año', icon: Award, color: 'text-amber-500 bg-amber-500/10' },
-    { label: 'Estudiantes Voluntarios', value: '2,450+', description: 'Participación activa', icon: Users, color: 'text-indigo-500 bg-indigo-500/10' },
-    { label: 'Comunidades Beneficiadas', value: '45+', description: 'En toda la región Puno', icon: Heart, color: 'text-red-500 bg-red-500/10' },
-    { label: 'Eventos Culturales', value: '38', description: 'Ciclos y festivales anuales', icon: FlameKindling, color: 'text-emerald-500 bg-emerald-500/10' }
-];
-
-const latestActivities = eventsList.slice(0, 3);
-
-const documents = [
-    { id: 1, title: 'Directiva N° 004-2026-DPESEC: Normas para Proyectos de Proyección Social', code: 'DIR-004-2026', date: '15 Ene 2026', type: 'Directiva' },
-    { id: 2, title: 'Resolución Rectoral N° 1024-2026-R-UNAP: Aprobación del Calendario de Actividades Culturales', code: 'RR-1024-2026', date: '04 Mar 2026', type: 'Resolución' },
-    { id: 3, title: 'Guía Metodológica para la Formulación de Informes de Extensión Universitaria', code: 'GUIA-01-2026', date: '10 May 2026', type: 'Guía' }
-];
-
-// Carousel Slides (3 most recent active/ongoing events)
-const slides = eventsList.slice(0, 3).map(e => e.image);
-
-const subunitsFloating = [
-    {
-        name: 'Proyección Social y Extensión Cultural',
-        fbUrl: 'https://www.facebook.com/p/Direcci%C3%B3n-de-Proyecci%C3%B3n-Social-y-Extensi%C3%B3n-Cultural-UNA-Puno-100071137256988/',
-        logo: 'https://scontent.flim20-1.fna.fbcdn.net/v/t39.30808-6/272960757_4628681473926778_6629600432458897605_n.jpg?stp=dst-jpg_tt6&cstp=mx2017x2017&ctp=s2017x2017&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=dzbou22md_cQ7kNvwEyqcpG&_nc_oc=AdrTJFZJ3SiFJerNaxkzfDV1mGeW5I0yYBdcjTVo79wyDOAyoF6VgcTxaEO2hMKdGfA&_nc_zt=23&_nc_ht=scontent.flim20-1.fna&_nc_gid=VJvqRFFVkVfJnr-RYSL3UA&_nc_ss=7b289&oh=00_AQAIEfjqOqi6lNXRJGchTrJDiR7lgLTCn1Tsr0u-PBGCMQ&oe=6A55939C'
-    },
-    {
-        name: 'Gestión Ambiental',
-        fbUrl: 'https://www.facebook.com/p/Gesti%C3%B3n-Ambiental-UNA-PUNO-Oficial-61552848737780/',
-        logo: 'https://scontent.flim26-1.fna.fbcdn.net/v/t39.30808-6/398995862_10222830756230066_520338572561505771_n.jpg?stp=dst-jpg_tt6&cstp=mx2026x2048&ctp=s2026x2048&_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeH3EDEG8C5PPZK1cepZi-gzWEwO4rVRrudYTA7itVGu59Y1kIb432fziteMQi84vz0QUhKmxFNEFi5DnQkhScWk&_nc_ohc=nRQOktJYbR0Q7kNvwEC4QdN&_nc_oc=AdrJt3WDqELGGuzNM9tj-wcHPMkFH_mL4IN9tghkkygDqkJnyE6WI06cQWZtmN9zXWY&_nc_zt=23&_nc_ht=scontent.flim26-1.fna&_nc_gid=2fhssmGxvnXXyOCPs31urw&_nc_ss=7b2a8&oh=00_AQBqcxqtRryOxfdDWVSMKxKwEz3Q3nom4XDNa6jobUDa4A&oe=6A55BE72'
-    },
-    {
-        name: 'Seguimiento del Graduado',
-        fbUrl: 'https://www.facebook.com/p/Egresados-y-Graduados-UNA-Puno-100092995523250/',
-        logo: 'https://scontent.flim20-1.fna.fbcdn.net/v/t39.30808-6/359734308_147671118342738_5430089938518897443_n.jpg?stp=dst-jpg_tt6&cstp=mx272x272&ctp=s272x272&_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHM_qBi059xsXM_jGxjMq1rvhz2v_QXEJq-HPa_9BcQmk6RX7ZJsbRgGIRqPOP4LEyPmuAQoqbTC6eMfu65tG1o&_nc_ohc=1_x31ZGEeu8Q7kNvwGeKY5i&_nc_oc=AdqDmzs1k2F0vGxzLtl93-wXj-psE-MjziKdm0qzNDy_PnSh8Y8gUW9edDrARfiBgmw&_nc_zt=23&_nc_ht=scontent.flim20-1.fna&_nc_gid=GyE78RMdmDbtUi_hIdhKsg&_nc_ss=7b2a8&oh=00_AQCqEmTof-9bhusJcgLFU17KNI21K1cUYUZz039qp3XTZg&oe=6A55B461'
+// Real DB stats with fallback
+const stats = computed(() => {
+    if (props.stats && props.stats.length > 0) {
+        return props.stats.map(s => ({
+            label: s.label,
+            value: s.value,
+            description: s.description,
+            icon: iconMap[s.icon_name] || Award,
+            color: s.color_class || 'text-indigo-500 bg-indigo-500/10'
+        }));
     }
-];
+    return [
+        { label: 'Proyectos de Proyección', value: '184', description: 'Ejecutados este año', icon: Award, color: 'text-amber-500 bg-amber-500/10' },
+        { label: 'Estudiantes Voluntarios', value: '2,450+', description: 'Participación activa', icon: Users, color: 'text-indigo-500 bg-indigo-500/10' },
+        { label: 'Comunidades Beneficiadas', value: '45+', description: 'En toda la región Puno', icon: Heart, color: 'text-red-500 bg-red-500/10' },
+        { label: 'Eventos Culturales', value: '38', description: 'Ciclos y festivales anuales', icon: FlameKindling, color: 'text-emerald-500 bg-emerald-500/10' }
+    ];
+});
+
+// Map DB events to template-friendly format
+const latestActivities = computed(() => (props.events ?? []).map(e => ({
+    ...e,
+    image: e.image_path,
+    date: e.event_date ? new Date(e.event_date).toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric' }) : '',
+    fbLink: e.fb_link,
+})));
+
+// Real DB documents with fallback
+const documents = computed(() => {
+    if (props.documents && props.documents.length > 0) {
+        return props.documents.map(d => ({
+            id: d.id,
+            title: d.title,
+            code: d.code,
+            category: d.category,
+            type: d.category.endsWith('s') ? d.category.slice(0, -1) : d.category,
+            date: d.published_date ? new Date(d.published_date).toLocaleDateString('es-PE', { day: 'numeric', month: 'short', year: 'numeric' }) : '',
+            size: d.file_size || 'N/A',
+            description: d.description,
+            file_path: d.file_path ? (d.file_path.startsWith('http') ? d.file_path : '/storage/' + d.file_path) : '#'
+        }));
+    }
+    return [
+        { id: 1, title: 'Directiva N° 004-2026-DPESEC: Normas para Proyectos de Proyección Social', code: 'DIR-004-2026', date: '15 Ene 2026', type: 'Directiva', size: '1.8 MB', description: 'Establece los lineamientos técnicos para voluntariados y extensión cultural.', file_path: '/documentos' },
+        { id: 2, title: 'Resolución Rectoral N° 1024-2026-R-UNAP: Aprobación del Calendario de Actividades Culturales', code: 'RR-1024-2026', date: '04 Mar 2026', type: 'Resolución', size: '2.4 MB', description: 'Ratifica las fechas de festivales y ciclos de danzas universitarias.', file_path: '/documentos' },
+        { id: 3, title: 'Guía Metodológica para la Formulación de Informes de Extensión Universitaria', code: 'GUIA-01-2026', date: '10 May 2026', type: 'Guía', size: '950 KB', description: 'Formularios oficiales para documentar el impacto de proyectos sociales.', file_path: '/documentos' }
+    ];
+});
+
+// Carousel Slides (from real events or static fallback)
+const slides = computed(() => {
+    const list = latestActivities.value.map(e => e.image).filter(Boolean);
+    if (list.length > 0) return list;
+    return [
+        'https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/599715893_884448530603047_8830935029040207180_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHQTG8nj3AVQPEHA1wTgQHYKeP-NFCKFbkp4_40UIoVuSWAiJSKTpXbty2XufqHJ3TjfkBChQkMKeic-hENsQFS&_nc_ohc=y0aeGiZKoI8Q7kNvwHlWwdS&_nc_oc=AdrAcbj07hIEXl4hMGQ0WxmZ3uxiOjPk3rSDXBstr9iXtNUKrJ_uMeBgXLuI-L3q0iQ&_nc_zt=23&_nc_ht=scontent.fjul1-1.fna&_nc_gid=4KCvHQKz0MhLi4lQ3kNatQ&_nc_ss=7b2a8&oh=00_AQCPYaYVBsK7Adxqddq_DlU6zk0tr2nCG3amFSJjCR6x5g&oe=6A547587',
+        'https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/605296083_769669972809513_1888138256417761411_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1267&ctp=s2048x1267&_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeErCVDX-2bhd-oXj91oxi8uP3zmIbV9bRQ_fOYhtX1tFEc26QCfmlKGVmIt8eHzOj4lP3fH8TmfbOE-Qa7r3CBf&_nc_ohc=y4O89CSTX3kQ7kNvwPldty&_nc_oc=AdpXVqBXvCSHpZcxdtDOuOmzbcQxOARxVFWoV-b-eBj1cMdhr10LjIsIwnH7cQ57iro&_nc_zt=23&_nc_ht=scontent.flim20-1.fna&_nc_gid=A_T1_6T7cM_y5_u4_9f2_1&_nc_ss=7b290&oh=00_AQAIEfjqOqi6lNXRJGchTrJDiR7lgLTCn1Tsr0u-PBGCMQ&oe=6A55939C'
+    ];
+});
+
+// Real DB subUnits with fallback
+const subunitsFloating = computed(() => {
+    if (props.subUnits && props.subUnits.length > 0) {
+        return props.subUnits.map(s => ({
+            name: s.name,
+            fbUrl: s.fb_url || s.href,
+            logo: s.logo_path ? (s.logo_path.startsWith('http') ? s.logo_path : '/storage/' + s.logo_path) : 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=100&h=100&fit=crop'
+        }));
+    }
+    return [
+        {
+            name: 'Proyección Social y Extensión Cultural',
+            fbUrl: 'https://www.facebook.com/p/Direcci%C3%B3n-de-Proyecci%C3%B3n-Social-y-Extensi%C3%B3n-Cultural-UNA-Puno-100071137256988/',
+            logo: 'https://scontent.flim20-1.fna.fbcdn.net/v/t39.30808-6/272960757_4628681473926778_6629600432458897605_n.jpg?stp=dst-jpg_tt6&cstp=mx2017x2017&ctp=s2017x2017&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=dzbou22md_cQ7kNvwEyqcpG&_nc_oc=AdrTJFZJ3SiFJerNaxkzfDV1mGeW5I0yYBdcjTVo79wyDOAyoF6VgcTxaEO2hMKdGfA&_nc_zt=23&_nc_ht=scontent.flim20-1.fna&_nc_gid=VJvqRFFVkVfJnr-RYSL3UA&_nc_ss=7b289&oh=00_AQAIEfjqOqi6lNXRJGchTrJDiR7lgLTCn1Tsr0u-PBGCMQ&oe=6A55939C'
+        },
+        {
+            name: 'Gestión Ambiental',
+            fbUrl: 'https://www.facebook.com/p/Gesti%C3%B3n-Ambiental-UNA-PUNO-Oficial-61552848737780/',
+            logo: 'https://scontent.flim26-1.fna.fbcdn.net/v/t39.30808-6/398995862_10222830756230066_520338572561505771_n.jpg?stp=dst-jpg_tt6&cstp=mx2026x2048&ctp=s2026x2048&_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeH3EDEG8C5PPZK1cepZi-gzWEwO4rVRrudYTA7itVGu59Y1kIb432fziteMQi84vz0QUhKmxFNEFi5DnQkhScWk&_nc_ohc=nRQOktJYbR0Q7kNvwEC4QdN&_nc_oc=AdrJt3WDqELGGuzNM9tj-wcHPMkFH_mL4IN9tghkkygDqkJnyE6WI06cQWZtmN9zXWY&_nc_zt=23&_nc_ht=scontent.flim26-1.fna&_nc_gid=2fhssmGxvnXXyOCPs31urw&_nc_ss=7b2a8&oh=00_AQBqcxqtRryOxfdDWVSMKxKwEz3Q3nom4XDNa6jobUDa4A&oe=6A55BE72'
+        },
+        {
+            name: 'Seguimiento del Graduado',
+            fbUrl: 'https://www.facebook.com/p/Egresados-y-Graduados-UNA-Puno-100092995523250/',
+            logo: 'https://scontent.flim20-1.fna.fbcdn.net/v/t39.30808-6/359734308_147671118342738_5430089938518897443_n.jpg?stp=dst-jpg_tt6&cstp=mx272x272&ctp=s272x272&_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHM_qBi059xsXM_jGxjMq1rvhz2v_QXEJq-HPa_9BcQmk6RX7ZJsbRgGIRqPOP4LEyPmuAQoqbTC6eMfu65tG1o&_nc_ohc=1_x31ZGEeu8Q7kNvwGeKY5i&_nc_oc=AdqDmzs1k2F0vGxzLtl93-wXj-psE-MjziKdm0qzNDy_PnSh8Y8gUW9edDrARfiBgmw&_nc_zt=23&_nc_ht=scontent.flim20-1.fna&_nc_gid=GyE78RMdmDbtUi_hIdhKsg&_nc_ss=7b2a8&oh=00_AQCqEmTof-9bhusJcgLFU17KNI21K1cUYUZz039qp3XTZg&oe=6A55B461'
+        }
+    ];
+});
+
+// Real DB videos with fallback
+const mappedVideos = computed(() => {
+    if (props.videos && props.videos.length > 0) {
+        return props.videos.map(v => ({
+            id: v.id,
+            title: v.title,
+            description: v.description,
+            embedUrl: v.embed_url
+        }));
+    }
+    return [
+        { id: 1, title: 'Danza Originaria | Chunchos de Esquilaya | Educación Primaria UNA Puno', description: 'Chunchos de Esquilaya, Danza originaria de Puno presentado por la Escuela Profesional de Educación Primaria en el Festival del Folklore de la Universidad Nacional del Altiplano.', embedUrl: 'https://www.youtube.com/embed/t-jVFZWDpqU' },
+        { id: 2, title: 'Danza Originaria | Wifala de San Antonio de Putina | Ing. Agronómica UNA Puno', description: 'Wifala de San Antonio de Putina, Danza originaria de Puno presentado por la Escuela Profesional de Ingeniería Agronómica en el Festival del Folklore de la Universidad Nacional del Altiplano.', embedUrl: 'https://youtube.com/embed/lkkRJhGqoQI' },
+        { id: 3, title: 'Bajada del Arco - Estudiantina Unificada de la UNA Puno. 2018', description: 'Concierto de la Estudiantina Unificada de la Universidad Nacional del Altiplano de Puno 2018.', embedUrl: 'https://youtube.com/embed/xKwZOed6a7o' }
+    ];
+});
 
 const currentSlide = ref(0);
 let timer: ReturnType<typeof setInterval> | null = null;
@@ -102,7 +193,7 @@ const handleScroll = () => {
 
 onMounted(() => {
     timer = setInterval(() => {
-        currentSlide.value = (currentSlide.value + 1) % slides.length;
+        currentSlide.value = (currentSlide.value + 1) % slides.value.length;
     }, 6000); // 6 seconds
 
     window.addEventListener('scroll', handleScroll);
@@ -297,38 +388,12 @@ onUnmounted(() => {
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Video 1 -->
-                    <div
-                        class="group relative flex flex-col bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
-                        <div class="    relative aspect-video overflow-hidden bg-neutral-950">
-                            <iframe class="w-full h-full border-0" src="https://www.youtube.com/embed/t-jVFZWDpqU"
-                                title="Video Institucional 1"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
-                        </div>
-                        <div class="p-5 text-left flex-grow flex flex-col justify-between">
-                            <div>
-                                <h3
-                                    class="text-sm font-extrabold text-neutral-900 dark:text-white leading-snug line-clamp-1">
-
-                                    Danza Originaria | Chunchos de Esquilaya | Educación Primaria UNA Puno
-                                </h3>
-                                <p
-                                    class="text-xs text-neutral-500 dark:text-neutral-400 mt-1.5 leading-relaxed line-clamp-2">
-                                    Chunchos de Esquilaya, Danza originaria de Puno presentado por la Escuela
-                                    Profesional de Educación Primaria en el Festival del Folklore de la Universidad
-                                    Nacional del Altiplano.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Video 2 -->
-                    <div
+                    <!-- Dynamic Videos -->
+                    <div v-for="vid in mappedVideos" :key="vid.id"
                         class="group relative flex flex-col bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
                         <div class="relative aspect-video overflow-hidden bg-neutral-950">
-                            <iframe class="w-full h-full border-0" src="https://youtube.com/embed/lkkRJhGqoQI"
-                                title="Video Institucional 2"
+                            <iframe class="w-full h-full border-0" :src="vid.embedUrl"
+                                :title="vid.title"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen></iframe>
                         </div>
@@ -336,39 +401,11 @@ onUnmounted(() => {
                             <div>
                                 <h3
                                     class="text-sm font-extrabold text-neutral-900 dark:text-white leading-snug line-clamp-1">
-
-                                    Danza Originaria | Wifala de San Antonio de Putina | Ing. Agronómica UNA Puno
+                                    {{ vid.title }}
                                 </h3>
                                 <p
                                     class="text-xs text-neutral-500 dark:text-neutral-400 mt-1.5 leading-relaxed line-clamp-2">
-                                    Wifala de San Antonio de Putina, Danza originaria de Puno presentado por la Escuela
-                                    Profesional de Ingeniería Agronómica en el Festival del Folklore de la Universidad
-                                    Nacional del Altiplano.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Video 3 -->
-                    <div
-                        class="group relative flex flex-col bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
-                        <div class="relative aspect-video overflow-hidden bg-neutral-950">
-                            <iframe class="w-full h-full border-0" src="https://youtube.com/embed/xKwZOed6a7o"
-                                title="Video Institucional 3"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
-                        </div>
-                        <div class="p-5 text-left flex-grow flex flex-col justify-between">
-                            <div>
-                                <h3
-                                    class="text-sm font-extrabold text-neutral-900 dark:text-white leading-snug line-clamp-1">
-                                    Bajada del Arco - Estudiantina Unificada de la UNA Puno. 2018
-                                </h3>
-                                <p
-                                    class="text-xs text-neutral-500 dark:text-neutral-400 mt-1.5 leading-relaxed line-clamp-2">
-                                    Concierto de la Estudiantina Unificada de la Universidad Nacional del Altiplano de
-                                    Puno 2018.
-                                    Lugar: Plaza de Armas de la ciudad de Puno
+                                    {{ vid.description }}
                                 </p>
                             </div>
                         </div>

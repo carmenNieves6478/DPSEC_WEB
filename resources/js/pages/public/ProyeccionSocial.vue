@@ -18,6 +18,12 @@ import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { eventsList } from '@/lib/eventsData';
 
+const props = defineProps<{
+    events?: any[];
+    faqs?: any[];
+    sections?: any[];
+}>();
+
 // Modal states
 const selectedActivity = ref<any>(null);
 const isModalOpen = ref(false);
@@ -39,12 +45,23 @@ const search = ref('');
 const activeCategory = ref('Todos');
 const activeStatus = ref('Todos');
 
-// Filter shared activities specifically for Proyección Social
-const activities = eventsList.filter(e => e.isProyeccionSocial);
+// Filter shared activities specifically for Proyección Social (real DB with fallback)
+const activities = computed(() => {
+    if (props.events && props.events.length > 0) {
+        return props.events.map(e => ({
+            ...e,
+            image: e.image_path,
+            date: e.event_date ? new Date(e.event_date).toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric' }) : '',
+            fbLink: e.fb_link,
+            isProyeccionSocial: e.is_proyeccion_social
+        }));
+    }
+    return eventsList.filter(e => e.isProyeccionSocial);
+});
 
 // Computed list based on search and filters
 const filteredActivities = computed(() => {
-    return activities.filter(activity => {
+    return activities.value.filter(activity => {
         const matchesSearch = activity.title.toLowerCase().includes(search.value.toLowerCase()) || 
                               activity.description.toLowerCase().includes(search.value.toLowerCase()) ||
                               activity.location.toLowerCase().includes(search.value.toLowerCase());
@@ -55,21 +72,29 @@ const filteredActivities = computed(() => {
     });
 });
 
-// FAQ list
-const faqs = [
-    {
-        question: '¿Quiénes deben realizar Proyección Social en la UNA Puno?',
-        answer: 'De acuerdo al estatuto universitario de la UNA Puno, todos los estudiantes de pregrado deben cumplir con horas de proyección social acreditadas por su respectiva Facultad antes del egreso.'
-    },
-    {
-        question: '¿Cómo inscribirse en el Programa de Voluntariado Universitario?',
-        answer: 'Las convocatorias se abren semestralmente a través de esta web y de la página oficial de Facebook DPESEC. Solo requieres estar matriculado en el semestre académico correspondiente.'
-    },
-    {
-        question: '¿Cómo se registra y acredita un proyecto social independiente?',
-        answer: 'El docente coordinador debe presentar la propuesta del proyecto mediante Mesa de Partes dirigida a la DPESEC, adjuntando el plan de trabajo con la lista de alumnos participantes y presupuesto sustentado.'
+// FAQ list from DB with fallback
+const faqs = computed(() => {
+    if (props.faqs && props.faqs.length > 0) {
+        return props.faqs.map(f => ({
+            question: f.question,
+            answer: f.answer
+        }));
     }
-];
+    return [
+        {
+            question: '¿Quiénes deben realizar Proyección Social en la UNA Puno?',
+            answer: 'De acuerdo al estatuto universitario de la UNA Puno, todos los estudiantes de pregrado deben cumplir con horas de proyección social acreditadas por su respectiva Facultad antes del egreso.'
+        },
+        {
+            question: '¿Cómo inscribirse en el Programa de Voluntariado Universitario?',
+            answer: 'Las convocatorias se abren semestralmente a través de esta web y de la página oficial de Facebook DPESEC. Solo requieres estar matriculado en el semestre académico correspondiente.'
+        },
+        {
+            question: '¿Cómo se registra y acredita un proyecto social independiente?',
+            answer: 'El docente coordinador debe presentar la propuesta del proyecto mediante Mesa de Partes dirigida a la DPESEC, adjuntando el plan de trabajo con la lista de alumnos participantes y presupuesto sustentado.'
+        }
+    ];
+});
 </script>
 
 <template>

@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function __invoke(): Response
     {
         return Inertia::render('public/Home', [
-            'events' => Event::active()->take(3)->get(),
+            'events' => Event::where('event_date', '>=', now()->startOfDay())->orderBy('event_date')->take(3)->get(),
             'documents' => Document::active()->take(3)->get(),
             'stats' => Statistic::active()->get(),
             'videos' => Video::active()->get(),

@@ -11,130 +11,182 @@ import {
     UsersRound,
     Leaf
 } from '@lucide/vue';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, computed } from 'vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
+const props = defineProps<{
+    team?: any[];
+    objectives?: any[];
+    values?: any[];
+    sections?: any[];
+}>();
+
+// Map string icon names to Lucide components
+const iconMap: Record<string, any> = {
+    Users,
+    Heart,
+    Lightbulb,
+    ShieldCheck,
+    Flame,
+    Building2,
+    TrendingUp,
+    Scale,
+    UsersRound,
+    Leaf
+};
+
 // Team members list
-const team = [
-    {
-        name: 'Dra. Milder Zanabria Ortega',
-        role: 'Directora',
-        department: 'Dirección de Proyección Social y Extensión Cultural',
-        initials: 'MZ',
-        image: 'https://cdn.phototourl.com/free/2026-07-08-0148c525-1fa2-46ce-8343-d43e2fd7c5ca.png',
-        textColor: 'text-indigo-600 dark:text-indigo-400',
-        bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
-        // Hover custom variables: Verde medio degradado
-        glowStart: 'rgba(68, 165, 76, 0.3)',
-        glowEnd: 'rgba(152, 209, 43, 0.1)',
-        glowHoverStart: 'rgba(68, 165, 76, 0.6)',
-        glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
-        glowShadow: 'rgba(68, 165, 76, 0.05)',
-        glowShadowHover: 'rgba(68, 165, 76, 0.15)',
-        glowBorderHover: 'rgba(181, 228, 86, 0.5)',
-        glowRing: 'rgba(68, 165, 76, 0.4)',
-        glowRingPulse: 'rgba(68, 165, 76, 0.35)',
-        bottomBgLight: 'rgba(244, 249, 244, 0.88)',
-        bottomBgDark: 'rgba(8, 22, 10, 0.90)'
-    },
-    {
-        name: 'M.Sc. Wilkerson Palza Meza',
-        role: 'Jefe de Sub Unidad',
-        department: 'Sub Unidad de Proyección Social y Extensión Universitaria',
-        initials: 'WP',
-        image: 'https://cdn.phototourl.com/free/2026-07-09-8662ddab-51eb-4547-91ce-de75938f1053.png',
-        textColor: 'text-indigo-600 dark:text-indigo-400',
-        bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
-        // Hover custom variables: Verde medio degradado
-        glowStart: 'rgba(68, 165, 76, 0.3)',
-        glowEnd: 'rgba(152, 209, 43, 0.1)',
-        glowHoverStart: 'rgba(68, 165, 76, 0.6)',
-        glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
-        glowShadow: 'rgba(68, 165, 76, 0.05)',
-        glowShadowHover: 'rgba(68, 165, 76, 0.15)',
-        glowBorderHover: 'rgba(181, 228, 86, 0.5)',
-        glowRing: 'rgba(68, 165, 76, 0.4)',
-        glowRingPulse: 'rgba(68, 165, 76, 0.35)',
-        bottomBgLight: 'rgba(244, 249, 244, 0.88)',
-        bottomBgDark: 'rgba(8, 22, 10, 0.90)'
-    },
-    {
-        name: 'Ing. Yumy Romero Talavera',
-        role: 'Jefa de Sub Unidad',
-        department: 'Sub Unidad de Seguimiento y Desarrollo del Graduado',
-        initials: 'YR',
-        image: 'https://cdn.phototourl.com/free/2026-07-09-a6257f35-bbb0-483f-909e-18f184a22061.png',
-        textColor: 'text-indigo-600 dark:text-indigo-400',
-        bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
-        // Hover custom variables: Verde medio degradado
-        glowStart: 'rgba(68, 165, 76, 0.3)',
-        glowEnd: 'rgba(152, 209, 43, 0.1)',
-        glowHoverStart: 'rgba(68, 165, 76, 0.6)',
-        glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
-        glowShadow: 'rgba(68, 165, 76, 0.05)',
-        glowShadowHover: 'rgba(68, 165, 76, 0.15)',
-        glowBorderHover: 'rgba(181, 228, 86, 0.5)',
-        glowRing: 'rgba(68, 165, 76, 0.4)',
-        glowRingPulse: 'rgba(68, 165, 76, 0.35)',
-        bottomBgLight: 'rgba(244, 249, 244, 0.88)',
-        bottomBgDark: 'rgba(8, 22, 10, 0.90)'
-    },
-    {
-        name: 'M.Sc. Marco Vera Zuñiga',
-        role: 'Jefe de Sub Unidad',
-        department: 'Sub Unidad de Gestión Ambiental',
-        initials: 'MV',
-        image: 'https://cdn.phototourl.com/free/2026-07-08-5a3b67b1-4af0-4dcb-9f3f-b6b2d73858dc.png',
-        textColor: 'text-indigo-600 dark:text-indigo-400',
-        bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
-        // Hover custom variables: Verde medio degradado
-        glowStart: 'rgba(68, 165, 76, 0.3)',
-        glowEnd: 'rgba(152, 209, 43, 0.1)',
-        glowHoverStart: 'rgba(68, 165, 76, 0.6)',
-        glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
-        glowShadow: 'rgba(68, 165, 76, 0.05)',
-        glowShadowHover: 'rgba(68, 165, 76, 0.15)',
-        glowBorderHover: 'rgba(181, 228, 86, 0.5)',
-        glowRing: 'rgba(68, 165, 76, 0.4)',
-        glowRingPulse: 'rgba(68, 165, 76, 0.35)',
-        bottomBgLight: 'rgba(244, 249, 244, 0.88)',
-        bottomBgDark: 'rgba(8, 22, 10, 0.90)'
+const team = computed(() => {
+    if (props.team && props.team.length > 0) {
+        return props.team.map(t => ({
+            name: t.name,
+            role: t.role,
+            department: t.department,
+            initials: t.initials || t.name.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase(),
+            image: t.image_path ? (t.image_path.startsWith('http') ? t.image_path : '/storage/' + t.image_path) : '',
+            textColor: 'text-indigo-600 dark:text-indigo-400',
+            bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
+            // Hover custom variables
+            glowStart: 'rgba(68, 165, 76, 0.3)',
+            glowEnd: 'rgba(152, 209, 43, 0.1)',
+            glowHoverStart: 'rgba(68, 165, 76, 0.6)',
+            glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
+            glowShadow: 'rgba(68, 165, 76, 0.05)',
+            glowShadowHover: 'rgba(68, 165, 76, 0.15)',
+            glowBorderHover: 'rgba(181, 228, 86, 0.5)',
+            glowRing: 'rgba(68, 165, 76, 0.4)',
+            glowRingPulse: 'rgba(68, 165, 76, 0.35)',
+            bottomBgLight: 'rgba(244, 249, 244, 0.88)',
+            bottomBgDark: 'rgba(8, 22, 10, 0.90)'
+        }));
     }
-];
+    return [
+        {
+            name: 'Dra. Milder Zanabria Ortega',
+            role: 'Directora',
+            department: 'Dirección de Proyección Social y Extensión Cultural',
+            initials: 'MZ',
+            image: 'https://cdn.phototourl.com/free/2026-07-08-0148c525-1fa2-46ce-8343-d43e2fd7c5ca.png',
+            textColor: 'text-indigo-600 dark:text-indigo-400',
+            bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
+            glowStart: 'rgba(68, 165, 76, 0.3)',
+            glowEnd: 'rgba(152, 209, 43, 0.1)',
+            glowHoverStart: 'rgba(68, 165, 76, 0.6)',
+            glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
+            glowShadow: 'rgba(68, 165, 76, 0.05)',
+            glowShadowHover: 'rgba(68, 165, 76, 0.15)',
+            glowBorderHover: 'rgba(181, 228, 86, 0.5)',
+            glowRing: 'rgba(68, 165, 76, 0.4)',
+            glowRingPulse: 'rgba(68, 165, 76, 0.35)',
+            bottomBgLight: 'rgba(244, 249, 244, 0.88)',
+            bottomBgDark: 'rgba(8, 22, 10, 0.90)'
+        },
+        {
+            name: 'M.Sc. Wilkerson Palza Meza',
+            role: 'Jefe de Sub Unidad',
+            department: 'Sub Unidad de Proyección Social y Extensión Universitaria',
+            initials: 'WP',
+            image: 'https://cdn.phototourl.com/free/2026-07-09-8662ddab-51eb-4547-91ce-de75938f1053.png',
+            textColor: 'text-indigo-600 dark:text-indigo-400',
+            bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
+            glowStart: 'rgba(68, 165, 76, 0.3)',
+            glowEnd: 'rgba(152, 209, 43, 0.1)',
+            glowHoverStart: 'rgba(68, 165, 76, 0.6)',
+            glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
+            glowShadow: 'rgba(68, 165, 76, 0.05)',
+            glowShadowHover: 'rgba(68, 165, 76, 0.15)',
+            glowBorderHover: 'rgba(181, 228, 86, 0.5)',
+            glowRing: 'rgba(68, 165, 76, 0.4)',
+            glowRingPulse: 'rgba(68, 165, 76, 0.35)',
+            bottomBgLight: 'rgba(244, 249, 244, 0.88)',
+            bottomBgDark: 'rgba(8, 22, 10, 0.90)'
+        },
+        {
+            name: 'Ing. Yumy Romero Talavera',
+            role: 'Jefa de Sub Unidad',
+            department: 'Sub Unidad de Seguimiento y Desarrollo del Graduado',
+            initials: 'YR',
+            image: 'https://cdn.phototourl.com/free/2026-07-09-a6257f35-bbb0-483f-909e-18f184a22061.png',
+            textColor: 'text-indigo-600 dark:text-indigo-400',
+            bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
+            glowStart: 'rgba(68, 165, 76, 0.3)',
+            glowEnd: 'rgba(152, 209, 43, 0.1)',
+            glowHoverStart: 'rgba(68, 165, 76, 0.6)',
+            glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
+            glowShadow: 'rgba(68, 165, 76, 0.05)',
+            glowShadowHover: 'rgba(68, 165, 76, 0.15)',
+            glowBorderHover: 'rgba(181, 228, 86, 0.5)',
+            glowRing: 'rgba(68, 165, 76, 0.4)',
+            glowRingPulse: 'rgba(68, 165, 76, 0.35)',
+            bottomBgLight: 'rgba(244, 249, 244, 0.88)',
+            bottomBgDark: 'rgba(8, 22, 10, 0.90)'
+        },
+        {
+            name: 'M.Sc. Marco Vera Zuñiga',
+            role: 'Jefe de Sub Unidad',
+            department: 'Sub Unidad de Gestión Ambiental',
+            initials: 'MV',
+            image: 'https://cdn.phototourl.com/free/2026-07-08-5a3b67b1-4af0-4dcb-9f3f-b6b2d73858dc.png',
+            textColor: 'text-indigo-600 dark:text-indigo-400',
+            bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
+            glowStart: 'rgba(68, 165, 76, 0.3)',
+            glowEnd: 'rgba(152, 209, 43, 0.1)',
+            glowHoverStart: 'rgba(68, 165, 76, 0.6)',
+            glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
+            glowShadow: 'rgba(68, 165, 76, 0.05)',
+            glowShadowHover: 'rgba(68, 165, 76, 0.15)',
+            glowBorderHover: 'rgba(181, 228, 86, 0.5)',
+            glowRing: 'rgba(68, 165, 76, 0.4)',
+            glowRingPulse: 'rgba(68, 165, 76, 0.35)',
+            bottomBgLight: 'rgba(244, 249, 244, 0.88)',
+            bottomBgDark: 'rgba(8, 22, 10, 0.90)'
+        }
+    ];
+});
 
 // Strategic Objectives list
-const objectives = [
-    {
-        title: 'Fortalecimiento Institucional',
-        description: 'Consolidar nuestra organización como referente en el sector, con procesos eficientes y un equipo altamente capacitado.',
-        icon: Building2,
-        color: 'text-indigo-600 dark:text-indigo-400 bg-indigo-500/10'
-    },
-    {
-        title: 'Impacto Social Ampliado',
-        description: 'Incrementar nuestro alcance beneficiando a un 30% más de personas en los próximos 5 años.',
-        icon: TrendingUp,
-        color: 'text-blue-600 dark:text-blue-400 bg-blue-500/10'
-    },
-    {
-        title: 'Innovación Continua',
-        description: 'Desarrollar al menos 3 nuevos programas innovadores anuales que respondan a necesidades emergentes.',
-        icon: Lightbulb,
-        color: 'text-amber-500 dark:text-amber-400 bg-amber-500/10'
-    },
-    {
-        title: 'Sostenibilidad Financiera',
-        description: 'Diversificar nuestras fuentes de financiamiento para garantizar la continuidad de nuestros proyectos.',
-        icon: Scale,
-        color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10'
-    },
-    {
-        title: 'Alianzas Estratégicas',
-        description: 'Establecer colaboraciones con al menos 10 nuevas organizaciones afines en los próximos 3 años.',
-        icon: UsersRound,
-        color: 'text-purple-600 dark:text-purple-400 bg-purple-500/10'
+const objectives = computed(() => {
+    if (props.objectives && props.objectives.length > 0) {
+        return props.objectives.map(o => ({
+            title: o.title,
+            description: o.description,
+            icon: iconMap[o.icon_name] || Building2,
+            color: o.color_class || 'text-indigo-600 dark:text-indigo-400 bg-indigo-500/10'
+        }));
     }
-];
+    return [
+        {
+            title: 'Fortalecimiento Institucional',
+            description: 'Consolidar nuestra organización como referente en el sector, con procesos eficientes y un equipo altamente capacitado.',
+            icon: Building2,
+            color: 'text-indigo-600 dark:text-indigo-400 bg-indigo-500/10'
+        },
+        {
+            title: 'Impacto Social Ampliado',
+            description: 'Incrementar nuestro alcance beneficiando a un 30% más de personas en los próximos 5 años.',
+            icon: TrendingUp,
+            color: 'text-blue-600 dark:text-blue-400 bg-blue-500/10'
+        },
+        {
+            title: 'Innovación Continua',
+            description: 'Desarrollar al menos 3 nuevos programas innovadores anuales que respondan a necesidades emergentes.',
+            icon: Lightbulb,
+            color: 'text-amber-500 dark:text-amber-400 bg-amber-500/10'
+        },
+        {
+            title: 'Sostenibilidad Financiera',
+            description: 'Diversificar nuestras fuentes de financiamiento para garantizar la continuidad de nuestros proyectos.',
+            icon: Scale,
+            color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10'
+        },
+        {
+            title: 'Alianzas Estratégicas',
+            description: 'Establecer colaboraciones con al menos 10 nuevas organizaciones afines en los próximos 3 años.',
+            icon: UsersRound,
+            color: 'text-purple-600 dark:text-purple-400 bg-purple-500/10'
+        }
+    ];
+});
 
 const getObjectiveStyle = (index: number) => {
     const positions = [
@@ -152,69 +204,91 @@ const getObjectiveStyle = (index: number) => {
     };
 };
 
-// Values list
-const values = [
-    {
-        title: 'Compromiso',
-        description: 'Nos dedicamos plenamente a nuestra misión y a las comunidades que servimos.',
-        icon: Heart,
-        glowBg: 'bg-rose-500',
-        iconContainerClass: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 dark:bg-rose-500/20',
-        accentLine: 'bg-rose-500',
-        image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&auto=format&fit=crop&q=80',
-        headerBg: 'bg-rose-600 dark:bg-rose-700'
-    },
-    {
-        title: 'Innovación',
-        description: 'Buscamos constantemente nuevas soluciones a los desafíos sociales.',
-        icon: Lightbulb,
-        glowBg: 'bg-amber-500',
-        iconContainerClass: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 dark:bg-amber-500/20',
-        accentLine: 'bg-amber-500',
-        image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&auto=format&fit=crop&q=80',
-        headerBg: 'bg-amber-600 dark:bg-amber-700'
-    },
-    {
-        title: 'Trabajo en Equipo',
-        description: 'Creemos en el poder de la colaboración y el esfuerzo colectivo.',
-        icon: Users,
-        glowBg: 'bg-blue-500',
-        iconContainerClass: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 dark:bg-blue-500/20',
-        accentLine: 'bg-blue-500',
-        image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=80',
-        headerBg: 'bg-blue-600 dark:bg-blue-700'
-    },
-    {
-        title: 'Integridad',
-        description: 'Actuamos con transparencia y ética en todas nuestras acciones.',
-        icon: ShieldCheck,
-        glowBg: 'bg-emerald-500',
-        iconContainerClass: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 dark:bg-emerald-500/20',
-        accentLine: 'bg-emerald-500',
-        image: 'https://images.unsplash.com/photo-1579202673506-ca3ce28943ef?w=600&auto=format&fit=crop&q=80',
-        headerBg: 'bg-emerald-600 dark:bg-emerald-700'
-    },
-    {
-        title: 'Pasión',
-        description: 'Nos apasiona nuestro trabajo y el impacto que generamos.',
-        icon: Flame,
-        glowBg: 'bg-orange-500',
-        iconContainerClass: 'bg-orange-500/10 text-orange-600 dark:text-orange-400 dark:bg-orange-500/20',
-        accentLine: 'bg-orange-500',
-        image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&auto=format&fit=crop&q=80',
-        headerBg: 'bg-orange-600 dark:bg-orange-700'
-    },
-    {
-        title: 'Sostenibilidad',
-        description: 'Trabajamos por soluciones que perduren en el tiempo.',
-        icon: Leaf,
-        glowBg: 'bg-teal-500',
-        iconContainerClass: 'bg-teal-500/10 text-teal-600 dark:text-teal-400 dark:bg-teal-500/20',
-        accentLine: 'bg-teal-500',
-        image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80',
-        headerBg: 'bg-teal-600 dark:bg-teal-700'
-    }
+const valueImages = [
+    'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1579202673506-ca3ce28943ef?w=600&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80'
 ];
+
+// Values list
+const values = computed(() => {
+    if (props.values && props.values.length > 0) {
+        return props.values.map((v, index) => ({
+            title: v.title,
+            description: v.description,
+            icon: iconMap[v.icon_name] || Heart,
+            glowBg: v.glow_bg_class || 'bg-indigo-500',
+            iconContainerClass: v.icon_container_class || 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 dark:bg-indigo-500/20',
+            accentLine: v.accent_line_class || 'bg-indigo-500',
+            image: valueImages[index % valueImages.length],
+            headerBg: 'bg-indigo-600 dark:bg-indigo-700'
+        }));
+    }
+    return [
+        {
+            title: 'Compromiso',
+            description: 'Nos dedicamos plenamente a nuestra misión y a las comunidades que servimos.',
+            icon: Heart,
+            glowBg: 'bg-rose-500',
+            iconContainerClass: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 dark:bg-rose-500/20',
+            accentLine: 'bg-rose-500',
+            image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&auto=format&fit=crop&q=80',
+            headerBg: 'bg-rose-600 dark:bg-rose-700'
+        },
+        {
+            title: 'Innovación',
+            description: 'Buscamos constantemente nuevas soluciones a los desafíos sociales.',
+            icon: Lightbulb,
+            glowBg: 'bg-amber-500',
+            iconContainerClass: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 dark:bg-amber-500/20',
+            accentLine: 'bg-amber-500',
+            image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&auto=format&fit=crop&q=80',
+            headerBg: 'bg-amber-600 dark:bg-amber-700'
+        },
+        {
+            title: 'Trabajo en Equipo',
+            description: 'Creemos en el poder de la colaboración y el esfuerzo colectivo.',
+            icon: Users,
+            glowBg: 'bg-blue-500',
+            iconContainerClass: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 dark:bg-blue-500/20',
+            accentLine: 'bg-blue-500',
+            image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=80',
+            headerBg: 'bg-blue-600 dark:bg-blue-700'
+        },
+        {
+            title: 'Integridad',
+            description: 'Actuamos con transparencia y ética en todas nuestras acciones.',
+            icon: ShieldCheck,
+            glowBg: 'bg-emerald-500',
+            iconContainerClass: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 dark:bg-emerald-500/20',
+            accentLine: 'bg-emerald-500',
+            image: 'https://images.unsplash.com/photo-1579202673506-ca3ce28943ef?w=600&auto=format&fit=crop&q=80',
+            headerBg: 'bg-emerald-600 dark:bg-emerald-700'
+        },
+        {
+            title: 'Pasión',
+            description: 'Nos apasiona nuestro trabajo y el impacto que generamos.',
+            icon: Flame,
+            glowBg: 'bg-orange-500',
+            iconContainerClass: 'bg-orange-500/10 text-orange-600 dark:text-orange-400 dark:bg-orange-500/20',
+            accentLine: 'bg-orange-500',
+            image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&auto=format&fit=crop&q=80',
+            headerBg: 'bg-orange-600 dark:bg-orange-700'
+        },
+        {
+            title: 'Sostenibilidad',
+            description: 'Trabajamos por soluciones que perduren en el tiempo.',
+            icon: Leaf,
+            glowBg: 'bg-teal-500',
+            iconContainerClass: 'bg-teal-500/10 text-teal-600 dark:text-teal-400 dark:bg-teal-500/20',
+            accentLine: 'bg-teal-500',
+            image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80',
+        }
+    ];
+});
 
 // Scrollytelling Pinned Team Presentation Logic
 const teamSectionRef = ref<HTMLElement | null>(null);
@@ -234,27 +308,27 @@ return;
     const totalScrollableDistance = sectionHeight - viewportHeight;
     
     if (totalScrollableDistance <= 0) {
-return;
-}
+        return;
+    }
     
     let progress = scrolledDistance / totalScrollableDistance;
     progress = Math.max(0, Math.min(1, progress));
     
     // Map progress to card index
-    const index = Math.min(Math.floor(progress * team.length), team.length - 1);
+    const index = Math.min(Math.floor(progress * team.value.length), team.value.length - 1);
     activeCardIndex.value = index;
 };
 
 const scrollToCard = (index: number) => {
     if (!teamSectionRef.value) {
-return;
-}
+        return;
+    }
 
     const rect = teamSectionRef.value.getBoundingClientRect();
     const sectionTop = window.scrollY + rect.top;
     const totalScrollableDistance = rect.height - window.innerHeight;
     
-    const targetScrollY = sectionTop + (index / (team.length - 1 || 1)) * totalScrollableDistance + 10;
+    const targetScrollY = sectionTop + (index / (team.value.length - 1 || 1)) * totalScrollableDistance + 10;
     
     window.scrollTo({
         top: targetScrollY,

@@ -15,6 +15,10 @@ import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 import { eventsList } from '@/lib/eventsData';
 
+const props = defineProps<{
+    events?: any[];
+}>();
+
 const activeFilter = ref('Proximos');
 
 // Modal states
@@ -30,14 +34,24 @@ const closeEventModal = () => {
     isModalOpen.value = false;
 };
 
-const events = eventsList;
+const events = computed(() => {
+    if (props.events && props.events.length > 0) {
+        return props.events.map(e => ({
+            ...e,
+            image: e.image_path,
+            date: e.event_date ? new Date(e.event_date).toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric' }) : '',
+            fbLink: e.fb_link,
+        }));
+    }
+    return eventsList;
+});
 
 const filteredEvents = computed(() => {
     if (activeFilter.value === 'Todos') {
-return events;
-}
+        return events.value;
+    }
 
-    return events.filter(event => event.status === activeFilter.value);
+    return events.value.filter(event => event.status === activeFilter.value);
 });
 </script>
 
