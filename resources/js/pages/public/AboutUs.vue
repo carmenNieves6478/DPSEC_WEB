@@ -1,64 +1,140 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { 
+    Users, 
+    Heart, 
+    Lightbulb, 
+    ShieldCheck, 
+    Flame, 
+    Building2, 
+    TrendingUp, 
+    Scale, 
+    UsersRound,
+    Leaf
+} from '@lucide/vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
-import { iconMap } from '@/lib/iconMap';
 
-interface TeamItem {
-    id: number;
-    name: string;
-    role: string;
-    department: string;
-    initials: string;
-    image_path: string;
-}
+// Team members list
+const team = [
+    {
+        name: 'Dra. Milder Zanabria Ortega',
+        role: 'Directora',
+        department: 'Dirección de Proyección Social y Extensión Cultural',
+        initials: 'MZ',
+        image: 'https://cdn.phototourl.com/free/2026-07-08-0148c525-1fa2-46ce-8343-d43e2fd7c5ca.png',
+        textColor: 'text-indigo-600 dark:text-indigo-400',
+        bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
+        // Hover custom variables: Verde medio degradado
+        glowStart: 'rgba(68, 165, 76, 0.3)',
+        glowEnd: 'rgba(152, 209, 43, 0.1)',
+        glowHoverStart: 'rgba(68, 165, 76, 0.6)',
+        glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
+        glowShadow: 'rgba(68, 165, 76, 0.05)',
+        glowShadowHover: 'rgba(68, 165, 76, 0.15)',
+        glowBorderHover: 'rgba(181, 228, 86, 0.5)',
+        glowRing: 'rgba(68, 165, 76, 0.4)',
+        glowRingPulse: 'rgba(68, 165, 76, 0.35)',
+        bottomBgLight: 'rgba(244, 249, 244, 0.88)',
+        bottomBgDark: 'rgba(8, 22, 10, 0.90)'
+    },
+    {
+        name: 'M.Sc. Wilkerson Palza Meza',
+        role: 'Jefe de Sub Unidad',
+        department: 'Sub Unidad de Proyección Social y Extensión Universitaria',
+        initials: 'WP',
+        image: 'https://cdn.phototourl.com/free/2026-07-09-8662ddab-51eb-4547-91ce-de75938f1053.png',
+        textColor: 'text-indigo-600 dark:text-indigo-400',
+        bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
+        // Hover custom variables: Verde medio degradado
+        glowStart: 'rgba(68, 165, 76, 0.3)',
+        glowEnd: 'rgba(152, 209, 43, 0.1)',
+        glowHoverStart: 'rgba(68, 165, 76, 0.6)',
+        glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
+        glowShadow: 'rgba(68, 165, 76, 0.05)',
+        glowShadowHover: 'rgba(68, 165, 76, 0.15)',
+        glowBorderHover: 'rgba(181, 228, 86, 0.5)',
+        glowRing: 'rgba(68, 165, 76, 0.4)',
+        glowRingPulse: 'rgba(68, 165, 76, 0.35)',
+        bottomBgLight: 'rgba(244, 249, 244, 0.88)',
+        bottomBgDark: 'rgba(8, 22, 10, 0.90)'
+    },
+    {
+        name: 'Ing. Yumy Romero Talavera',
+        role: 'Jefa de Sub Unidad',
+        department: 'Sub Unidad de Seguimiento y Desarrollo del Graduado',
+        initials: 'YR',
+        image: 'https://cdn.phototourl.com/free/2026-07-09-a6257f35-bbb0-483f-909e-18f184a22061.png',
+        textColor: 'text-indigo-600 dark:text-indigo-400',
+        bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
+        // Hover custom variables: Verde medio degradado
+        glowStart: 'rgba(68, 165, 76, 0.3)',
+        glowEnd: 'rgba(152, 209, 43, 0.1)',
+        glowHoverStart: 'rgba(68, 165, 76, 0.6)',
+        glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
+        glowShadow: 'rgba(68, 165, 76, 0.05)',
+        glowShadowHover: 'rgba(68, 165, 76, 0.15)',
+        glowBorderHover: 'rgba(181, 228, 86, 0.5)',
+        glowRing: 'rgba(68, 165, 76, 0.4)',
+        glowRingPulse: 'rgba(68, 165, 76, 0.35)',
+        bottomBgLight: 'rgba(244, 249, 244, 0.88)',
+        bottomBgDark: 'rgba(8, 22, 10, 0.90)'
+    },
+    {
+        name: 'M.Sc. Marco Vera Zuñiga',
+        role: 'Jefe de Sub Unidad',
+        department: 'Sub Unidad de Gestión Ambiental',
+        initials: 'MV',
+        image: 'https://cdn.phototourl.com/free/2026-07-08-5a3b67b1-4af0-4dcb-9f3f-b6b2d73858dc.png',
+        textColor: 'text-indigo-600 dark:text-indigo-400',
+        bgLight: 'bg-indigo-50 dark:bg-indigo-950/20',
+        // Hover custom variables: Verde medio degradado
+        glowStart: 'rgba(68, 165, 76, 0.3)',
+        glowEnd: 'rgba(152, 209, 43, 0.1)',
+        glowHoverStart: 'rgba(68, 165, 76, 0.6)',
+        glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
+        glowShadow: 'rgba(68, 165, 76, 0.05)',
+        glowShadowHover: 'rgba(68, 165, 76, 0.15)',
+        glowBorderHover: 'rgba(181, 228, 86, 0.5)',
+        glowRing: 'rgba(68, 165, 76, 0.4)',
+        glowRingPulse: 'rgba(68, 165, 76, 0.35)',
+        bottomBgLight: 'rgba(244, 249, 244, 0.88)',
+        bottomBgDark: 'rgba(8, 22, 10, 0.90)'
+    }
+];
 
-interface ObjectiveItem {
-    id: number;
-    title: string;
-    description: string;
-    icon_name: string;
-    color_class: string;
-}
-
-interface ValueItem {
-    id: number;
-    title: string;
-    description: string;
-    icon_name: string;
-    glow_bg_class: string;
-    icon_container_class: string;
-    accent_line_class: string;
-}
-
-interface SectionItem {
-    eyebrow?: string;
-    title?: string;
-    description?: string;
-    background_image?: string;
-    extra_data?: any;
-}
-
-defineProps<{
-    team: TeamItem[];
-    objectives: ObjectiveItem[];
-    values: ValueItem[];
-    sections: Record<string, SectionItem>;
-}>();
-
-// Styling config constants for Team members (Verde medio degradado)
-const glowProps = {
-    glowStart: 'rgba(68, 165, 76, 0.3)',
-    glowEnd: 'rgba(152, 209, 43, 0.1)',
-    glowHoverStart: 'rgba(68, 165, 76, 0.6)',
-    glowHoverEnd: 'rgba(152, 209, 43, 0.3)',
-    glowShadow: 'rgba(68, 165, 76, 0.05)',
-    glowShadowHover: 'rgba(68, 165, 76, 0.15)',
-    glowBorderHover: 'rgba(181, 228, 86, 0.5)',
-    glowRing: 'rgba(68, 165, 76, 0.4)',
-    glowRingPulse: 'rgba(68, 165, 76, 0.35)',
-    bottomBgLight: 'rgba(244, 249, 244, 0.88)',
-    bottomBgDark: 'rgba(8, 22, 10, 0.90)'
-};
+// Strategic Objectives list
+const objectives = [
+    {
+        title: 'Fortalecimiento Institucional',
+        description: 'Consolidar nuestra organización como referente en el sector, con procesos eficientes y un equipo altamente capacitado.',
+        icon: Building2,
+        color: 'text-indigo-600 dark:text-indigo-400 bg-indigo-500/10'
+    },
+    {
+        title: 'Impacto Social Ampliado',
+        description: 'Incrementar nuestro alcance beneficiando a un 30% más de personas en los próximos 5 años.',
+        icon: TrendingUp,
+        color: 'text-blue-600 dark:text-blue-400 bg-blue-500/10'
+    },
+    {
+        title: 'Innovación Continua',
+        description: 'Desarrollar al menos 3 nuevos programas innovadores anuales que respondan a necesidades emergentes.',
+        icon: Lightbulb,
+        color: 'text-amber-500 dark:text-amber-400 bg-amber-500/10'
+    },
+    {
+        title: 'Sostenibilidad Financiera',
+        description: 'Diversificar nuestras fuentes de financiamiento para garantizar la continuidad de nuestros proyectos.',
+        icon: Scale,
+        color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10'
+    },
+    {
+        title: 'Alianzas Estratégicas',
+        description: 'Establecer colaboraciones con al menos 10 nuevas organizaciones afines en los próximos 3 años.',
+        icon: UsersRound,
+        color: 'text-purple-600 dark:text-purple-400 bg-purple-500/10'
+    }
+];
 
 const getObjectiveStyle = (index: number) => {
     const positions = [
@@ -70,13 +146,122 @@ const getObjectiveStyle = (index: number) => {
     ];
 
     return {
-        top: positions[index] ? positions[index].top : '0%',
-        left: positions[index] ? positions[index].left : '0%',
+        top: positions[index].top,
+        left: positions[index].left,
         transform: 'translate(-50%, -50%)'
     };
 };
 
-// Scroll Reveal Intersection Observer
+// Values list
+const values = [
+    {
+        title: 'Compromiso',
+        description: 'Nos dedicamos plenamente a nuestra misión y a las comunidades que servimos.',
+        icon: Heart,
+        glowBg: 'bg-rose-500',
+        iconContainerClass: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 dark:bg-rose-500/20',
+        accentLine: 'bg-rose-500',
+        image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&auto=format&fit=crop&q=80',
+        headerBg: 'bg-rose-600 dark:bg-rose-700'
+    },
+    {
+        title: 'Innovación',
+        description: 'Buscamos constantemente nuevas soluciones a los desafíos sociales.',
+        icon: Lightbulb,
+        glowBg: 'bg-amber-500',
+        iconContainerClass: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 dark:bg-amber-500/20',
+        accentLine: 'bg-amber-500',
+        image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&auto=format&fit=crop&q=80',
+        headerBg: 'bg-amber-600 dark:bg-amber-700'
+    },
+    {
+        title: 'Trabajo en Equipo',
+        description: 'Creemos en el poder de la colaboración y el esfuerzo colectivo.',
+        icon: Users,
+        glowBg: 'bg-blue-500',
+        iconContainerClass: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 dark:bg-blue-500/20',
+        accentLine: 'bg-blue-500',
+        image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=80',
+        headerBg: 'bg-blue-600 dark:bg-blue-700'
+    },
+    {
+        title: 'Integridad',
+        description: 'Actuamos con transparencia y ética en todas nuestras acciones.',
+        icon: ShieldCheck,
+        glowBg: 'bg-emerald-500',
+        iconContainerClass: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 dark:bg-emerald-500/20',
+        accentLine: 'bg-emerald-500',
+        image: 'https://images.unsplash.com/photo-1579202673506-ca3ce28943ef?w=600&auto=format&fit=crop&q=80',
+        headerBg: 'bg-emerald-600 dark:bg-emerald-700'
+    },
+    {
+        title: 'Pasión',
+        description: 'Nos apasiona nuestro trabajo y el impacto que generamos.',
+        icon: Flame,
+        glowBg: 'bg-orange-500',
+        iconContainerClass: 'bg-orange-500/10 text-orange-600 dark:text-orange-400 dark:bg-orange-500/20',
+        accentLine: 'bg-orange-500',
+        image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&auto=format&fit=crop&q=80',
+        headerBg: 'bg-orange-600 dark:bg-orange-700'
+    },
+    {
+        title: 'Sostenibilidad',
+        description: 'Trabajamos por soluciones que perduren en el tiempo.',
+        icon: Leaf,
+        glowBg: 'bg-teal-500',
+        iconContainerClass: 'bg-teal-500/10 text-teal-600 dark:text-teal-400 dark:bg-teal-500/20',
+        accentLine: 'bg-teal-500',
+        image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80',
+        headerBg: 'bg-teal-600 dark:bg-teal-700'
+    }
+];
+
+// Scrollytelling Pinned Team Presentation Logic
+const teamSectionRef = ref<HTMLElement | null>(null);
+const activeCardIndex = ref(0);
+
+const handleScrollPresentation = () => {
+    if (!teamSectionRef.value) {
+return;
+}
+
+    const rect = teamSectionRef.value.getBoundingClientRect();
+    const sectionHeight = rect.height;
+    const viewportHeight = window.innerHeight;
+    
+    // Scrolled distance within the section boundary
+    const scrolledDistance = -rect.top;
+    const totalScrollableDistance = sectionHeight - viewportHeight;
+    
+    if (totalScrollableDistance <= 0) {
+return;
+}
+    
+    let progress = scrolledDistance / totalScrollableDistance;
+    progress = Math.max(0, Math.min(1, progress));
+    
+    // Map progress to card index
+    const index = Math.min(Math.floor(progress * team.length), team.length - 1);
+    activeCardIndex.value = index;
+};
+
+const scrollToCard = (index: number) => {
+    if (!teamSectionRef.value) {
+return;
+}
+
+    const rect = teamSectionRef.value.getBoundingClientRect();
+    const sectionTop = window.scrollY + rect.top;
+    const totalScrollableDistance = rect.height - window.innerHeight;
+    
+    const targetScrollY = sectionTop + (index / (team.length - 1 || 1)) * totalScrollableDistance + 10;
+    
+    window.scrollTo({
+        top: targetScrollY,
+        behavior: 'smooth'
+    });
+};
+
 onMounted(() => {
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -93,6 +278,15 @@ onMounted(() => {
 
     const sections = document.querySelectorAll('.reveal-section');
     sections.forEach((section) => revealObserver.observe(section));
+
+    // Register presentation scroll handler
+    window.addEventListener('scroll', handleScrollPresentation);
+    // Init state
+    handleScrollPresentation();
+});
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScrollPresentation);
 });
 </script>
 
@@ -100,17 +294,17 @@ onMounted(() => {
     <PublicLayout title="Nosotros">
         <!-- 1. HERO SECTION -->
         <section 
-            class="relative h-[45vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
-            :style="sections.hero?.background_image ? { backgroundImage: `url(${sections.hero.background_image})` } : {}"
+            class="relative h-[65vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
+            style="background-image: url('https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/536276174_796288509419050_1500971593146748128_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEZ0QOsNIB00jHh4bUAb0thSrljtwlEgXZKuWO3CUSBds7SYH_gDYG_0R2VfGo0vFaQf8RVyKkB9FtnY9Rq_1wD&_nc_ohc=ousF8M3j-KEQ7kNvwEDqhrC&_nc_oc=AdrHhbppRZWmAUI6au-ONJdpC2udbx2Axnhkbn2bDEK_YdRSf-zfh_iZf5VtXp4shA0&_nc_zt=23&_nc_ht=scontent.fjul1-1.fna&_nc_gid=sPmAI6QRXx3MzuPa6kS7Uw&_nc_ss=7b2a8&oh=00_AQDNODsPpOywvQ6UFtqDPnT4bEqSxVMpLRtrX-Dgrwj87A&oe=6A548E80');"
         >
             <!-- Gradient Overlay for readability -->
             <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/90 via-neutral-950/70 to-transparent z-10"></div>
             
             <div class="max-w-7xl mx-auto w-full px-6 lg:px-8 text-left relative z-20 space-y-3">
-                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">{{ sections.hero?.eyebrow ?? '¿Quiénes Somos?' }}</span>
-                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ sections.hero?.title ?? 'Nosotros' }}</h1>
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">¿Quiénes Somos?</span>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Nosotros</h1>
                 <p class="text-xs md:text-sm text-white/80 max-w-3xl leading-relaxed">
-                    {{ sections.hero?.description ?? 'Conoce la misión, los valores y el equipo de profesionales que lidera la Dirección de Proyección Social y Extensión Cultural en su compromiso de vincular a la Universidad Nacional del Altiplano con el desarrollo de la región.' }}
+                    Conoce la misión, los valores y el equipo de profesionales que lidera la Dirección de Proyección Social y Extensión Cultural en su compromiso de vincular a la Universidad Nacional del Altiplano con el desarrollo de la región.
                 </p>
             </div>
         </section>
@@ -121,11 +315,11 @@ onMounted(() => {
                 
                 <!-- Left Details -->
                 <div class="lg:col-span-5 space-y-6 text-left">
-                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{{ sections.mission?.eyebrow ?? 'Propósito Institucional' }}</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ sections.mission?.title ?? 'Nuestra Misión' }}</h2>
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Propósito Institucional</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Nuestra Misión</h2>
                     <div class="w-12 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></div>
                     <p class="text-neutral-600 dark:text-neutral-400 text-sm md:text-base leading-relaxed">
-                        {{ sections.mission?.description ?? 'Definimos el norte de nuestro trabajo en base a la responsabilidad social universitaria, promoviendo el desarrollo de capacidades humanas en estrecha relación con las comunidades locales y la herencia cultural altiplánica.' }}
+                        Definimos el norte de nuestro trabajo en base a la responsabilidad social universitaria, promoviendo el desarrollo de capacidades humanas en estrecha relación con las comunidades locales y la herencia cultural altiplánica.
                     </p>
                 </div>
 
@@ -136,131 +330,87 @@ onMounted(() => {
                         
                         <blockquote class="relative z-10">
                             <p class="text-lg md:text-xl font-medium text-neutral-800 dark:text-neutral-100 leading-relaxed italic">
-                                {{ sections.mission?.extra_data?.blockquote ?? 'Formar profesionales y posgraduados competitivos, con capacidad de investigación, emprendimiento, la responsabilidad social e identidad cultural para contribuir al desarrollo humano y desarrollo sostenible de la región y del país.' }}
+                                Formar profesionales y posgraduados competitivos, con capacidad de investigación, emprendimiento, la responsabilidad social e identidad cultural para contribuir al desarrollo humano y desarrollo sostenible de la región y del país.
                             </p>
                         </blockquote>
                         
                         <div class="mt-6 flex items-center gap-3">
                             <div class="h-px w-8 bg-neutral-300 dark:bg-neutral-700"></div>
                             <span class="text-xs font-bold uppercase tracking-wider text-neutral-400 dark:text-neutral-500">
-                                {{ sections.mission?.extra_data?.attribution ?? 'Estatuto UNA Puno' }}
+                                Estatuto UNA Puno
                             </span>
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
-        <!-- 3. TEAM SECTION -->
-        <section class="reveal-section py-20 bg-neutral-50/50 dark:bg-neutral-900/10 border-y border-neutral-200/55 dark:border-neutral-800/40">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-16">
-                
-                <!-- Section Header -->
-                <div class="text-center max-w-3xl mx-auto space-y-4">
-                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{{ sections.team_intro?.eyebrow ?? 'Liderazgo y Gestión' }}</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ sections.team_intro?.title ?? 'Nuestro Equipo' }}</h2>
-                    <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                        {{ sections.team_intro?.description ?? 'Contamos con un equipo multidisciplinario de profesionales apasionados por el cambio social, comprometidos con nuestros valores y enfocados en lograr resultados transformadores.' }}
-                    </p>
-                </div>
-
-                <!-- Team Layout (Director at top, others below) -->
-                <div class="space-y-12 flex flex-col items-center">
-                    
-                    <!-- Director Card (Top Row, Centered and Prominent) -->
-                    <div v-if="team.length > 0" class="flex justify-center w-full">
-                        <div 
-                            class="team-card"
-                            :style="{
-                                '--glow-start': glowProps.glowStart,
-                                '--glow-end': glowProps.glowEnd,
-                                '--glow-hover-start': glowProps.glowHoverStart,
-                                '--glow-hover-end': glowProps.glowHoverEnd,
-                                '--glow-shadow': glowProps.glowShadow,
-                                '--glow-shadow-hover': glowProps.glowShadowHover,
-                                '--glow-border-hover': glowProps.glowBorderHover,
-                                '--glow-ring': glowProps.glowRing,
-                                '--glow-ring-pulse': glowProps.glowRingPulse,
-                                '--bottom-bg-light': glowProps.bottomBgLight,
-                                '--bottom-bg-dark': glowProps.bottomBgDark
-                            }"
-                        >
-                            <div class="card-top">
-                                <div class="avatar">
-                                    <img 
-                                        :src="team[0].image_path" 
-                                        :alt="team[0].name" 
-                                        class="avatar-image" 
-                                    />
-                                </div>
-                            </div>
-                            <div class="card-bottom">
-                                <h3 class="name">{{ team[0].name }}</h3>
-                                <div class="inline-flex px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold mt-0.5 mb-1.5 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/20">
-                                    {{ team[0].role }}
-                                </div>
-                                <div class="w-[85%] border-t border-neutral-200/50 dark:border-neutral-800 my-1"></div>
-                                <p class="subunit">{{ team[0].department }}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Organigrama Connectors (Visible only on md screens and up) -->
-                    <div class="hidden md:flex flex-col items-center w-full max-w-5xl relative h-16 z-0 opacity-40 hover:opacity-70 transition-opacity duration-500 animate-[pulse_8s_cubic-bezier(0.4,0,0.6,1)_infinite]">
-                        <!-- Line going down from Director's Card -->
-                        <div class="w-[2px] h-8 bg-gradient-to-b from-indigo-500 to-indigo-500/40 dark:from-indigo-400 dark:to-indigo-400/40"></div>
-                        <!-- Horizontal connection bar stretching from left card center to right card center -->
-                        <div class="absolute top-8 left-[16.67%] right-[16.67%] h-[2px] bg-gradient-to-r from-transparent via-indigo-500 to-transparent dark:via-indigo-400"></div>
+        <!-- 3. TEAM SECTION (Scrollytelling pinned section) -->
+        <section ref="teamSectionRef" class="relative h-[250vh] lg:h-[350vh] bg-neutral-50/50 dark:bg-neutral-900/10 border-y border-neutral-200/55 dark:border-neutral-800/40">
+            <!-- Pinned Sticky Container (ocupa el alto de pantalla y queda fijo mientras se hace scroll) -->
+            <div class="sticky top-20 h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden w-full">
+                <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full relative">
                         
-                        <!-- Connecting lines going down to each Subunit -->
-                        <div class="absolute top-8 left-[16.67%] w-[2px] h-8 bg-gradient-to-b from-indigo-500 to-transparent dark:from-indigo-400"></div>
-                        <div class="absolute top-8 left-1/2 -translate-x-1/2 w-[2px] h-8 bg-gradient-to-b from-indigo-500 to-transparent dark:from-indigo-400"></div>
-                        <div class="absolute top-8 right-[16.67%] w-[2px] h-8 bg-gradient-to-b from-indigo-500 to-transparent dark:from-indigo-400"></div>
-                    </div>
+                        <!-- Left Column: Sticky Header (centrado verticalmente) -->
+                        <div class="lg:col-span-5 text-left space-y-4 lg:pr-8">
+                            <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Liderazgo y Gestión</span>
+                            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">Nuestro Equipo</h2>
+                            <div class="w-12 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></div>
+                            <p class="text-xs md:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+                                Contamos con un equipo multidisciplinario de profesionales apasionados por el cambio social, comprometidos con nuestros valores y enfocados en lograr resultados transformadores para nuestra comunidad universitaria y la región de Puno.
+                            </p>
 
-                    <!-- Subunits Grid (3 Columns) -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12 justify-items-center w-full max-w-5xl">
-                        <div 
-                            v-for="member in team.slice(1)" 
-                            :key="member.name" 
-                            class="team-card"
-                            :style="{
-                                '--glow-start': glowProps.glowStart,
-                                '--glow-end': glowProps.glowEnd,
-                                '--glow-hover-start': glowProps.glowHoverStart,
-                                '--glow-hover-end': glowProps.glowHoverEnd,
-                                '--glow-shadow': glowProps.glowShadow,
-                                '--glow-shadow-hover': glowProps.glowShadowHover,
-                                '--glow-border-hover': glowProps.glowBorderHover,
-                                '--glow-ring': glowProps.glowRing,
-                                '--glow-ring-pulse': glowProps.glowRingPulse,
-                                '--bottom-bg-light': glowProps.bottomBgLight,
-                                '--bottom-bg-dark': glowProps.bottomBgDark
-                            }"
-                        >
-                            <div class="card-top">
-                                <div class="avatar">
-                                    <img 
-                                        :src="member.image_path" 
-                                        :alt="member.name" 
-                                        class="avatar-image" 
-                                    />
-                                </div>
-                            </div>
-                            <div class="card-bottom">
-                                <h3 class="name">{{ member.name }}</h3>
-                                <div class="inline-flex px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold mt-0.5 mb-1.5 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/20">
-                                    {{ member.role }}
-                                </div>
-                                <div class="w-[85%] border-t border-neutral-200/50 dark:border-neutral-800 my-1"></div>
-                                <p class="subunit">{{ member.department }}</p>
+                            <!-- Navigation Dots Indicator -->
+                            <div class="flex items-center gap-2 pt-4">
+                                <button 
+                                    v-for="(member, idx) in team" 
+                                    :key="idx"
+                                    @click="scrollToCard(idx)"
+                                    class="h-2 rounded-full transition-all duration-300 cursor-pointer"
+                                    :class="activeCardIndex === idx ? 'w-8 bg-indigo-600 dark:bg-indigo-400' : 'w-2 bg-neutral-300 dark:bg-neutral-700'"
+                                    :aria-label="'Ver integrante ' + (idx + 1)"
+                                ></button>
                             </div>
                         </div>
+
+                        <!-- Right Column: Single Card Presentation with Transition Fade -->
+                        <div class="lg:col-span-7 flex items-center justify-center relative h-[450px] w-full">
+                            <template v-for="(member, index) in team" :key="member.name">
+                                <transition name="card-fade">
+                                    <div 
+                                        v-show="activeCardIndex === index"
+                                        class="team-card absolute group shadow-2xl"
+                                        :style="{
+                                            '--glow-shadow': member.glowShadow,
+                                            '--glow-shadow-hover': member.glowShadowHover,
+                                            '--tilt-angle': index % 2 === 0 ? '-2.5deg' : '2.5deg'
+                                        }"
+                                    >
+                                        <!-- Photo Frame Container (No overlays on image, fully visible portrait) -->
+                                        <div class="w-full h-[68%] rounded-2xl overflow-hidden bg-neutral-50 dark:bg-neutral-950 border border-neutral-200/60 dark:border-neutral-800/60 flex items-end justify-center relative">
+                                            <img 
+                                                :src="member.image" 
+                                                :alt="member.name" 
+                                                class="portrait-image" 
+                                            />
+                                        </div>
+
+                                        <!-- Details Area (Below the photo frame, no overlay covering the image) -->
+                                        <div class="w-full pt-4 px-1 flex flex-col items-center text-center">
+                                            <h3 class="name-label leading-tight">{{ member.name }}</h3>
+                                            <span class="inline-block px-2.5 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-widest bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 mb-1.5 mt-1.5">
+                                                {{ member.role }}
+                                            </span>
+                                            <p class="subunit-label line-clamp-2 max-w-[90%]">{{ member.department }}</p>
+                                        </div>
+                                    </div>
+                                </transition>
+                            </template>
+                        </div>
+
                     </div>
-
                 </div>
-
             </div>
         </section>
 
@@ -270,10 +420,10 @@ onMounted(() => {
                 
                 <!-- Centered Header -->
                 <div class="text-center max-w-3xl mx-auto space-y-4">
-                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{{ sections.objectives_intro?.eyebrow ?? 'Plan de Desarrollo' }}</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ sections.objectives_intro?.title ?? 'Objetivos Estratégicos' }}</h2>
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Plan de Desarrollo</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Objetivos Estratégicos</h2>
                     <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                        {{ sections.objectives_intro?.description ?? 'Trazamos metas específicas a corto y mediano plazo para garantizar que nuestra labor tenga un impacto medible, estructurado y sostenible en la sociedad puneña.' }}
+                        Trazamos metas específicas a corto y mediano plazo para garantizar que nuestra labor tenga un impacto medible, estructurado y sostenible en la sociedad puneña.
                     </p>
                 </div>
 
@@ -287,8 +437,8 @@ onMounted(() => {
                         <span class="absolute top-4 right-6 text-[10px] font-black text-neutral-300 dark:text-neutral-700 select-none">
                             0{{ index + 1 }}
                         </span>
-                        <div class="p-3 rounded-xl shrink-0" :class="obj.color_class">
-                            <component :is="iconMap[obj.icon_name]" class="size-5" />
+                        <div class="p-3 rounded-xl shrink-0" :class="obj.color">
+                            <component :is="obj.icon" class="size-5" />
                         </div>
                         <div class="space-y-1">
                             <h3 class="text-sm font-extrabold text-neutral-900 dark:text-white leading-tight">
@@ -325,7 +475,7 @@ onMounted(() => {
                     >
                         <div class="flex items-center gap-2.5">
                             <div class="p-2.5 rounded-lg text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 shrink-0">
-                                <component :is="iconMap[obj.icon_name]" class="size-4.5" />
+                                <component :is="obj.icon" class="size-4.5" />
                             </div>
                             <span class="text-[9px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Objetivo 0{{ index + 1 }}</span>
                         </div>
@@ -343,47 +493,82 @@ onMounted(() => {
                 
                 <!-- Section Header -->
                 <div class="text-center max-w-3xl mx-auto space-y-4">
-                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{{ sections.values_intro?.eyebrow ?? 'Filosofía de Trabajo' }}</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ sections.values_intro?.title ?? 'Valores Institucionales' }}</h2>
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Filosofía de Trabajo</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Valores Institucionales</h2>
                     <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-                        {{ sections.values_intro?.description ?? 'Nuestra cultura organizacional se cimenta sobre principios éticos que guían cada proyecto, voluntariado y expresión cultural.' }}
+                        Nuestra cultura organizacional se cimenta sobre principios éticos que guían cada proyecto, voluntariado y expresión cultural.
                     </p>
                 </div>
 
-                <!-- Values Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div 
-                        v-for="(val, index) in values" 
-                        :key="val.title" 
-                        class="group relative overflow-hidden p-8 rounded-3xl border border-neutral-200/60 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 flex flex-col justify-between text-left h-[260px]"
-                    >
-                        <!-- Background Light Glow (Hover effect) -->
-                        <div class="absolute -right-16 -top-16 size-36 rounded-full blur-3xl opacity-20 group-hover:opacity-45 transition-opacity duration-500" :class="val.glow_bg_class"></div>
-                        
-                        <!-- Large Transparent Background Number -->
-                        <div class="absolute right-6 bottom-4 text-7xl font-black text-neutral-100 dark:text-neutral-800/10 select-none group-hover:scale-110 group-hover:text-neutral-200/30 dark:group-hover:text-neutral-800/25 transition-all duration-500">
-                            0{{ index + 1 }}
-                        </div>
+                <!-- Continuous Marquee Carousel for Values -->
+                <div class="relative w-full select-none">
+                    <!-- Ambient fading gradients on the left and right edges for a premium vignette look -->
+                    <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-neutral-50 dark:from-neutral-900 to-transparent z-10 pointer-events-none"></div>
+                    <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-neutral-50 dark:from-neutral-900 to-transparent z-10 pointer-events-none"></div>
 
-                        <div class="relative z-10 space-y-6">
-                            <!-- Icon with colorful bubble background -->
-                            <div class="inline-flex size-14 rounded-2xl items-center justify-center shadow-md transition-transform duration-500 group-hover:rotate-12" :class="val.icon_container_class">
-                                <component :is="iconMap[val.icon_name]" class="size-7" />
+                    <!-- Marquee Track Wrapper (With vertical padding to prevent 3D flip scale clipping) -->
+                    <div class="marquee-wrapper flex w-full overflow-hidden py-12">
+                        <div class="marquee-track flex gap-8 animate-marquee">
+                            
+                            <!-- Duplicate items once so the marquee loop is seamless -->
+                            <div 
+                                v-for="(val, index) in [...values, ...values]" 
+                                :key="val.title + '-' + index" 
+                                class="value-placard-container flex flex-col items-center shrink-0 w-[260px] h-[310px]"
+                                :style="{ '--label-tilt': index % 2 === 0 ? '-3.5deg' : '3.5deg' }"
+                            >
+                                <!-- The Placard Card with 3D Flip capability (Larger, h-[310px]) -->
+                                <div class="value-card w-full h-[310px] relative z-10">
+                                    <div class="card-inner w-full h-full">
+                                        
+                                        <!-- FRONT SIDE -->
+                                        <div class="card-front bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 shadow-md">
+                                            <!-- Top Portion: Tilted Color Label for Icon & Title only (shorter, h-[30%], text-[14px]) -->
+                                            <div class="tilted-label h-[30%] w-[106%] -ml-[3%] -mt-[2%] rounded-2xl flex items-center justify-between px-4 py-2 text-white shadow-md z-20" :class="val.headerBg">
+                                                <div class="flex items-center gap-2">
+                                                    <!-- Icon with frosted glass backing -->
+                                                    <div class="inline-flex size-8 rounded-lg items-center justify-center bg-white/20 border border-white/20 shadow-xs shrink-0">
+                                                        <component :is="val.icon" class="size-4.5" />
+                                                    </div>
+                                                    <h3 class="font-extrabold text-[14px] tracking-wide leading-tight">
+                                                        {{ val.title }}
+                                                    </h3>
+                                                </div>
+                                                <!-- Indicator number -->
+                                                <span class="text-[9px] font-black text-white/40 tracking-widest select-none shrink-0">
+                                                    0{{ (index % values.length) + 1 }}
+                                                </span>
+                                            </div>
+
+                                            <!-- Bottom Portion: Photograph Image (Larger, h-[70%], straight, no tilt) -->
+                                            <div class="h-[70%] w-full overflow-hidden relative z-10 rounded-b-3xl">
+                                                <img 
+                                                    :src="val.image" 
+                                                    :alt="val.title" 
+                                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                                                />
+                                                <div class="absolute inset-0 bg-neutral-950/10 pointer-events-none"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- BACK SIDE (Shows value description - larger font sizes) -->
+                                        <div class="card-back bg-neutral-50 dark:bg-neutral-950 border border-neutral-200/80 dark:border-neutral-800/80 shadow-lg p-6 flex flex-col justify-center items-center text-center">
+                                            <div class="inline-flex size-10 rounded-xl items-center justify-center border border-current shadow-xs" :class="val.iconContainerClass">
+                                                <component :is="val.icon" class="size-5.5" />
+                                            </div>
+                                            <h4 class="font-extrabold text-base text-neutral-900 dark:text-white mt-3.5 leading-tight">
+                                                {{ val.title }}
+                                            </h4>
+                                            <p class="text-[12px] text-neutral-600 dark:text-neutral-300 mt-2.5 leading-relaxed font-normal">
+                                                {{ val.description }}
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- Content -->
-                            <div class="space-y-3">
-                                <h3 class="font-extrabold text-xl text-neutral-900 dark:text-white leading-tight">
-                                    {{ val.title }}
-                                </h3>
-                                <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed max-w-[85%]">
-                                    {{ val.description }}
-                                </p>
-                            </div>
                         </div>
-
-                        <!-- Decorative Bottom Color Accent Line -->
-                        <div class="absolute bottom-0 left-0 h-1.5 w-0 group-hover:w-full transition-all duration-500" :class="val.accent_line_class"></div>
                     </div>
                 </div>
 
@@ -406,148 +591,212 @@ onMounted(() => {
   transform: translateY(0);
 }
 
-/* ===== CARDS DE EQUIPO PREMIUM (ESTILO DE SANDBOX - PURPLE EDITION) ===== */
+/* ===== PORTRAIT PHOTO STYLE (REAL PICTURE FRAME EDITION) ===== */
 .team-card {
-  position: relative;
-  width: 270px;
-  height: 380px;
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow: 0 15px 35px var(--glow-shadow, rgba(99, 102, 241, 0.05));
-  overflow: hidden;
-  transform-style: preserve-3d;
-  perspective: 800px;
-  transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-              box-shadow 0.45s ease,
-              border-color 0.45s ease;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 370px;
+  height: 390px;
+  padding: 12px;
+  border-radius: 20px;
+  background: #ffffff;
+  /* Thick white border like a real photo frame */
+  border: 12px solid #ffffff;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 
+              0 0 0 1px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   z-index: 10;
+  transform: rotate(var(--tilt-angle, 2.5deg));
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.4s ease;
 }
 
 .dark .team-card {
-  background: rgba(24, 24, 27, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  background: #18181b;
+  border: 12px solid #18181b;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+              0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 .team-card:hover {
-  transform: translateY(-14px) scale(1.02) rotateX(2deg);
-  box-shadow: 0 30px 50px var(--glow-shadow-hover, rgba(99, 102, 241, 0.15)), 0 0 30px var(--glow-shadow, rgba(99, 102, 241, 0.08));
+  /* Keep the tilt on hover, but scale slightly and elevate */
+  transform: translateY(-8px) scale(1.02) rotate(var(--tilt-angle, 2.5deg));
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.22);
 }
 
-.card-top {
-  display: flex;
-  justify-content: center;
-  padding-top: 25px;
-  width: 100%;
-  flex-shrink: 0;
-  z-index: 1;
-}
-
-.avatar {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  height: 220px;
-  width: 100%;
-  animation: floatIdle 4.5s ease-in-out infinite;
-}
-
-.avatar-image {
-  position: relative;
-  height: 100%;
+.portrait-image {
+  height: 98%;
   width: auto;
-  max-width: 260px;
+  max-width: 98%;
   object-fit: contain;
   object-position: bottom;
-  z-index: 2;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  filter: drop-shadow(0 15px 20px var(--glow-shadow, rgba(99, 102, 241, 0.12)));
+  transition: transform 0.4s ease;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.08));
 }
 
-.team-card:hover .avatar-image {
-  transform: scale(1.08) translateY(-5px);
+.team-card:hover .portrait-image {
+  transform: scale(1.03);
 }
 
-/* Barra Inferior */
-.card-bottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 150px; 
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), var(--bottom-bg-light, rgba(238, 242, 255, 0.88)));
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border-top: 1.5px solid rgba(255, 255, 255, 1);
-  border-radius: 0px 0px 28px 28px;
-  box-shadow: 0 -10px 30px var(--glow-shadow, rgba(99, 102, 241, 0.04));
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 0 20px; 
-  padding-bottom: 10px; 
-  box-sizing: border-box;
-  transition: background 0.3s ease;
-  z-index: 3;
-}
-
-.dark .card-bottom {
-  background: linear-gradient(135deg, rgba(24, 24, 27, 0.95), var(--bottom-bg-dark, rgba(15, 23, 42, 0.90)));
-  border-top: 1.5px solid rgba(255, 255, 255, 0.08);
-}
-
-.name {
-  margin: 0 0 6px 0;
-  font-size: 1.15rem; 
-  font-weight: 700;
+.name-label {
+  margin: 0;
+  font-size: 1.05rem; 
+  font-weight: 850;
   color: #0f172a;
   letter-spacing: -0.3px;
   line-height: 1.2;
-  transition: transform 0.3s ease;
 }
 
-.dark .name {
-  color: #f1f5f9;
+.dark .name-label {
+  color: #f8fafc;
 }
 
-.team-card:hover .name {
-  transform: translateY(-2px);
-}
-
-.role {
+.subunit-label {
   margin: 0;
-  font-size: 0.72rem;
-  font-weight: 850;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  box-sizing: border-box;
-}
-
-.subunit {
-  margin: 0;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 500;
-  color: #71717a; 
+  color: #64748b; 
   line-height: 1.3;
-  max-width: 90%; 
 }
 
-.dark .subunit {
-  color: #a1a1aa;
+.dark .subunit-label {
+  color: #94a3b8;
+}
+
+/* ===== CARD FADE TRANSITION ===== */
+/* Nota: Puedes cambiar '0.32s' por cualquier otro tiempo para ajustar la velocidad */
+.card-fade-enter-active,
+.card-fade-leave-active {
+  transition: opacity 0.32s ease-out,
+              transform 0.32s cubic-bezier(0.25, 1, 0.5, 1),
+              filter 0.32s ease-out;
+}
+
+.card-fade-enter-from {
+  opacity: 0;
+  /* Mantiene exactamente la misma escala y rotación para evitar saltos y desplazamientos laterales */
+  transform: translateY(100px) rotate(var(--tilt-angle, 2.5deg));
+  filter: blur(5px);
+}
+
+.card-fade-leave-to {
+  opacity: 0;
+  /* Mantiene la rotación constante mientras se desliza hacia arriba */
+  transform: translateY(-100px) rotate(var(--tilt-angle, 2.5deg));
+  filter: blur(5px);
 }
 
 @keyframes floatIdle {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
+}
+
+/* ===== INFINITE MARQUEE CAROUSEL ===== */
+.marquee-wrapper {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+.marquee-track {
+  display: flex;
+  animation: marquee 30s linear infinite;
+  will-change: transform;
+}
+
+/* Pausa el deslizamiento al hacer hover sobre el carrusel */
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ===== 3D CARD FLIP STYLING ===== */
+.value-card {
+  perspective: 1000px;
+  border-radius: 24px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+/* Al hacer hover: rotación de 180 grados sobre el eje Y para mostrar la descripción */
+.value-placard-container:hover .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.card-front {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 1;
+}
+
+/* Etiqueta inclinada por defecto (solo se inclina el cartel de color, no la foto ni la carta al hacer hover) */
+.tilted-label {
+  transform: rotate(var(--label-tilt, -3.5deg));
+  transform-origin: center center;
+  transition: transform 0.3s ease;
+}
+
+.value-placard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+/* Al hacer hover: se hace más grande, se eleva y gira en 3D, pero se mantiene recto en el eje Z para mejor lectura */
+.value-placard-container:hover {
+  transform: scale(1.10) translateY(-8px);
+  z-index: 50;
+}
+
+.value-placard-container:hover .value-card {
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.45);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.dark .value-placard-container:hover .value-card {
+  border-color: rgba(99, 102, 241, 0.4);
 }
 </style>

@@ -4,6 +4,7 @@ import {
     Filter, 
     Calendar, 
     MapPin, 
+    Users, 
     PlusCircle,
     UserCheck,
     CheckCircle,
@@ -15,42 +16,7 @@ import {
 import { ref, computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/PublicLayout.vue';
-
-interface EventItem {
-    id: number;
-    title: string;
-    type: string;
-    category: string;
-    status: 'Proximos' | 'EnCurso' | 'Pasados';
-    status_label: string;
-    status_color: string;
-    event_date: string;
-    time: string;
-    location: string;
-    organizer: string;
-    description: string;
-    image_path: string;
-    fb_link: string;
-    is_proyeccion_social: boolean;
-}
-
-interface FaqItem {
-    question: string;
-    answer: string;
-}
-
-interface SectionItem {
-    eyebrow?: string;
-    title?: string;
-    description?: string;
-    background_image?: string;
-}
-
-const props = defineProps<{
-    events: EventItem[];
-    faqs: FaqItem[];
-    sections: Record<string, SectionItem>;
-}>();
+import { eventsList } from '@/lib/eventsData';
 
 // Modal states
 const selectedActivity = ref<any>(null);
@@ -65,7 +31,7 @@ const closeActivityModal = () => {
     isModalOpen.value = false;
 };
 
-// Categories
+// Mock Categories
 const categories = ['Todos', 'Proyección Social', 'Extensión Cultural', 'Voluntariado Universitario'];
 
 // Selected filters
@@ -73,8 +39,12 @@ const search = ref('');
 const activeCategory = ref('Todos');
 const activeStatus = ref('Todos');
 
+// Filter shared activities specifically for Proyección Social
+const activities = eventsList.filter(e => e.isProyeccionSocial);
+
+// Computed list based on search and filters
 const filteredActivities = computed(() => {
-    return props.events.filter(activity => {
+    return activities.filter(activity => {
         const matchesSearch = activity.title.toLowerCase().includes(search.value.toLowerCase()) || 
                               activity.description.toLowerCase().includes(search.value.toLowerCase()) ||
                               activity.location.toLowerCase().includes(search.value.toLowerCase());
@@ -85,29 +55,38 @@ const filteredActivities = computed(() => {
     });
 });
 
-const formatDate = (dateStr: string) => {
-    if (!dateStr) return '';
-    const date = new Date(dateStr);
-    const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-    return `${date.getDate()} de ${months[date.getMonth()]}`;
-};
+// FAQ list
+const faqs = [
+    {
+        question: '¿Quiénes deben realizar Proyección Social en la UNA Puno?',
+        answer: 'De acuerdo al estatuto universitario de la UNA Puno, todos los estudiantes de pregrado deben cumplir con horas de proyección social acreditadas por su respectiva Facultad antes del egreso.'
+    },
+    {
+        question: '¿Cómo inscribirse en el Programa de Voluntariado Universitario?',
+        answer: 'Las convocatorias se abren semestralmente a través de esta web y de la página oficial de Facebook DPESEC. Solo requieres estar matriculado en el semestre académico correspondiente.'
+    },
+    {
+        question: '¿Cómo se registra y acredita un proyecto social independiente?',
+        answer: 'El docente coordinador debe presentar la propuesta del proyecto mediante Mesa de Partes dirigida a la DPESEC, adjuntando el plan de trabajo con la lista de alumnos participantes y presupuesto sustentado.'
+    }
+];
 </script>
 
 <template>
     <PublicLayout title="Proyección Social y Extensión Cultural">
         <!-- Hero Header -->
         <section 
-            class="relative h-[45vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
-            :style="sections.hero?.background_image ? { backgroundImage: `url(${sections.hero.background_image})` } : {}"
+            class="relative h-[65vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
+            style="background-image: url('https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/497616302_715522607495641_394883363488073294_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGrI1hDDYVjrJNw-q73inREMVdmvrNJwvIxV2a-s0nC8obUc7wSTwwkX8Pxeq4MnCjDhI9a_eEo44qzhHSIgsCp&_nc_ohc=Cs1YIslMJ30Q7kNvwEZo9RQ&_nc_oc=AdqHTCfnk7CGKzQOFhEfpy6m8Uw2sgaalYy2g9ueKbkMHo5j_romXa4UrGKW_Ajkq3Q&_nc_zt=23&_nc_ht=scontent.fjul1-1.fna&_nc_gid=8sQPwbXLoPgX_hlxlS0n_g&_nc_ss=7b2a8&oh=00_AQAo7iP5pkUZGWDtJHRiRIMhfPmqMBGbMt5oBEQx0W7Pcg&oe=6A5484CF');"
         >
             <!-- Gradient Overlay for readability -->
             <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/90 via-neutral-950/70 to-transparent z-10"></div>
             
             <div class="max-w-7xl mx-auto w-full px-6 lg:px-8 text-left relative z-20 space-y-3">
-                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">{{ sections.hero?.eyebrow ?? 'Oficina Principal' }}</span>
-                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ sections.hero?.title ?? 'Proyección Social y Extensión Cultural' }}</h1>
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">Oficina Principal</span>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Proyección Social y Extensión Cultural</h1>
                 <p class="text-xs md:text-sm text-white/80 max-w-3xl leading-relaxed">
-                    {{ sections.hero?.description ?? 'Planificamos, organizamos y evaluamos las acciones de proyección social y extensión cultural de las Escuelas Profesionales de la UNA Puno para lograr el desarrollo integral y sostenido de la sociedad.' }}
+                    Planificamos, organizamos y evaluamos las acciones de proyección social y extensión cultural de las Escuelas Profesionales de la UNA Puno para lograr el desarrollo integral y sostenido de la sociedad.
                 </p>
             </div>
         </section>
@@ -211,7 +190,7 @@ const formatDate = (dateStr: string) => {
                         <!-- Image Section -->
                         <div class="h-52 relative overflow-hidden bg-neutral-150 dark:bg-neutral-950 shrink-0">
                             <img 
-                                :src="act.image_path" 
+                                :src="act.image" 
                                 :alt="act.title" 
                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
                             />
@@ -220,8 +199,8 @@ const formatDate = (dateStr: string) => {
                                 <span class="text-[9px] font-extrabold uppercase tracking-wider px-2.5 py-1.5 rounded-lg bg-white/95 dark:bg-neutral-950/95 text-indigo-600 dark:text-indigo-400 shadow-xs border border-neutral-200/30 dark:border-neutral-800/30">
                                     {{ act.category }}
                                 </span>
-                                <span class="text-[9px] font-extrabold uppercase tracking-wider px-2.5 py-1.5 rounded-lg text-white shadow-xs" :class="act.status_color">
-                                    {{ act.status_label }}
+                                <span class="text-[9px] font-extrabold uppercase tracking-wider px-2.5 py-1.5 rounded-lg text-white shadow-xs" :class="act.statusColor">
+                                    {{ act.status }}
                                 </span>
                             </div>
                         </div>
@@ -233,7 +212,7 @@ const formatDate = (dateStr: string) => {
                                 <div class="flex items-center gap-2.5 text-[11px] text-neutral-500 dark:text-neutral-400 font-semibold">
                                     <span class="flex items-center gap-1">
                                         <Calendar class="size-3.5 text-indigo-600/70 dark:text-indigo-400/70" />
-                                        {{ formatDate(act.event_date) }}
+                                        {{ act.date }}
                                     </span>
                                     <span class="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700"></span>
                                     <span class="flex items-center gap-1">
@@ -299,7 +278,7 @@ const formatDate = (dateStr: string) => {
                     <div class="grid grid-cols-1 md:grid-cols-12 w-full h-full">
                         <!-- Left side: Image -->
                         <div class="md:col-span-5 relative h-[180px] sm:h-[220px] md:h-full overflow-hidden bg-neutral-100 dark:bg-neutral-950 shrink-0">
-                            <img :src="selectedActivity.image_path" :alt="selectedActivity.title" class="w-full h-full object-cover" />
+                            <img :src="selectedActivity.image" :alt="selectedActivity.title" class="w-full h-full object-cover" />
                             <div class="absolute top-4 left-4 flex gap-1.5 flex-wrap">
                                 <span class="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-indigo-600 text-white shadow-md">
                                     {{ selectedActivity.category }}
@@ -314,9 +293,9 @@ const formatDate = (dateStr: string) => {
                                 <div class="flex items-center justify-between">
                                     <span 
                                         class="text-[10px] font-extrabold uppercase tracking-widest px-2.5 py-1 rounded-md"
-                                        :class="selectedActivity.status_color"
+                                        :class="selectedActivity.statusColor"
                                     >
-                                        {{ selectedActivity.status_label }}
+                                        {{ selectedActivity.status }}
                                     </span>
                                     
                                     <!-- Close Button -->
@@ -335,8 +314,8 @@ const formatDate = (dateStr: string) => {
 
                                 <!-- Coordinator -->
                                 <div class="flex flex-wrap items-center gap-1 text-[11px] sm:text-xs text-neutral-400">
-                                    <span class="font-bold text-neutral-600 dark:text-neutral-300">Organizador:</span>
-                                    <span>{{ selectedActivity.organizer }}</span>
+                                    <span class="font-bold text-neutral-600 dark:text-neutral-300">Coordinador:</span>
+                                    <span>{{ selectedActivity.coordinator }}</span>
                                 </div>
 
                                 <!-- Divider -->
@@ -346,11 +325,15 @@ const formatDate = (dateStr: string) => {
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                                     <div class="flex items-center gap-2 text-neutral-600 dark:text-neutral-300 sm:col-span-2">
                                         <Calendar class="size-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
-                                        <span class="font-semibold">{{ formatDate(selectedActivity.event_date) }}</span>
+                                        <span class="font-semibold">{{ selectedActivity.date }}</span>
                                     </div>
                                     <div class="flex items-start gap-2 text-neutral-600 dark:text-neutral-300 sm:col-span-2">
                                         <MapPin class="size-4 text-red-500 shrink-0 mt-0.5" />
                                         <span class="leading-tight">{{ selectedActivity.location }}</span>
+                                    </div>
+                                    <div class="flex items-start gap-2 text-neutral-600 dark:text-neutral-300 sm:col-span-2">
+                                        <Users class="size-4 text-indigo-600 dark:text-indigo-400 shrink-0 mt-0.5" />
+                                        <span class="leading-tight">Beneficiarios: {{ selectedActivity.beneficiaries }}</span>
                                     </div>
                                 </div>
 
@@ -368,15 +351,13 @@ const formatDate = (dateStr: string) => {
 
                             <!-- Footer Actions -->
                             <div class="border-t border-neutral-100 dark:border-neutral-800/80 pt-4 mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                                <a :href="selectedActivity.fb_link || 'https://www.facebook.com/ProyeccionSocialUNAPuno'" target="_blank" class="w-full sm:w-auto" @click.stop>
-                                    <Button size="sm" class="w-full sm:w-auto rounded-xl bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer">
-                                        <UserCheck class="size-3.5" />
-                                        Inscribirse/Participar
-                                    </Button>
-                                </a>
+                                <Button size="sm" class="w-full sm:w-auto rounded-xl bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer" @click.stop>
+                                    <UserCheck class="size-3.5" />
+                                    Inscribirse/Participar
+                                </Button>
 
                                 <a 
-                                    :href="selectedActivity.fb_link || 'https://www.facebook.com/ProyeccionSocialUNAPuno'" 
+                                    href="https://www.facebook.com/ProyeccionSocialUNAPuno" 
                                     target="_blank" 
                                     class="text-xs text-neutral-400 hover:text-blue-500 transition-colors flex items-center gap-1"
                                     @click.stop

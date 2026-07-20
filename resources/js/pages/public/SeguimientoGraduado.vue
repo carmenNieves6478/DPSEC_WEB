@@ -5,17 +5,6 @@ import { ref } from 'vue';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
-interface SectionItem {
-    eyebrow?: string;
-    title?: string;
-    description?: string;
-    background_image?: string;
-}
-
-defineProps<{
-    sections: Record<string, SectionItem>;
-}>();
-
 const email = ref('');
 const subscribed = ref(false);
 
@@ -33,17 +22,17 @@ const handleSubscribe = (e: Event) => {
     <PublicLayout title="Seguimiento al Graduado">
         <!-- Hero Header -->
         <section 
-            class="relative h-[45vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
-            :style="sections.hero?.background_image ? { backgroundImage: `url(${sections.hero.background_image})` } : {}"
+            class="relative h-[65vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
+            style="background-image: url('https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/605296083_769669972809513_1888138256417761411_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1267&ctp=s2048x1267&_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeErCVDX-2bhd-oXj91oxi8uP3zmIbV9bRQ_fOYhtX1tFEc26QCfmlKGVmIt8eHzOj4lP3fH8TmfbOE-Qa7r3CBf&_nc_ohc=y4O89CSTX3kQ7kNvwFpldty&_nc_oc=AdpXVqBXvCSHpZcxdtDOuOmzbcQxOARxVFWoV-b-eBj1cMdhr10LjIsIwnH7cQ57iro&_nc_zt=23&_nc_ht=scontent.fjul1-1.fna&_nc_gid=TRYXVfnqnL40UwnauglLhg&_nc_ss=7b2a8&oh=00_AQB07yMVCLvM2dYj9ZC6nRoS-85sQQP7yXNsWz-wd2SgUA&oe=6A5470B5');"
         >
             <!-- Gradient Overlay for readability -->
             <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/90 via-neutral-950/70 to-transparent z-10"></div>
             
             <div class="max-w-7xl mx-auto w-full px-6 lg:px-8 text-left relative z-20 space-y-3">
-                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">{{ sections.hero?.eyebrow ?? 'Sub Unidad' }}</span>
-                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ sections.hero?.title ?? 'Seguimiento al Graduado' }}</h1>
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">Sub Unidad</span>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Seguimiento al Graduado</h1>
                 <p class="text-xs md:text-sm text-white/80 max-w-3xl leading-relaxed">
-                    {{ sections.hero?.description ?? 'Vinculación profesional y acompañamiento al egresado de la Universidad Nacional del Altiplano en su inserción al mercado laboral.' }}
+                    Vinculación profesional y acompañamiento al egresado de la Universidad Nacional del Altiplano en su inserción al mercado laboral.
                 </p>
             </div>
         </section>

@@ -12,66 +12,96 @@ import { ref, computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
-interface DocumentItem {
-    id: number;
-    title: string;
-    code: string;
-    category: string;
-    published_date: string;
-    description: string;
-    file_path?: string;
-}
-
-interface SectionItem {
-    eyebrow?: string;
-    title?: string;
-    description?: string;
-    background_image?: string;
-}
-
-const props = defineProps<{
-    documents: DocumentItem[];
-    sections: Record<string, SectionItem>;
-}>();
-
 const search = ref('');
 const activeCategory = ref('Todos');
 
 const categories = ['Todos', 'Resoluciones', 'Directivas', 'Reglamentos', 'Guías y Formatos'];
 
+// Mock documents for DPESEC UNA Puno
+const documents = [
+    {
+        id: 1,
+        title: 'Directiva N° 004-2026-DPESEC: Disposiciones para Proyectos de Proyección Social y Extensión Cultural',
+        code: 'DIR-004-2026-DPESEC',
+        category: 'Directivas',
+        date: '15 Ene 2026',
+        size: '1.8 MB',
+        description: 'Establece los lineamientos técnicos, metodológicos y plazos para la formulación, registro, ejecución y evaluación de proyectos sociales.'
+    },
+    {
+        id: 2,
+        title: 'Resolución Rectoral N° 1024-2026-R-UNAP: Aprobación del Reglamento General de Extensión Universitaria',
+        code: 'RR-1024-2026-R-UNAP',
+        category: 'Resoluciones',
+        date: '04 Mar 2026',
+        size: '2.4 MB',
+        description: 'Ratifica el estatuto actualizado y el nuevo reglamento de proyección y extensión, adaptado a la ley universitaria vigente.'
+    },
+    {
+        id: 3,
+        title: 'Guía Práctica para la Redacción de Informes Finales de Proyección Social',
+        code: 'GUIA-01-2026-DPESEC',
+        category: 'Guías y Formatos',
+        date: '10 May 2026',
+        size: '950 KB',
+        description: 'Manual paso a paso que describe el formato requerido para la presentación de los informes de impacto y beneficiarios.'
+    },
+    {
+        id: 4,
+        title: 'Formato F-01: Solicitud de Registro de Proyecto de Voluntariado Universitario',
+        code: 'FORM-F01-VOL',
+        category: 'Guías y Formatos',
+        date: '12 Ene 2026',
+        size: '120 KB',
+        description: 'Ficha obligatoria a presentar por el docente coordinador para inscribir proyectos de voluntariado ante la DPESEC.'
+    },
+    {
+        id: 5,
+        title: 'Resolución Rectoral N° 0512-2026-R-UNAP: Acreditación de Horas del Voluntariado Ambiental 2025-II',
+        code: 'RR-0512-2026-R-UNAP',
+        category: 'Resoluciones',
+        date: '28 Feb 2026',
+        size: '3.1 MB',
+        description: 'Resolución rectoral que formaliza el reconocimiento de horas académicas a los estudiantes participantes del ciclo anterior.'
+    },
+    {
+        id: 6,
+        title: 'Reglamento Interno de Funciones de la Dirección de Proyección Social (ROF)',
+        code: 'REG-ROF-DPESEC',
+        category: 'Reglamentos',
+        date: '20 Dic 2025',
+        size: '4.2 MB',
+        description: 'Estructura orgánica, deberes y atribuciones de la dirección principal y sus respectivas SubUnidades administrativas.'
+    }
+];
+
 const filteredDocuments = computed(() => {
-    return props.documents.filter(doc => {
+    return documents.filter(doc => {
         const matchesSearch = doc.title.toLowerCase().includes(search.value.toLowerCase()) || 
                               doc.code.toLowerCase().includes(search.value.toLowerCase()) || 
                               doc.description.toLowerCase().includes(search.value.toLowerCase());
         const matchesCategory = activeCategory.value === 'Todos' || doc.category === activeCategory.value;
+
         return matchesSearch && matchesCategory;
     });
 });
-
-const formatDate = (dateStr: string) => {
-    if (!dateStr) return '';
-    const date = new Date(dateStr);
-    const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-    return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
-};
 </script>
 
 <template>
     <PublicLayout title="Documentos Oficiales">
         <!-- Hero Header -->
         <section 
-            class="relative h-[45vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
-            :style="sections.hero?.background_image ? { backgroundImage: `url(${sections.hero.background_image})` } : {}"
+            class="relative h-[65vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
+            style="background-image: url('https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/542755889_802384058809495_3360460449534539912_n.jpg?stp=dst-jpg_tt6&cstp=mx1587x1070&ctp=s1587x1070&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGK8nkkJ7s06V2ZTVhy2TeTOd4IIEV67rI53gggRXrusmZbd7XsoGiigDXbN-hIbBQHBUWnZ-k3RejgeSlnDk7N&_nc_ohc=t-uGLIpD9dUQ7kNvwEoC1df&_nc_oc=Adp5CetGnPE31yY4gVz-csYuAzdfbewcaHaxtC2fKxIF0tcfvEtdZDdvwGnRhjej2ek&_nc_zt=23&_nc_ht=scontent.fjul1-1.fna&_nc_gid=9slzNv_uaYRWr2IuZG-1nA&_nc_ss=7b2a8&oh=00_AQAedMPmXVlTlw5RV1VhOKPG8VAPcJvOKeETee504zDo8Q&oe=6A548F4B');"
         >
             <!-- Gradient Overlay for readability -->
             <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/90 via-neutral-950/70 to-transparent z-10"></div>
             
             <div class="max-w-7xl mx-auto w-full px-6 lg:px-8 text-left relative z-20 space-y-3">
-                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">{{ sections.hero?.eyebrow ?? 'Normativa y Transparencia' }}</span>
-                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">{{ sections.hero?.title ?? 'Centro de Documentos' }}</h1>
+                <span class="text-xs font-bold uppercase tracking-widest text-blue-400">Normativa y Transparencia</span>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Centro de Documentos</h1>
                 <p class="text-xs md:text-sm text-white/80 max-w-3xl leading-relaxed">
-                    {{ sections.hero?.description ?? 'Consulta y descarga reglamentos, resoluciones, directivas vigentes y los formatos oficiales requeridos para las actividades de proyección social de la UNA Puno.' }}
+                    Consulta y descarga reglamentos, resoluciones, directivas vigentes y los formatos oficiales requeridos para las actividades de proyección social de la UNA Puno.
                 </p>
             </div>
         </section>
@@ -173,22 +203,19 @@ const formatDate = (dateStr: string) => {
                             <div class="flex items-center gap-3 text-xs text-neutral-400 pt-1">
                                 <span class="flex items-center gap-1">
                                     <Calendar class="size-3.5" />
-                                    {{ formatDate(doc.published_date) }}
+                                    {{ doc.date }}
                                 </span>
+                                <span class="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700"></span>
+                                <span>Tamaño: {{ doc.size }}</span>
                             </div>
                         </div>
 
-                        <!-- Download button -->
+                        <!-- Download button mock -->
                         <div class="shrink-0 flex items-center">
-                            <a 
-                                v-if="doc.file_path"
-                                :href="doc.file_path" 
-                                target="_blank"
-                                class="inline-flex items-center justify-center gap-2 rounded-xl bg-neutral-950 hover:bg-neutral-900 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100 px-5 py-2.5 text-xs font-bold text-white transition-colors cursor-pointer"
-                            >
+                            <Button class="rounded-xl bg-neutral-950 hover:bg-neutral-900 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100 flex items-center gap-2 w-full md:w-auto px-5 cursor-pointer">
                                 <Download class="size-4" />
                                 Descargar PDF
-                            </a>
+                            </Button>
                         </div>
                     </div>
                 </div>

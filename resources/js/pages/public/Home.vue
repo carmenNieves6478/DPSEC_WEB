@@ -1,91 +1,26 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import {
+    Award,
     Calendar,
+    Users,
     ArrowRight,
     FileText,
+    Heart,
+    Leaf,
     MapPin,
+    FlameKindling,
     ChevronRight,
+    TrendingUp,
     ExternalLink,
     X,
-    UserCheck,
-    Award,
-    Leaf,
-    Users
+    UserCheck
 } from '@lucide/vue';
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { Button } from '@/components/ui/button';
 import PublicLayout from '@/layouts/PublicLayout.vue';
-import { iconMap } from '@/lib/iconMap';
 
-interface EventItem {
-    id: number;
-    title: string;
-    type: string;
-    category: string;
-    status: 'Proximos' | 'EnCurso' | 'Pasados';
-    status_label: string;
-    status_color: string;
-    event_date: string;
-    time: string;
-    location: string;
-    organizer: string;
-    description: string;
-    image_path: string;
-    fb_link: string;
-    is_proyeccion_social: boolean;
-}
-
-interface DocumentItem {
-    id: number;
-    title: string;
-    code: string;
-    category: string;
-    published_date: string;
-    file_size: string;
-    description: string;
-}
-
-interface StatItem {
-    label: string;
-    value: string;
-    description: string;
-    icon_name: string;
-    color_class: string;
-}
-
-interface VideoItem {
-    id: number;
-    title: string;
-    description: string;
-    youtube_url: string;
-    embed_url: string;
-}
-
-interface SubUnitItem {
-    name: string;
-    description: string;
-    href: string;
-    is_external: boolean;
-    logo_path: string;
-    fb_url: string;
-}
-
-interface SectionItem {
-    eyebrow?: string;
-    title?: string;
-    description?: string;
-    background_image?: string;
-}
-
-const props = defineProps<{
-    events: EventItem[];
-    documents: DocumentItem[];
-    stats: StatItem[];
-    videos: VideoItem[];
-    subUnits: SubUnitItem[];
-    sections: Record<string, SectionItem>;
-}>();
+import { eventsList } from '@/lib/eventsData';
 
 // Modal states
 const selectedActivity = ref<any>(null);
@@ -100,41 +35,61 @@ const closeActivityModal = () => {
     isModalOpen.value = false;
 };
 
-const latestActivities = computed(() => props.events.slice(0, 3));
-const slides = computed(() => props.events.slice(0, 3).map(e => e.image_path));
+// Mock data representing UNA Puno cultural and social activities
+const stats = [
+    { label: 'Proyectos de Proyección', value: '184', description: 'Ejecutados este año', icon: Award, color: 'text-amber-500 bg-amber-500/10' },
+    { label: 'Estudiantes Voluntarios', value: '2,450+', description: 'Participación activa', icon: Users, color: 'text-indigo-500 bg-indigo-500/10' },
+    { label: 'Comunidades Beneficiadas', value: '45+', description: 'En toda la región Puno', icon: Heart, color: 'text-red-500 bg-red-500/10' },
+    { label: 'Eventos Culturales', value: '38', description: 'Ciclos y festivales anuales', icon: FlameKindling, color: 'text-emerald-500 bg-emerald-500/10' }
+];
+
+const latestActivities = eventsList.slice(0, 3);
+
+const documents = [
+    { id: 1, title: 'Directiva N° 004-2026-DPESEC: Normas para Proyectos de Proyección Social', code: 'DIR-004-2026', date: '15 Ene 2026', type: 'Directiva' },
+    { id: 2, title: 'Resolución Rectoral N° 1024-2026-R-UNAP: Aprobación del Calendario de Actividades Culturales', code: 'RR-1024-2026', date: '04 Mar 2026', type: 'Resolución' },
+    { id: 3, title: 'Guía Metodológica para la Formulación de Informes de Extensión Universitaria', code: 'GUIA-01-2026', date: '10 May 2026', type: 'Guía' }
+];
+
+// Carousel Slides (3 most recent active/ongoing events)
+const slides = eventsList.slice(0, 3).map(e => e.image);
+
+const subunitsFloating = [
+    {
+        name: 'Proyección Social y Extensión Cultural',
+        fbUrl: 'https://www.facebook.com/p/Direcci%C3%B3n-de-Proyecci%C3%B3n-Social-y-Extensi%C3%B3n-Cultural-UNA-Puno-100071137256988/',
+        logo: 'https://scontent.flim20-1.fna.fbcdn.net/v/t39.30808-6/272960757_4628681473926778_6629600432458897605_n.jpg?stp=dst-jpg_tt6&cstp=mx2017x2017&ctp=s2017x2017&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=dzbou22md_cQ7kNvwEyqcpG&_nc_oc=AdrTJFZJ3SiFJerNaxkzfDV1mGeW5I0yYBdcjTVo79wyDOAyoF6VgcTxaEO2hMKdGfA&_nc_zt=23&_nc_ht=scontent.flim20-1.fna&_nc_gid=VJvqRFFVkVfJnr-RYSL3UA&_nc_ss=7b289&oh=00_AQAIEfjqOqi6lNXRJGchTrJDiR7lgLTCn1Tsr0u-PBGCMQ&oe=6A55939C'
+    },
+    {
+        name: 'Gestión Ambiental',
+        fbUrl: 'https://www.facebook.com/p/Gesti%C3%B3n-Ambiental-UNA-PUNO-Oficial-61552848737780/',
+        logo: 'https://scontent.flim26-1.fna.fbcdn.net/v/t39.30808-6/398995862_10222830756230066_520338572561505771_n.jpg?stp=dst-jpg_tt6&cstp=mx2026x2048&ctp=s2026x2048&_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeH3EDEG8C5PPZK1cepZi-gzWEwO4rVRrudYTA7itVGu59Y1kIb432fziteMQi84vz0QUhKmxFNEFi5DnQkhScWk&_nc_ohc=nRQOktJYbR0Q7kNvwEC4QdN&_nc_oc=AdrJt3WDqELGGuzNM9tj-wcHPMkFH_mL4IN9tghkkygDqkJnyE6WI06cQWZtmN9zXWY&_nc_zt=23&_nc_ht=scontent.flim26-1.fna&_nc_gid=2fhssmGxvnXXyOCPs31urw&_nc_ss=7b2a8&oh=00_AQBqcxqtRryOxfdDWVSMKxKwEz3Q3nom4XDNa6jobUDa4A&oe=6A55BE72'
+    },
+    {
+        name: 'Seguimiento del Graduado',
+        fbUrl: 'https://www.facebook.com/p/Egresados-y-Graduados-UNA-Puno-100092995523250/',
+        logo: 'https://scontent.flim20-1.fna.fbcdn.net/v/t39.30808-6/359734308_147671118342738_5430089938518897443_n.jpg?stp=dst-jpg_tt6&cstp=mx272x272&ctp=s272x272&_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHM_qBi059xsXM_jGxjMq1rvhz2v_QXEJq-HPa_9BcQmk6RX7ZJsbRgGIRqPOP4LEyPmuAQoqbTC6eMfu65tG1o&_nc_ohc=1_x31ZGEeu8Q7kNvwGeKY5i&_nc_oc=AdqDmzs1k2F0vGxzLtl93-wXj-psE-MjziKdm0qzNDy_PnSh8Y8gUW9edDrARfiBgmw&_nc_zt=23&_nc_ht=scontent.flim20-1.fna&_nc_gid=GyE78RMdmDbtUi_hIdhKsg&_nc_ss=7b2a8&oh=00_AQCqEmTof-9bhusJcgLFU17KNI21K1cUYUZz039qp3XTZg&oe=6A55B461'
+    }
+];
 
 const currentSlide = ref(0);
 let timer: ReturnType<typeof setInterval> | null = null;
 
 const showFloatingBar = ref(false);
-
-const heroTitleHtml = computed(() => {
-    const title = props.sections.hero?.title ?? 'Conectando la Universidad con nuestra Sociedad';
-    return title.replace('Universidad', '<span class="bg-gradient-to-r from-indigo-400 via-blue-400 to-indigo-300 bg-clip-text text-transparent">Universidad</span>');
-});
-
-const formatDate = (dateStr: string) => {
-    if (!dateStr) return '';
-    const date = new Date(dateStr);
-    const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-    return `${date.getDate()} de ${months[date.getMonth()]}`;
-};
-
-const getUnitIcon = (name: string) => {
-    if (name.toLowerCase().includes('ambiental')) return Leaf;
-    if (name.toLowerCase().includes('graduado')) return Users;
-    return Award;
-};
-
 const handleScroll = () => {
     const scrollY = window.scrollY;
+
+    // Check scroll past 400px (to show the bar)
     const isPastHero = scrollY > 400;
+
+    // Check if we are colliding with the footer
     const footer = document.querySelector('footer');
     let collidesWithFooter = false;
 
     if (footer) {
         const footerTop = footer.getBoundingClientRect().top + window.scrollY;
         const windowHeight = window.innerHeight;
+        // Pinned at center top-1/2 (scrollY + windowHeight/2) + half height + margin
         const barBottomEdge = scrollY + (windowHeight / 2) + 140;
 
         if (barBottomEdge >= footerTop) {
@@ -147,13 +102,12 @@ const handleScroll = () => {
 
 onMounted(() => {
     timer = setInterval(() => {
-        if (slides.value.length > 0) {
-            currentSlide.value = (currentSlide.value + 1) % slides.value.length;
-        }
-    }, 6000);
+        currentSlide.value = (currentSlide.value + 1) % slides.length;
+    }, 6000); // 6 seconds
 
     window.addEventListener('scroll', handleScroll);
 
+    // Scroll Reveal Intersection Observer (always active)
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -163,7 +117,7 @@ onMounted(() => {
             }
         });
     }, {
-        threshold: 0.08,
+        threshold: 0.08, // trigger when 8% is visible
         rootMargin: '0px 0px -40px 0px'
     });
 
@@ -175,6 +129,7 @@ onUnmounted(() => {
     if (timer) {
         clearInterval(timer);
     }
+
     window.removeEventListener('scroll', handleScroll);
 });
 </script>
@@ -202,14 +157,19 @@ onUnmounted(() => {
                     <div
                         class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-semibold uppercase tracking-wider border border-indigo-500/30">
                         <TrendingUp class="size-3.5" />
-                        <span>{{ sections.hero?.eyebrow ?? 'Compromiso Social y Cultural' }}</span>
+                        <span>Compromiso Social y Cultural</span>
                     </div>
 
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-white" v-html="heroTitleHtml">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
+                        Conectando la <span
+                            class="bg-gradient-to-r from-indigo-400 via-blue-400 to-indigo-300 bg-clip-text text-transparent">Universidad</span>
+                        con nuestra Sociedad
                     </h1>
 
                     <p class="text-lg text-neutral-300 leading-relaxed max-w-2xl">
-                        {{ sections.hero?.description ?? 'La Dirección de Proyección Social y Extensión Cultural de la UNA Puno lidera programas integradores, voluntariados, preservación del patrimonio cultural altiplánico y proyectos sostenibles para el desarrollo regional.' }}
+                        La Dirección de Proyección Social y Extensión Cultural de la UNA Puno lidera programas
+                        integradores, voluntariados, preservación del patrimonio cultural altiplánico y proyectos
+                        sostenibles para el desarrollo regional.
                     </p>
 
                     <div class="flex flex-wrap gap-4 pt-2">
@@ -253,7 +213,7 @@ onUnmounted(() => {
                     <Link href="/eventos">
                         <Button variant="ghost"
                             class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-semibold group flex items-center gap-1 cursor-pointer">
-                            Ver Cronograma Completo
+                            Ver mas Actividades
                             <ChevronRight class="size-4 group-hover:translate-x-1 transition-transform" />
                         </Button>
                     </Link>
@@ -266,7 +226,7 @@ onUnmounted(() => {
                         @click="openActivityModal(activity)">
                         <!-- Image Section -->
                         <div class="h-52 relative overflow-hidden bg-neutral-150 dark:bg-neutral-950 shrink-0">
-                            <img :src="activity.image_path" :alt="activity.title"
+                            <img :src="activity.image" :alt="activity.title"
                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                             <!-- Category Badge -->
                             <div class="absolute top-4 left-4 z-20">
@@ -285,7 +245,7 @@ onUnmounted(() => {
                                     class="flex items-center gap-2.5 text-[11px] text-neutral-500 dark:text-neutral-400 font-semibold">
                                     <span class="flex items-center gap-1">
                                         <Calendar class="size-3.5 text-indigo-600/70 dark:text-indigo-400/70" />
-                                        {{ formatDate(activity.event_date) }}
+                                        {{ activity.date }}
                                     </span>
                                     <span class="w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-700"></span>
                                     <span class="flex items-center gap-1">
@@ -337,11 +297,12 @@ onUnmounted(() => {
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div v-for="video in videos" :key="video.id"
+                    <!-- Video 1 -->
+                    <div
                         class="group relative flex flex-col bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
-                        <div class="relative aspect-video overflow-hidden bg-neutral-950">
-                            <iframe class="w-full h-full border-0" :src="video.embed_url"
-                                :title="video.title"
+                        <div class="    relative aspect-video overflow-hidden bg-neutral-950">
+                            <iframe class="w-full h-full border-0" src="https://www.youtube.com/embed/t-jVFZWDpqU"
+                                title="Video Institucional 1"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen></iframe>
                         </div>
@@ -349,11 +310,65 @@ onUnmounted(() => {
                             <div>
                                 <h3
                                     class="text-sm font-extrabold text-neutral-900 dark:text-white leading-snug line-clamp-1">
-                                    {{ video.title }}
+
+                                    Danza Originaria | Chunchos de Esquilaya | Educación Primaria UNA Puno
                                 </h3>
                                 <p
                                     class="text-xs text-neutral-500 dark:text-neutral-400 mt-1.5 leading-relaxed line-clamp-2">
-                                    {{ video.description }}
+                                    Chunchos de Esquilaya, Danza originaria de Puno presentado por la Escuela
+                                    Profesional de Educación Primaria en el Festival del Folklore de la Universidad
+                                    Nacional del Altiplano.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video 2 -->
+                    <div
+                        class="group relative flex flex-col bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+                        <div class="relative aspect-video overflow-hidden bg-neutral-950">
+                            <iframe class="w-full h-full border-0" src="https://youtube.com/embed/lkkRJhGqoQI"
+                                title="Video Institucional 2"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>
+                        <div class="p-5 text-left flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3
+                                    class="text-sm font-extrabold text-neutral-900 dark:text-white leading-snug line-clamp-1">
+
+                                    Danza Originaria | Wifala de San Antonio de Putina | Ing. Agronómica UNA Puno
+                                </h3>
+                                <p
+                                    class="text-xs text-neutral-500 dark:text-neutral-400 mt-1.5 leading-relaxed line-clamp-2">
+                                    Wifala de San Antonio de Putina, Danza originaria de Puno presentado por la Escuela
+                                    Profesional de Ingeniería Agronómica en el Festival del Folklore de la Universidad
+                                    Nacional del Altiplano.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video 3 -->
+                    <div
+                        class="group relative flex flex-col bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+                        <div class="relative aspect-video overflow-hidden bg-neutral-950">
+                            <iframe class="w-full h-full border-0" src="https://youtube.com/embed/xKwZOed6a7o"
+                                title="Video Institucional 3"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>
+                        <div class="p-5 text-left flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3
+                                    class="text-sm font-extrabold text-neutral-900 dark:text-white leading-snug line-clamp-1">
+                                    Bajada del Arco - Estudiantina Unificada de la UNA Puno. 2018
+                                </h3>
+                                <p
+                                    class="text-xs text-neutral-500 dark:text-neutral-400 mt-1.5 leading-relaxed line-clamp-2">
+                                    Concierto de la Estudiantina Unificada de la Universidad Nacional del Altiplano de
+                                    Puno 2018.
+                                    Lugar: Plaza de Armas de la ciudad de Puno
                                 </p>
                             </div>
                         </div>
@@ -394,42 +409,79 @@ onUnmounted(() => {
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div v-for="sub in subUnits" :key="sub.name"
-                        class="p-8 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 shadow-xs space-y-5 text-left flex flex-col h-full justify-between"
-                        :class="sub.name.toLowerCase().includes('graduado') ? 'opacity-85 hover:opacity-100 transition-opacity' : ''">
+                    <!-- Card 1: Proyección Social -->
+                    <div
+                        class="p-8 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 shadow-xs space-y-5 text-left flex flex-col h-full justify-between">
                         <div class="space-y-4">
                             <div
-                                class="size-12 rounded-xl flex items-center justify-center"
-                                :class="sub.name.toLowerCase().includes('ambiental') ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : (sub.name.toLowerCase().includes('graduado') ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400' : 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400')">
-                                <component :is="getUnitIcon(sub.name)" class="size-6" />
+                                class="size-12 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                                <Award class="size-6" />
                             </div>
-                            <div class="flex items-center justify-between gap-2">
-                                <h3 class="text-xl font-bold text-neutral-950 dark:text-white">{{ sub.name }}</h3>
-                                <span v-if="sub.name.toLowerCase().includes('graduado')"
+                            <h3 class="text-xl font-bold text-neutral-950 dark:text-white">Proyección Social y Extensión
+                                Cultural</h3>
+                            <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+                                Foco principal de gestión. Coordina y aprueba proyectos sociales, prácticas en
+                                comunidades y eventos culturales impulsados por las facultades.
+                            </p>
+                        </div>
+                        <Link href="/proyeccion-social" class="pt-4 block">
+                            <Button
+                                class="w-full rounded-xl bg-neutral-950 hover:bg-neutral-900 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100 flex items-center justify-center gap-2 cursor-pointer">
+                                Ver Actividades
+                                <ArrowRight class="size-4" />
+                            </Button>
+                        </Link>
+                    </div>
+
+                    <!-- Card 2: Gestión Ambiental -->
+                    <div
+                        class="p-8 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 shadow-xs space-y-5 text-left flex flex-col h-full justify-between">
+                        <div class="space-y-4">
+                            <div
+                                class="size-12 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                                <Leaf class="size-6" />
+                            </div>
+                            <h3 class="text-xl font-bold text-neutral-950 dark:text-white">Gestión Ambiental</h3>
+                            <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+                                Área dedicada a la conservación ecológica de la Ciudad Universitaria, voluntariados de
+                                segregación de residuos y educación ambiental.
+                            </p>
+                        </div>
+                        <a href="https://www.unap.edu.pe" target="_blank" rel="noopener noreferrer" class="pt-4 block">
+                            <Button variant="outline"
+                                class="w-full rounded-xl flex items-center justify-center gap-2 border-neutral-300 dark:border-neutral-700 cursor-pointer">
+                                Visitar Sitio Web
+                                <ExternalLink class="size-4 text-neutral-500" />
+                            </Button>
+                        </a>
+                    </div>
+
+                    <!-- Card 3: Seguimiento al Graduado -->
+                    <div
+                        class="p-8 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 shadow-xs space-y-5 text-left flex flex-col h-full justify-between opacity-85 hover:opacity-100 transition-opacity">
+                        <div class="space-y-4">
+                            <div
+                                class="size-12 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                                <Users class="size-6" />
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-xl font-bold text-neutral-950 dark:text-white">Seguimiento al Graduado
+                                </h3>
+                                <span
                                     class="text-[9px] bg-amber-500/10 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded font-bold uppercase tracking-wider shrink-0">Próximamente</span>
                             </div>
                             <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
-                                {{ sub.description }}
+                                Plataforma futura de inserción laboral, encuestas de egresados y contacto con las redes
+                                de exalumnos de la UNA Puno.
                             </p>
                         </div>
-                        
-                        <div class="pt-4">
-                            <a v-if="sub.is_external" :href="sub.href" target="_blank" rel="noopener noreferrer" class="block">
-                                <Button variant="outline"
-                                    class="w-full rounded-xl flex items-center justify-center gap-2 border-neutral-300 dark:border-neutral-700 cursor-pointer">
-                                    Visitar Sitio Web
-                                    <ExternalLink class="size-4 text-neutral-500" />
-                                </Button>
-                            </a>
-                            <Link v-else :href="sub.href" class="block">
-                                <Button
-                                    class="w-full rounded-xl flex items-center justify-center gap-2 cursor-pointer"
-                                    :class="sub.name.toLowerCase().includes('graduado') ? 'border border-neutral-300 dark:border-neutral-700 bg-transparent text-neutral-950 dark:text-white hover:bg-neutral-50 dark:hover:bg-neutral-800/50' : 'bg-neutral-950 hover:bg-neutral-900 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100'">
-                                    {{ sub.name.toLowerCase().includes('graduado') ? 'Conoce Más' : 'Ver Actividades' }}
-                                    <ArrowRight class="size-4" />
-                                </Button>
-                            </Link>
-                        </div>
+                        <Link href="/seguimiento-graduado" class="pt-4 block">
+                            <Button variant="outline"
+                                class="w-full rounded-xl flex items-center justify-center gap-2 border-neutral-300 dark:border-neutral-700 cursor-pointer">
+                                Conoce Más
+                                <ArrowRight class="size-4" />
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -466,12 +518,12 @@ onUnmounted(() => {
                             <div class="flex items-center gap-2">
                                 <span
                                     class="text-[9px] bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">{{
-                                        doc.category }}</span>
+                                        doc.type }}</span>
                                 <span class="text-[10px] text-neutral-400 font-mono">{{ doc.code }}</span>
                             </div>
                             <h4 class="font-bold text-sm text-neutral-900 dark:text-white line-clamp-1">{{ doc.title }}
                             </h4>
-                            <p class="text-xs text-neutral-400">Publicado: {{ formatDate(doc.published_date) }}</p>
+                            <p class="text-xs text-neutral-400">Publicado: {{ doc.date }}</p>
                         </div>
                         <Link href="/documentos">
                             <Button size="sm" variant="outline"
@@ -488,15 +540,15 @@ onUnmounted(() => {
 
         <!-- 5. STATS SECTION (GLASSMORPHIC CARDS) -->
         <section
-            class="reveal-section py-12 border-y border-y-neutral-200/55 dark:border-y-neutral-800/40 bg-neutral-50/50 dark:bg-neutral-900/10">
+            class="reveal-section py-12 border-y border-neutral-200/55 dark:border-neutral-800/40 bg-neutral-50/50 dark:bg-neutral-900/10">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div v-for="stat in stats" :key="stat.label"
                         class="p-6 rounded-2xl bg-white dark:bg-neutral-900/50 border border-neutral-200/60 dark:border-neutral-800/60 shadow-xs flex items-start gap-4 hover:shadow-md transition-shadow">
-                        <div class="p-3 rounded-xl shrink-0" :class="stat.color_class">
-                            <component :is="iconMap[stat.icon_name]" class="size-6" />
+                        <div class="p-3 rounded-xl shrink-0" :class="stat.color">
+                            <component :is="stat.icon" class="size-6" />
                         </div>
-                        <div class="space-y-1 text-left">
+                        <div class="space-y-1">
                             <span class="text-3xl font-extrabold text-neutral-900 dark:text-white tracking-tight">{{
                                 stat.value }}</span>
                             <h3 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200">{{ stat.label }}
@@ -545,11 +597,12 @@ onUnmounted(() => {
                         <!-- Left side: Image -->
                         <div
                             class="md:col-span-5 relative h-[180px] sm:h-[220px] md:h-full overflow-hidden bg-neutral-100 dark:bg-neutral-950 shrink-0">
-                            <img :src="selectedActivity.image_path" :alt="selectedActivity.title"
+                            <img :src="selectedActivity.image" :alt="selectedActivity.title"
                                 class="w-full h-full object-cover" />
                             <div class="absolute top-4 left-4 flex gap-1.5 flex-wrap">
                                 <span
-                                    class="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-indigo-600 text-white shadow-md">
+                                    class="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-indigo-600 text-white shadow-md"
+                                    :class="selectedActivity.tagColor">
                                     {{ selectedActivity.category }}
                                 </span>
                             </div>
@@ -561,7 +614,8 @@ onUnmounted(() => {
                             <div class="space-y-4">
                                 <!-- Header and Close button -->
                                 <div class="flex items-center justify-between">
-                                    <span class="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-indigo-600/10 text-indigo-600 dark:text-indigo-400">
+                                    <span class="text-[9px] font-bold uppercase tracking-wider px-2.5 py-1 rounded"
+                                        :class="selectedActivity.tagColor">
                                         {{ selectedActivity.category }}
                                     </span>
 
@@ -586,7 +640,7 @@ onUnmounted(() => {
                                     <div
                                         class="flex items-center gap-2 text-neutral-600 dark:text-neutral-300 sm:col-span-2">
                                         <Calendar class="size-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
-                                        <span class="font-semibold">{{ formatDate(selectedActivity.event_date) }}</span>
+                                        <span class="font-semibold">{{ selectedActivity.date }}</span>
                                     </div>
                                     <div
                                         class="flex items-start gap-2 text-neutral-600 dark:text-neutral-300 sm:col-span-2">
@@ -612,7 +666,7 @@ onUnmounted(() => {
                             <!-- Footer Actions -->
                             <div
                                 class="border-t border-neutral-100 dark:border-neutral-800/80 pt-4 mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                                <a :href="selectedActivity.fb_link || 'https://www.facebook.com/ProyeccionSocialUNAPuno'" target="_blank"
+                                <a href="https://www.facebook.com/ProyeccionSocialUNAPuno" target="_blank"
                                     rel="noopener noreferrer" class="w-full sm:w-auto" @click.stop>
                                     <Button size="sm"
                                         class="w-full sm:w-auto rounded-xl bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer">
@@ -621,7 +675,7 @@ onUnmounted(() => {
                                     </Button>
                                 </a>
 
-                                <a :href="selectedActivity.fb_link || 'https://www.facebook.com/ProyeccionSocialUNAPuno'" target="_blank"
+                                <a href="https://www.facebook.com/ProyeccionSocialUNAPuno" target="_blank"
                                     class="text-xs text-neutral-400 hover:text-blue-500 transition-colors flex items-center gap-1"
                                     @click.stop>
                                     <svg class="size-4 fill-current" viewBox="0 0 24 24"
@@ -655,10 +709,10 @@ onUnmounted(() => {
 
                 <!-- Subunits items -->
                 <div class="flex flex-col gap-3 px-2">
-                    <a v-for="sub in subUnits" :key="sub.name" :href="sub.fb_url" target="_blank"
+                    <a v-for="sub in subunitsFloating" :key="sub.name" :href="sub.fbUrl" target="_blank"
                         rel="noopener noreferrer"
                         class="group relative flex items-center justify-center size-10 rounded-full border-2 border-white dark:border-neutral-800 bg-white shadow-md hover:shadow-xl hover:scale-110 transition-all duration-300 cursor-pointer">
-                        <img :src="sub.logo_path" :alt="sub.name" class="w-full h-full object-cover rounded-full" />
+                        <img :src="sub.logo" :alt="sub.name" class="w-full h-full object-cover rounded-full" />
                         <!-- Tooltip name on hover -->
                         <div
                             class="absolute left-12 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-xl bg-white/90 dark:bg-neutral-950/90 backdrop-blur-md border border-neutral-200/60 dark:border-neutral-800/60 text-indigo-600 dark:text-indigo-400 text-[10px] font-extrabold whitespace-nowrap opacity-0 -translate-x-3 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 shadow-xl z-50">
