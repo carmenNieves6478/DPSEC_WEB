@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { Search, Download, Award, ShieldCheck, CheckCircle2, AlertCircle } from '@lucide/vue';
+import { ref } from 'vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
 
 interface Certificate {
@@ -23,7 +23,9 @@ const certificates = ref<Certificate[]>([]);
 const error = ref('');
 
 const searchCertificates = async () => {
-    if (!documentNumber.value.trim()) return;
+    if (!documentNumber.value.trim()) {
+return;
+}
     
     loading.value = true;
     searched.value = true;
@@ -55,9 +57,13 @@ const searchCertificates = async () => {
 };
 
 const formatDate = (dateStr: string) => {
-    if (!dateStr) return '';
+    if (!dateStr) {
+return '';
+}
+
     const date = new Date(dateStr);
     const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
     return `${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`;
 };
 </script>

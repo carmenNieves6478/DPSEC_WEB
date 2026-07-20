@@ -43,6 +43,7 @@ const events = computed(() => {
             fbLink: e.fb_link,
         }));
     }
+
     return eventsList;
 });
 

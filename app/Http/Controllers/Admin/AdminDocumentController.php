@@ -36,6 +36,9 @@ class AdminDocumentController extends Controller
         if ($request->hasFile('file_file')) {
             $file = $request->file('file_file');
             $path = $file->store('documents', 'public');
+            if ($path === false) {
+                return redirect()->back()->with('error', 'Error al guardar el archivo.');
+            }
             $validated['file_path'] = Storage::url($path);
             $validated['file_size'] = $this->formatBytes($file->getSize());
         }
@@ -67,6 +70,9 @@ class AdminDocumentController extends Controller
 
             $file = $request->file('file_file');
             $path = $file->store('documents', 'public');
+            if ($path === false) {
+                return redirect()->back()->with('error', 'Error al guardar el nuevo archivo.');
+            }
             $validated['file_path'] = Storage::url($path);
             $validated['file_size'] = $this->formatBytes($file->getSize());
         }
@@ -93,7 +99,7 @@ class AdminDocumentController extends Controller
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
         $bytes = max($bytes, 0);
         $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
-        $pow = min($pow, count($units) - 1);
+        $pow = (int) min($pow, count($units) - 1);
         $bytes /= pow(1024, $pow);
         return round($bytes, $precision) . ' ' . $units[$pow];
     }

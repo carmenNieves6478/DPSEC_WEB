@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 class Certificate extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'certificate_template_id',
         'uuid',
@@ -36,7 +34,10 @@ class Certificate extends Model
         });
     }
 
-    public function template()
+    /**
+     * @return BelongsTo<CertificateTemplate, $this>
+     */
+    public function template(): BelongsTo
     {
         return $this->belongsTo(CertificateTemplate::class, 'certificate_template_id');
     }

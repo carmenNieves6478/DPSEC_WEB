@@ -24,7 +24,7 @@ class PublicCertificateController extends Controller
     /**
      * Search for certificates by DNI/Document.
      */
-    public function search(Request $request)
+    public function search(Request $request): \Illuminate\Http\JsonResponse
     {
         $request->validate([
             'document' => 'required|string|max:50',
@@ -42,7 +42,7 @@ class PublicCertificateController extends Controller
     /**
      * Verify a certificate by its unique UUID or human code.
      */
-    public function verify($identifier): InertiaResponse
+    public function verify(string $identifier): InertiaResponse
     {
         $certificate = Certificate::with('template')
             ->where('uuid', $identifier)
@@ -57,7 +57,7 @@ class PublicCertificateController extends Controller
     /**
      * Generate and download the certificate PDF on-the-fly.
      */
-    public function download(Certificate $certificate)
+    public function download(Certificate $certificate): Response
     {
         // Ensure storage/fonts directory exists for DomPDF font cache & metrics
         if (!file_exists(storage_path('fonts'))) {
@@ -65,6 +65,9 @@ class PublicCertificateController extends Controller
         }
 
         $template = $certificate->template;
+        if (!$template) {
+            abort(404, 'Plantilla de certificado no encontrada.');
+        }
         $settings = $template->settings;
 
         // Fetch all custom fonts to inject @font-face rules

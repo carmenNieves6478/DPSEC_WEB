@@ -15,14 +15,18 @@ interface Certificate {
     };
 }
 
-const props = defineProps<{
+defineProps<{
     certificate: Certificate;
 }>();
 
 const formatDate = (dateStr: string) => {
-    if (!dateStr) return '';
+    if (!dateStr) {
+return '';
+}
+
     const date = new Date(dateStr);
     const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
     return `${date.getDate()} de ${months[date.getMonth()]} del ${date.getFullYear()}`;
 };
 </script>

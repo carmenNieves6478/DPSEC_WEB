@@ -56,6 +56,7 @@ const activities = computed(() => {
             isProyeccionSocial: e.is_proyeccion_social
         }));
     }
+
     return eventsList.filter(e => e.isProyeccionSocial);
 });
 
@@ -80,6 +81,7 @@ const faqs = computed(() => {
             answer: f.answer
         }));
     }
+
     return [
         {
             question: '¿Quiénes deben realizar Proyección Social en la UNA Puno?',

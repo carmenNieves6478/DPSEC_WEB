@@ -70,6 +70,7 @@ const stats = computed(() => {
             color: s.color_class || 'text-indigo-500 bg-indigo-500/10'
         }));
     }
+
     return [
         { label: 'Proyectos de Proyección', value: '184', description: 'Ejecutados este año', icon: Award, color: 'text-amber-500 bg-amber-500/10' },
         { label: 'Estudiantes Voluntarios', value: '2,450+', description: 'Participación activa', icon: Users, color: 'text-indigo-500 bg-indigo-500/10' },
@@ -101,6 +102,7 @@ const documents = computed(() => {
             file_path: d.file_path ? (d.file_path.startsWith('http') ? d.file_path : '/storage/' + d.file_path) : '#'
         }));
     }
+
     return [
         { id: 1, title: 'Directiva N° 004-2026-DPESEC: Normas para Proyectos de Proyección Social', code: 'DIR-004-2026', date: '15 Ene 2026', type: 'Directiva', size: '1.8 MB', description: 'Establece los lineamientos técnicos para voluntariados y extensión cultural.', file_path: '/documentos' },
         { id: 2, title: 'Resolución Rectoral N° 1024-2026-R-UNAP: Aprobación del Calendario de Actividades Culturales', code: 'RR-1024-2026', date: '04 Mar 2026', type: 'Resolución', size: '2.4 MB', description: 'Ratifica las fechas de festivales y ciclos de danzas universitarias.', file_path: '/documentos' },
@@ -111,7 +113,11 @@ const documents = computed(() => {
 // Carousel Slides (from real events or static fallback)
 const slides = computed(() => {
     const list = latestActivities.value.map(e => e.image).filter(Boolean);
-    if (list.length > 0) return list;
+
+    if (list.length > 0) {
+return list;
+}
+
     return [
         'https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/599715893_884448530603047_8830935029040207180_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeHQTG8nj3AVQPEHA1wTgQHYKeP-NFCKFbkp4_40UIoVuSWAiJSKTpXbty2XufqHJ3TjfkBChQkMKeic-hENsQFS&_nc_ohc=y0aeGiZKoI8Q7kNvwHlWwdS&_nc_oc=AdrAcbj07hIEXl4hMGQ0WxmZ3uxiOjPk3rSDXBstr9iXtNUKrJ_uMeBgXLuI-L3q0iQ&_nc_zt=23&_nc_ht=scontent.fjul1-1.fna&_nc_gid=4KCvHQKz0MhLi4lQ3kNatQ&_nc_ss=7b2a8&oh=00_AQCPYaYVBsK7Adxqddq_DlU6zk0tr2nCG3amFSJjCR6x5g&oe=6A547587',
         'https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/605296083_769669972809513_1888138256417761411_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1267&ctp=s2048x1267&_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeErCVDX-2bhd-oXj91oxi8uP3zmIbV9bRQ_fOYhtX1tFEc26QCfmlKGVmIt8eHzOj4lP3fH8TmfbOE-Qa7r3CBf&_nc_ohc=y4O89CSTX3kQ7kNvwPldty&_nc_oc=AdpXVqBXvCSHpZcxdtDOuOmzbcQxOARxVFWoV-b-eBj1cMdhr10LjIsIwnH7cQ57iro&_nc_zt=23&_nc_ht=scontent.flim20-1.fna&_nc_gid=A_T1_6T7cM_y5_u4_9f2_1&_nc_ss=7b290&oh=00_AQAIEfjqOqi6lNXRJGchTrJDiR7lgLTCn1Tsr0u-PBGCMQ&oe=6A55939C'
@@ -127,6 +133,7 @@ const subunitsFloating = computed(() => {
             logo: s.logo_path ? (s.logo_path.startsWith('http') ? s.logo_path : '/storage/' + s.logo_path) : 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=100&h=100&fit=crop'
         }));
     }
+
     return [
         {
             name: 'Proyección Social y Extensión Cultural',
@@ -156,6 +163,7 @@ const mappedVideos = computed(() => {
             embedUrl: v.embed_url
         }));
     }
+
     return [
         { id: 1, title: 'Danza Originaria | Chunchos de Esquilaya | Educación Primaria UNA Puno', description: 'Chunchos de Esquilaya, Danza originaria de Puno presentado por la Escuela Profesional de Educación Primaria en el Festival del Folklore de la Universidad Nacional del Altiplano.', embedUrl: 'https://www.youtube.com/embed/t-jVFZWDpqU' },
         { id: 2, title: 'Danza Originaria | Wifala de San Antonio de Putina | Ing. Agronómica UNA Puno', description: 'Wifala de San Antonio de Putina, Danza originaria de Puno presentado por la Escuela Profesional de Ingeniería Agronómica en el Festival del Folklore de la Universidad Nacional del Altiplano.', embedUrl: 'https://youtube.com/embed/lkkRJhGqoQI' },

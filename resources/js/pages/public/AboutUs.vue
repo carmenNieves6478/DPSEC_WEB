@@ -60,6 +60,7 @@ const team = computed(() => {
             bottomBgDark: 'rgba(8, 22, 10, 0.90)'
         }));
     }
+
     return [
         {
             name: 'Dra. Milder Zanabria Ortega',
@@ -154,6 +155,7 @@ const objectives = computed(() => {
             color: o.color_class || 'text-indigo-600 dark:text-indigo-400 bg-indigo-500/10'
         }));
     }
+
     return [
         {
             title: 'Fortalecimiento Institucional',
@@ -227,6 +229,7 @@ const values = computed(() => {
             headerBg: 'bg-indigo-600 dark:bg-indigo-700'
         }));
     }
+
     return [
         {
             title: 'Compromiso',

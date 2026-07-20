@@ -19,6 +19,7 @@ import {
     AlertCircle
 } from '@lucide/vue';
 import { ref, computed } from 'vue';
+import CertificateTab from '@/components/CertificateTab.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -62,7 +63,6 @@ interface StatsItem {
     totalProyeccionSocial: number;
 }
 
-import CertificateTab from '@/components/CertificateTab.vue';
 
 const props = withDefaults(defineProps<{
     events?: EventItem[];
@@ -119,9 +119,13 @@ const filteredDocs = computed(() =>
 );
 
 const formatDate = (dateStr: string) => {
-    if (!dateStr) return '';
+    if (!dateStr) {
+return '';
+}
+
     const date = new Date(dateStr);
     const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+
     return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
 };
 

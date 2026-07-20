@@ -48,6 +48,9 @@ class AdminCertificateController extends Controller
 
             // Store font in public/fonts storage
             $path = $file->storeAs('fonts', Str::slug($request->font_name) . '.ttf', 'public');
+            if ($path === false) {
+                return redirect()->back()->with('error', 'Error al guardar la tipografía.');
+            }
 
             CertificateFont::create([
                 'font_name' => $request->font_name,
@@ -88,6 +91,9 @@ class AdminCertificateController extends Controller
         if ($request->hasFile('background_image')) {
             $file = $request->file('background_image');
             $path = $file->store('certificate_templates', 'public');
+            if ($path === false) {
+                return redirect()->back()->with('error', 'Error al guardar el fondo del certificado.');
+            }
 
             CertificateTemplate::create([
                 'name' => $request->name,
@@ -124,6 +130,9 @@ class AdminCertificateController extends Controller
 
             $file = $request->file('background_image');
             $path = $file->store('certificate_templates', 'public');
+            if ($path === false) {
+                return redirect()->back()->with('error', 'Error al guardar el nuevo fondo del certificado.');
+            }
             $data['background_path'] = Storage::url($path);
         }
 
@@ -197,7 +206,7 @@ class AdminCertificateController extends Controller
 
                 $count = 0;
                 while (($row = fgetcsv($handle, 1000, ',')) !== false) {
-                    if (empty($row) || count($row) < 2) continue;
+                    if (count($row) < 2) continue;
 
                     $recipientName = trim($row[$nameIndex] ?? '');
                     $recipientDoc = trim($row[$docIndex] ?? '');

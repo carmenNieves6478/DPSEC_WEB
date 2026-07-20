@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useForm, router } from '@inertiajs/vue3';
 import { 
     Award, 
@@ -10,12 +9,11 @@ import {
     Type, 
     Settings, 
     Eye, 
-    Check, 
-    Calendar,
     Users,
-    ChevronRight,
     AlertCircle
 } from '@lucide/vue';
+import { ref } from 'vue';
+import { computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -77,7 +75,6 @@ const deleteFont = (id: number) => {
     }
 };
 
-import { computed } from 'vue';
 
 // --- Template Creation Form ---
 const showAddTemplate = ref(false);
@@ -107,6 +104,7 @@ const fontOptions = computed(() => {
             list.push(f.font_name);
         }
     });
+
     return list;
 });
 
@@ -114,9 +112,11 @@ const bgPreviewUrl = computed(() => {
     if (templateForm.background_image) {
         return URL.createObjectURL(templateForm.background_image);
     }
+
     if (editingTemplate.value) {
         return editingTemplate.value.background_path;
     }
+
     return '';
 });
 
@@ -139,6 +139,7 @@ const fontStylesHtml = computed(() => {
         `;
     });
     styles += '</style>';
+
     return styles;
 });
 
@@ -175,6 +176,7 @@ const openEditTemplate = (template: TemplateItem) => {
 
 const submitTemplate = () => {
     syncFormToSettings();
+
     if (editingTemplate.value) {
         templateForm.post('/admin/certificados/plantilla/' + editingTemplate.value.id, {
             onSuccess: () => {

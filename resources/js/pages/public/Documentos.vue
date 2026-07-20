@@ -36,6 +36,7 @@ const documents = computed(() => {
             file_path: d.file_path ? (d.file_path.startsWith('http') ? d.file_path : '/storage/' + d.file_path) : '#'
         }));
     }
+
     return [
         {
             id: 1,
