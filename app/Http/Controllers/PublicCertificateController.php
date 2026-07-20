@@ -70,10 +70,6 @@ class PublicCertificateController extends Controller
         // Fetch all custom fonts to inject @font-face rules
         $fonts = CertificateFont::all();
 
-        // 1. Generate QR Code URL
-        $verifyUrl = route('certificates.verify', ['identifier' => $certificate->uuid]);
-        $qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=' . urlencode($verifyUrl);
-
         // 2. Prepare CSS styles for @font-face
         $fontStyles = '';
         foreach ($fonts as $font) {
@@ -107,7 +103,6 @@ class PublicCertificateController extends Controller
             'certificate' => $certificate,
             'template' => $template,
             'settings' => $settings,
-            'qrCodeUrl' => $qrCodeUrl,
             'fontStyles' => $fontStyles,
             'bgPath' => $bgPath,
         ])->render();

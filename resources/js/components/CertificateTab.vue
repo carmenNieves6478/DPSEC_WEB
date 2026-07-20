@@ -82,7 +82,7 @@ import { computed } from 'vue';
 // --- Template Creation Form ---
 const showAddTemplate = ref(false);
 const editingTemplate = ref<TemplateItem | null>(null);
-const modalTab = ref<'general' | 'name' | 'event' | 'role' | 'date' | 'code_qr'>('general');
+const modalTab = ref<'general' | 'name' | 'role'>('general');
 
 const templateForm = useForm({
     name: '',
@@ -92,21 +92,13 @@ const templateForm = useForm({
 
 // Default settings JSON
 const defaultSettings = {
-    name_field: { y: '45%', font_size: '32pt', color: '#111827', font_family: 'Helvetica' },
-    event_field: { y: '58%', font_size: '20pt', color: '#374151', font_family: 'Helvetica' },
-    role_field: { y: '68%', font_size: '16pt', color: '#4b5563', font_family: 'Helvetica' },
-    date_field: { y: '80%', font_size: '12pt', color: '#6b7280', font_family: 'Helvetica' },
-    code_field: { x: '15mm', y: '10mm', font_size: '10pt', color: '#9ca3af', font_family: 'Helvetica' },
-    qr_field: { x: '15mm', y: '10mm', size: '100px' }
+    name_field: { x: '0%', y: '45%', font_size: '32pt', color: '#111827', font_family: 'Helvetica' },
+    role_field: { x: '0%', y: '68%', font_size: '16pt', color: '#4b5563', font_family: 'Helvetica' },
 };
 
 // Reactive settings for UI binding
 const nameSettings = ref({ ...defaultSettings.name_field });
-const eventSettings = ref({ ...defaultSettings.event_field });
 const roleSettings = ref({ ...defaultSettings.role_field });
-const dateSettings = ref({ ...defaultSettings.date_field });
-const codeSettings = ref({ ...defaultSettings.code_field });
-const qrSettings = ref({ ...defaultSettings.qr_field });
 
 const fontOptions = computed(() => {
     const list = ['Helvetica', 'Times-Roman', 'Courier', 'Arial'];
@@ -152,21 +144,13 @@ const fontStylesHtml = computed(() => {
 
 const syncSettingsToForm = (settingsObj: any) => {
     nameSettings.value = { ...defaultSettings.name_field, ...(settingsObj?.name_field || {}) };
-    eventSettings.value = { ...defaultSettings.event_field, ...(settingsObj?.event_field || {}) };
     roleSettings.value = { ...defaultSettings.role_field, ...(settingsObj?.role_field || {}) };
-    dateSettings.value = { ...defaultSettings.date_field, ...(settingsObj?.date_field || {}) };
-    codeSettings.value = { ...defaultSettings.code_field, ...(settingsObj?.code_field || {}) };
-    qrSettings.value = { ...defaultSettings.qr_field, ...(settingsObj?.qr_field || {}) };
 };
 
 const syncFormToSettings = () => {
     const fullSettings = {
         name_field: nameSettings.value,
-        event_field: eventSettings.value,
         role_field: roleSettings.value,
-        date_field: dateSettings.value,
-        code_field: codeSettings.value,
-        qr_field: qrSettings.value,
     };
     templateForm.settings = JSON.stringify(fullSettings, null, 2);
 };
@@ -620,16 +604,13 @@ const filterByTemplate = () => {
                             <div class="flex border-b border-neutral-100 dark:border-neutral-800 text-[10px] sm:text-xs overflow-x-auto gap-2 pb-2">
                                 <button type="button" @click="modalTab = 'general'" :class="modalTab === 'general' ? 'border-indigo-500 font-bold text-indigo-600' : 'border-transparent text-neutral-500'" class="px-2 py-1 border-b-2 whitespace-nowrap cursor-pointer">General</button>
                                 <button type="button" @click="modalTab = 'name'" :class="modalTab === 'name' ? 'border-indigo-500 font-bold text-indigo-600' : 'border-transparent text-neutral-500'" class="px-2 py-1 border-b-2 whitespace-nowrap cursor-pointer">Nombre</button>
-                                <button type="button" @click="modalTab = 'event'" :class="modalTab === 'event' ? 'border-indigo-500 font-bold text-indigo-600' : 'border-transparent text-neutral-500'" class="px-2 py-1 border-b-2 whitespace-nowrap cursor-pointer">Evento</button>
                                 <button type="button" @click="modalTab = 'role'" :class="modalTab === 'role' ? 'border-indigo-500 font-bold text-indigo-600' : 'border-transparent text-neutral-500'" class="px-2 py-1 border-b-2 whitespace-nowrap cursor-pointer">Rol</button>
-                                <button type="button" @click="modalTab = 'date'" :class="modalTab === 'date' ? 'border-indigo-500 font-bold text-indigo-600' : 'border-transparent text-neutral-500'" class="px-2 py-1 border-b-2 whitespace-nowrap cursor-pointer">Fecha</button>
-                                <button type="button" @click="modalTab = 'code_qr'" :class="modalTab === 'code_qr' ? 'border-indigo-500 font-bold text-indigo-600' : 'border-transparent text-neutral-500'" class="px-2 py-1 border-b-2 whitespace-nowrap cursor-pointer">Código y QR</button>
                             </div>
 
                             <!-- TAB: GENERAL -->
                             <div v-if="modalTab === 'general'" class="space-y-4 pt-2">
                                 <div class="space-y-1.5">
-                                    <Label for="name">Nombre de la Plantilla / Evento</Label>
+                                    <Label for="name">Nombre de la Plantilla</Label>
                                     <Input v-model="templateForm.name" type="text" id="name" placeholder="ej: Congreso de Inteligencia Artificial 2026" required />
                                 </div>
                                 <div class="space-y-1.5">
@@ -642,9 +623,33 @@ const filterByTemplate = () => {
                             <div v-if="modalTab === 'name'" class="space-y-4 pt-2">
                                 <h4 class="text-xs font-bold text-neutral-400 uppercase tracking-wider">Configuración del Nombre del Estudiante</h4>
                                 <div class="grid grid-cols-2 gap-4">
-                                    <div class="space-y-1.5">
-                                        <Label>Posición Vertical (Y)</Label>
-                                        <Input v-model="nameSettings.y" type="text" placeholder="ej: 45%" />
+                                    <div class="space-y-1.5 col-span-2">
+                                        <Label class="flex justify-between">
+                                            <span>Posición Horizontal (X Shift)</span>
+                                            <span class="font-mono text-xs text-indigo-500 font-bold">{{ nameSettings.x }}</span>
+                                        </Label>
+                                        <input 
+                                            type="range" 
+                                            min="-50" 
+                                            max="50" 
+                                            :value="parseInt(nameSettings.x) || 0" 
+                                            @input="e => nameSettings.x = e.target.value + '%'"
+                                            class="w-full h-2 bg-neutral-200 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                                        />
+                                    </div>
+                                    <div class="space-y-1.5 col-span-2">
+                                        <Label class="flex justify-between">
+                                            <span>Posición Vertical (Y)</span>
+                                            <span class="font-mono text-xs text-indigo-500 font-bold">{{ nameSettings.y }}</span>
+                                        </Label>
+                                        <input 
+                                            type="range" 
+                                            min="0" 
+                                            max="100" 
+                                            :value="parseInt(nameSettings.y) || 45" 
+                                            @input="e => nameSettings.y = e.target.value + '%'"
+                                            class="w-full h-2 bg-neutral-200 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                                        />
                                     </div>
                                     <div class="space-y-1.5">
                                         <Label>Tamaño de Letra</Label>
@@ -656,7 +661,7 @@ const filterByTemplate = () => {
                                             <option v-for="font in fontOptions" :key="font" :value="font">{{ font }}</option>
                                         </select>
                                     </div>
-                                    <div class="space-y-1.5">
+                                    <div class="space-y-1.5 col-span-2">
                                         <Label>Color del Texto</Label>
                                         <div class="flex gap-2 items-center">
                                             <input v-model="nameSettings.color" type="color" class="w-8 h-8 rounded border" />
@@ -666,45 +671,41 @@ const filterByTemplate = () => {
                                 </div>
                             </div>
 
-                            <!-- TAB: EVENTO -->
-                            <div v-if="modalTab === 'event'" class="space-y-4 pt-2">
-                                <h4 class="text-xs font-bold text-neutral-400 uppercase tracking-wider">Configuración del Texto del Evento</h4>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="space-y-1.5">
-                                        <Label>Posición Vertical (Y)</Label>
-                                        <Input v-model="eventSettings.y" type="text" />
-                                    </div>
-                                    <div class="space-y-1.5">
-                                        <Label>Tamaño de Letra</Label>
-                                        <Input v-model="eventSettings.font_size" type="text" />
-                                    </div>
-                                    <div class="space-y-1.5">
-                                        <Label>Tipografía</Label>
-                                        <select v-model="eventSettings.font_family" class="w-full px-3 py-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950 rounded-lg text-sm text-neutral-900 dark:text-white focus:outline-none">
-                                            <option v-for="font in fontOptions" :key="font" :value="font">{{ font }}</option>
-                                        </select>
-                                    </div>
-                                    <div class="space-y-1.5">
-                                        <Label>Color del Texto</Label>
-                                        <div class="flex gap-2 items-center">
-                                            <input v-model="eventSettings.color" type="color" class="w-8 h-8 rounded border" />
-                                            <Input v-model="eventSettings.color" type="text" class="flex-1" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <!-- TAB: ROL -->
                             <div v-if="modalTab === 'role'" class="space-y-4 pt-2">
                                 <h4 class="text-xs font-bold text-neutral-400 uppercase tracking-wider">Configuración del Texto del Rol</h4>
                                 <div class="grid grid-cols-2 gap-4">
-                                    <div class="space-y-1.5">
-                                        <Label>Posición Vertical (Y)</Label>
-                                        <Input v-model="roleSettings.y" type="text" />
+                                    <div class="space-y-1.5 col-span-2">
+                                        <Label class="flex justify-between">
+                                            <span>Posición Horizontal (X Shift)</span>
+                                            <span class="font-mono text-xs text-indigo-500 font-bold">{{ roleSettings.x }}</span>
+                                        </Label>
+                                        <input 
+                                            type="range" 
+                                            min="-50" 
+                                            max="50" 
+                                            :value="parseInt(roleSettings.x) || 0" 
+                                            @input="e => roleSettings.x = e.target.value + '%'"
+                                            class="w-full h-2 bg-neutral-200 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                                        />
+                                    </div>
+                                    <div class="space-y-1.5 col-span-2">
+                                        <Label class="flex justify-between">
+                                            <span>Posición Vertical (Y)</span>
+                                            <span class="font-mono text-xs text-indigo-500 font-bold">{{ roleSettings.y }}</span>
+                                        </Label>
+                                        <input 
+                                            type="range" 
+                                            min="0" 
+                                            max="100" 
+                                            :value="parseInt(roleSettings.y) || 68" 
+                                            @input="e => roleSettings.y = e.target.value + '%'"
+                                            class="w-full h-2 bg-neutral-200 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                                        />
                                     </div>
                                     <div class="space-y-1.5">
                                         <Label>Tamaño de Letra</Label>
-                                        <Input v-model="roleSettings.font_size" type="text" />
+                                        <Input v-model="roleSettings.font_size" type="text" placeholder="ej: 16pt" />
                                     </div>
                                     <div class="space-y-1.5">
                                         <Label>Tipografía</Label>
@@ -712,86 +713,11 @@ const filterByTemplate = () => {
                                             <option v-for="font in fontOptions" :key="font" :value="font">{{ font }}</option>
                                         </select>
                                     </div>
-                                    <div class="space-y-1.5">
+                                    <div class="space-y-1.5 col-span-2">
                                         <Label>Color del Texto</Label>
                                         <div class="flex gap-2 items-center">
                                             <input v-model="roleSettings.color" type="color" class="w-8 h-8 rounded border" />
                                             <Input v-model="roleSettings.color" type="text" class="flex-1" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- TAB: FECHA -->
-                            <div v-if="modalTab === 'date'" class="space-y-4 pt-2">
-                                <h4 class="text-xs font-bold text-neutral-400 uppercase tracking-wider">Configuración del Texto de la Fecha</h4>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="space-y-1.5">
-                                        <Label>Posición Vertical (Y)</Label>
-                                        <Input v-model="dateSettings.y" type="text" />
-                                    </div>
-                                    <div class="space-y-1.5">
-                                        <Label>Tamaño de Letra</Label>
-                                        <Input v-model="dateSettings.font_size" type="text" />
-                                    </div>
-                                    <div class="space-y-1.5">
-                                        <Label>Tipografía</Label>
-                                        <select v-model="dateSettings.font_family" class="w-full px-3 py-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950 rounded-lg text-sm text-neutral-900 dark:text-white focus:outline-none">
-                                            <option v-for="font in fontOptions" :key="font" :value="font">{{ font }}</option>
-                                        </select>
-                                    </div>
-                                    <div class="space-y-1.5">
-                                        <Label>Color del Texto</Label>
-                                        <div class="flex gap-2 items-center">
-                                            <input v-model="dateSettings.color" type="color" class="w-8 h-8 rounded border" />
-                                            <Input v-model="dateSettings.color" type="text" class="flex-1" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- TAB: CÓDIGO Y QR -->
-                            <div v-if="modalTab === 'code_qr'" class="space-y-4 pt-2">
-                                <h4 class="text-xs font-bold text-neutral-400 uppercase tracking-wider">Código de Registro y QR de Verificación</h4>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="space-y-1.5 col-span-2 border-b border-neutral-100 dark:border-neutral-800 pb-2">
-                                        <span class="text-xs font-bold block text-neutral-400 uppercase">Configuración de Código</span>
-                                        <div class="grid grid-cols-2 gap-2 mt-1">
-                                            <div>
-                                                <Label>Posición Horizontal (X)</Label>
-                                                <Input v-model="codeSettings.x" type="text" placeholder="ej: 15mm" />
-                                            </div>
-                                            <div>
-                                                <Label>Posición Vertical (Y)</Label>
-                                                <Input v-model="codeSettings.y" type="text" placeholder="ej: 10mm" />
-                                            </div>
-                                            <div>
-                                                <Label>Tamaño Letra</Label>
-                                                <Input v-model="codeSettings.font_size" type="text" />
-                                            </div>
-                                            <div>
-                                                <Label>Tipografía</Label>
-                                                <select v-model="codeSettings.font_family" class="w-full px-3 py-2 border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950 rounded-lg text-sm text-neutral-900 dark:text-white focus:outline-none">
-                                                    <option v-for="font in fontOptions" :key="font" :value="font">{{ font }}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="space-y-1.5 col-span-2">
-                                        <span class="text-xs font-bold block text-neutral-400 uppercase">Configuración de Código QR</span>
-                                        <div class="grid grid-cols-3 gap-2 mt-1">
-                                            <div>
-                                                <Label>Margen Derecho (X)</Label>
-                                                <Input v-model="qrSettings.x" type="text" placeholder="ej: 15mm" />
-                                            </div>
-                                            <div>
-                                                <Label>Margen Inferior (Y)</Label>
-                                                <Input v-model="qrSettings.y" type="text" placeholder="ej: 10mm" />
-                                            </div>
-                                            <div>
-                                                <Label>Tamaño QR</Label>
-                                                <Input v-model="qrSettings.size" type="text" placeholder="ej: 100px" />
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -802,41 +728,19 @@ const filterByTemplate = () => {
                         <div class="flex flex-col justify-between bg-neutral-50 dark:bg-neutral-950 p-4 rounded-xl border border-neutral-200 dark:border-neutral-800">
                             <span class="text-xs font-bold text-neutral-400 self-start mb-2 uppercase">Vista Previa de Maquetación</span>
                             
-                            <div class="relative w-full aspect-[297/210] bg-neutral-200 dark:bg-neutral-850 rounded-lg shadow-inner overflow-hidden border border-neutral-300 dark:border-neutral-700 flex items-center justify-center">
-                                <img v-if="bgPreviewUrl" :src="bgPreviewUrl" class="absolute inset-0 w-full h-full object-cover z-0" />
+                            <div class="relative w-full aspect-[297/210] bg-neutral-200 dark:bg-neutral-850 rounded-lg shadow-inner overflow-hidden border border-neutral-300 dark:border-neutral-700 flex items-center justify-center" style="container-type: inline-size;">
+                                <img v-if="bgPreviewUrl" :src="bgPreviewUrl" class="absolute inset-0 w-full h-full object-fill z-0" />
                                 <span v-else class="text-[10px] text-neutral-400 z-0">Sube una imagen de fondo para ver la vista previa</span>
                                 
                                 <!-- Campos sobrepuestos -->
                                 <div v-if="bgPreviewUrl" class="absolute inset-0 z-10 select-none">
                                     <!-- Nombre -->
-                                    <div class="absolute left-1/2 -translate-x-1/2 text-center" :style="{ top: nameSettings.y, fontSize: 'calc(' + nameSettings.font_size + ' * 0.45)', color: nameSettings.color, fontFamily: nameSettings.font_family, fontWeight: 'bold', width: '80%', lineHeight: 1 }">
+                                    <div class="absolute text-center" :style="{ left: nameSettings.x, top: nameSettings.y, fontSize: ((parseFloat(nameSettings.font_size) || 32) * 0.1188) + 'cqw', color: nameSettings.color, fontFamily: nameSettings.font_family, fontWeight: 'bold', width: '100%', lineHeight: 1 }">
                                         Juan Pérez Gómez
                                     </div>
-                                    <!-- Evento -->
-                                    <div class="absolute left-1/2 -translate-x-1/2 text-center" :style="{ top: eventSettings.y, fontSize: 'calc(' + eventSettings.font_size + ' * 0.45)', color: eventSettings.color, fontFamily: eventSettings.font_family, width: '80%', lineHeight: 1.2 }">
-                                        {{ templateForm.name || 'Nombre del Evento Académico' }}
-                                    </div>
                                     <!-- Rol -->
-                                    <div class="absolute left-1/2 -translate-x-1/2 text-center" :style="{ top: roleSettings.y, fontSize: 'calc(' + roleSettings.font_size + ' * 0.45)', color: roleSettings.color, fontFamily: roleSettings.font_family, width: '80%', lineHeight: 1 }">
+                                    <div class="absolute text-center" :style="{ left: roleSettings.x, top: roleSettings.y, fontSize: ((parseFloat(roleSettings.font_size) || 16) * 0.1188) + 'cqw', color: roleSettings.color, fontFamily: roleSettings.font_family, width: '100%', lineHeight: 1 }">
                                         En calidad de <strong class="font-bold">Participante</strong>
-                                    </div>
-                                    <!-- Fecha -->
-                                    <div class="absolute left-1/2 -translate-x-1/2 text-center" :style="{ top: dateSettings.y, fontSize: 'calc(' + dateSettings.font_size + ' * 0.45)', color: dateSettings.color, fontFamily: dateSettings.font_family, width: '80%', lineHeight: 1 }">
-                                        Expedido el 20 de Julio del 2026
-                                    </div>
-                                    <!-- Código -->
-                                    <div class="absolute font-bold" :style="{ bottom: codeSettings.y, left: codeSettings.x, fontSize: 'calc(' + codeSettings.font_size + ' * 0.45)', color: codeSettings.color, fontFamily: codeSettings.font_family, lineHeight: 1 }">
-                                        Cód: DPSEC-2026-TEST
-                                    </div>
-                                    <!-- QR -->
-                                    <div class="absolute bg-white border p-0.5 flex items-center justify-center" :style="{ bottom: qrSettings.y, right: qrSettings.x, width: 'calc(' + qrSettings.size + ' * 0.45)', height: 'calc(' + qrSettings.size + ' * 0.45)' }">
-                                        <svg class="w-full h-full text-neutral-800" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <rect x="2" y="2" width="6" height="6" />
-                                            <rect x="16" y="2" width="6" height="6" />
-                                            <rect x="2" y="16" width="6" height="6" />
-                                            <rect x="9" y="9" width="6" height="6" />
-                                            <path d="M16 16h2v2h-2zm4 4h2v2h-2zm0-4h2v2h-2zm-4 4h2v2h-2z" />
-                                        </svg>
                                     </div>
                                 </div>
                             </div>

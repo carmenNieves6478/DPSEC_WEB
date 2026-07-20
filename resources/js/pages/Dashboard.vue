@@ -210,7 +210,7 @@ const docForm = useForm({
     category: 'Directivas',
     published_date: '',
     description: '',
-    file_path: '',
+    file_file: null as File | null,
     is_active: true as boolean,
     sort_order: 0,
 });
@@ -234,9 +234,11 @@ const editDocForm = useForm({
     category: '',
     published_date: '',
     description: '',
-    file_path: '',
+    file_file: null as File | null,
+    file_path: '', // readonly to show current URL
     is_active: true as boolean,
     sort_order: 0,
+    _method: 'PUT', // standard Laravel method spoofing field
 });
 
 const openEditDoc = (doc: DocumentItem) => {
@@ -247,13 +249,15 @@ const openEditDoc = (doc: DocumentItem) => {
     editDocForm.published_date = doc.published_date ? doc.published_date.split('T')[0] : '';
     editDocForm.description = doc.description;
     editDocForm.file_path = doc.file_path;
+    editDocForm.file_file = null;
     editDocForm.is_active = doc.is_active;
     editDocForm.sort_order = doc.sort_order;
     isEditDocOpen.value = true;
 };
 
 const submitEditDoc = () => {
-    editDocForm.put(`/admin/documentos/${editingDocId.value}`, {
+    // Send a POST request with the spoofed PUT method to support file uploads
+    editDocForm.post(`/admin/documentos/${editingDocId.value}`, {
         preserveScroll: true,
         onSuccess: () => {
             isEditDocOpen.value = false;
@@ -856,8 +860,15 @@ const deleteDoc = (id: number) => {
                         <textarea v-model="docForm.description" id="add-doc-description" rows="2" placeholder="Resumen del contenido..." class="w-full p-3 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-xs focus:outline-none focus:ring-1 focus:ring-purple-500"></textarea>
                     </div>
                     <div class="space-y-1">
-                        <Label for="add-doc-file-path" class="text-xs">URL del PDF (Drive o servidor)</Label>
-                        <Input v-model="docForm.file_path" id="add-doc-file-path" type="url" placeholder="https://drive.google.com/..." class="rounded-xl text-xs h-10" />
+                        <Label for="add-doc-file-file" class="text-xs font-bold">Subir Documento (PDF, Word, etc.)</Label>
+                        <Input 
+                            type="file" 
+                            id="add-doc-file-file" 
+                            @change="(e: any) => docForm.file_file = e.target.files[0]" 
+                            required 
+                            class="rounded-xl text-xs h-10 cursor-pointer" 
+                        />
+                        <p v-if="docForm.errors.file_file" class="text-red-500 text-[10px]">{{ docForm.errors.file_file }}</p>
                     </div>
                     <div class="flex items-center space-x-3 py-2">
                         <input type="checkbox" v-model="docForm.is_active" id="add-doc-is-active" class="size-4 rounded border-neutral-300 cursor-pointer" />
@@ -912,8 +923,17 @@ const deleteDoc = (id: number) => {
                         <textarea v-model="editDocForm.description" id="edit-doc-description" rows="2" class="w-full p-3 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-xs focus:outline-none focus:ring-1 focus:ring-purple-500"></textarea>
                     </div>
                     <div class="space-y-1">
-                        <Label for="edit-doc-file-path" class="text-xs">URL del PDF</Label>
-                        <Input v-model="editDocForm.file_path" id="edit-doc-file-path" type="url" class="rounded-xl text-xs h-10" />
+                        <Label for="edit-doc-file-file" class="text-xs font-bold">Subir Nuevo Documento (Opcional)</Label>
+                        <Input 
+                            type="file" 
+                            id="edit-doc-file-file" 
+                            @change="(e: any) => editDocForm.file_file = e.target.files[0]" 
+                            class="rounded-xl text-xs h-10 cursor-pointer" 
+                        />
+                        <p v-if="editDocForm.file_path" class="text-[10px] text-neutral-400 font-mono mt-1 break-all">
+                            Archivo actual: {{ editDocForm.file_path }}
+                        </p>
+                        <p v-if="editDocForm.errors.file_file" class="text-red-500 text-[10px]">{{ editDocForm.errors.file_file }}</p>
                     </div>
                     <div class="flex items-center space-x-3 py-2">
                         <input type="checkbox" v-model="editDocForm.is_active" id="edit-doc-is-active" class="size-4 rounded border-neutral-300 cursor-pointer" />
