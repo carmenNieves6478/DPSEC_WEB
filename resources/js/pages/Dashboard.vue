@@ -16,7 +16,8 @@ import {
     Pencil,
     CheckCircle,
     Clock,
-    AlertCircle
+    AlertCircle,
+    Upload
 } from '@lucide/vue';
 import { ref, computed } from 'vue';
 import CertificateTab from '@/components/CertificateTab.vue';
@@ -140,11 +141,163 @@ const eventForm = useForm({
     location: '',
     organizer: 'Dirección de Proyección Social y Extensión Cultural',
     description: '',
+    image_file: null as File | null,
     image_path: '',
     fb_link: 'https://www.facebook.com/ProyeccionSocialUNAPuno',
     is_proyeccion_social: true as boolean,
     sort_order: 0,
 });
+
+// Interactive Drag & Crop States
+const cropSource = ref('');
+const zoom = ref(1);
+const positionX = ref(0);
+const positionY = ref(0);
+const dragContainerRef = ref<HTMLElement | null>(null);
+const isDragging = ref(false);
+const dragStart = ref({ x: 0, y: 0 });
+const activeMode = ref<'add' | 'edit'>('add');
+
+const onFileSelected = (e: Event, mode: 'add' | 'edit') => {
+    activeMode.value = mode;
+    const target = e.target as HTMLInputElement;
+
+    if (target.files && target.files[0]) {
+        const file = target.files[0];
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            cropSource.value = event.target?.result as string;
+            zoom.value = 1;
+            positionX.value = 0;
+            positionY.value = 0;
+            debouncedCrop();
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+const startDrag = (e: MouseEvent | TouchEvent) => {
+    if (!cropSource.value) {
+return;
+}
+
+    isDragging.value = true;
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    dragStart.value = {
+        x: clientX - positionX.value,
+        y: clientY - positionY.value
+    };
+};
+
+const onDrag = (e: MouseEvent | TouchEvent) => {
+    if (!isDragging.value) {
+return;
+}
+
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    positionX.value = clientX - dragStart.value.x;
+    positionY.value = clientY - dragStart.value.y;
+    debouncedCrop();
+};
+
+const stopDrag = () => {
+    isDragging.value = false;
+};
+
+const cropImage = () => {
+    if (!cropSource.value) {
+return;
+}
+
+    const img = new Image();
+    img.src = cropSource.value;
+    img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        if (!ctx) {
+return;
+}
+
+        // Target size: 800 x 450 (16:9)
+        const targetWidth = 800;
+        const targetHeight = 450;
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+
+        const targetRatio = targetWidth / targetHeight;
+        const imgRatio = img.naturalWidth / img.naturalHeight;
+
+        let drawWidth, drawHeight;
+
+        if (imgRatio > targetRatio) {
+            drawHeight = targetHeight;
+            drawWidth = targetHeight * imgRatio;
+        } else {
+            drawWidth = targetWidth;
+            drawHeight = targetWidth / imgRatio;
+        }
+
+        // Apply zoom
+        drawWidth *= zoom.value;
+        drawHeight *= zoom.value;
+
+        // Container dimensions
+        const containerWidth = dragContainerRef.value ? dragContainerRef.value.clientWidth : 400;
+        const containerHeight = dragContainerRef.value ? dragContainerRef.value.clientHeight : 225;
+
+        // Scaling factors
+        const scaleX = targetWidth / containerWidth;
+        const scaleY = targetHeight / containerHeight;
+
+        // Center calculation
+        const defaultX = (targetWidth - drawWidth) / 2;
+        const defaultY = (targetHeight - drawHeight) / 2;
+
+        const destX = defaultX + (positionX.value * scaleX);
+        const destY = defaultY + (positionY.value * scaleY);
+
+        // Draw image onto canvas
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, targetWidth, targetHeight);
+        ctx.drawImage(img, destX, destY, drawWidth, drawHeight);
+
+        // Export as WebP blob
+        canvas.toBlob((blob) => {
+            if (blob) {
+                const croppedFile = new File([blob], 'event_image.webp', { type: 'image/webp' });
+
+                if (activeMode.value === 'edit') {
+                    editEventForm.image_file = croppedFile;
+                } else {
+                    eventForm.image_file = croppedFile;
+                }
+            }
+        }, 'image/webp', 0.85);
+    };
+};
+
+let cropTimeout: any = null;
+const debouncedCrop = () => {
+    if (cropTimeout) {
+clearTimeout(cropTimeout);
+}
+
+    cropTimeout = setTimeout(() => {
+        cropImage();
+    }, 100);
+};
+
+const openAddEvent = () => {
+    cropSource.value = '';
+    zoom.value = 1;
+    positionX.value = 0;
+    positionY.value = 0;
+    eventForm.reset();
+    isAddEventOpen.value = true;
+};
 
 const submitAddEvent = () => {
     eventForm.post('/admin/eventos', {
@@ -168,6 +321,7 @@ const editEventForm = useForm({
     location: '',
     organizer: '',
     description: '',
+    image_file: null as File | null,
     image_path: '',
     fb_link: '',
     is_proyeccion_social: false as boolean,
@@ -175,6 +329,10 @@ const editEventForm = useForm({
 });
 
 const openEditEvent = (ev: EventItem) => {
+    cropSource.value = '';
+    zoom.value = 1;
+    positionX.value = 0;
+    positionY.value = 0;
     editingEventId.value = ev.id;
     editEventForm.title = ev.title;
     editEventForm.type = ev.type;
@@ -184,6 +342,7 @@ const openEditEvent = (ev: EventItem) => {
     editEventForm.location = ev.location;
     editEventForm.organizer = ev.organizer;
     editEventForm.description = ev.description;
+    editEventForm.image_file = null;
     editEventForm.image_path = ev.image_path;
     editEventForm.fb_link = ev.fb_link;
     editEventForm.is_proyeccion_social = ev.is_proyeccion_social;
@@ -192,7 +351,10 @@ const openEditEvent = (ev: EventItem) => {
 };
 
 const submitEditEvent = () => {
-    editEventForm.put(`/admin/eventos/${editingEventId.value}`, {
+    editEventForm.transform((data) => ({
+        ...data,
+        _method: 'PUT'
+    })).post(`/admin/eventos/${editingEventId.value}`, {
         preserveScroll: true,
         onSuccess: () => {
             isEditEventOpen.value = false;
@@ -384,7 +546,7 @@ const deleteDoc = (id: number) => {
                     </p>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <button 
-                            @click="activeTab = 'events'; isAddEventOpen = true"
+                            @click="activeTab = 'events'; openAddEvent()"
                             class="p-4 rounded-xl border border-dashed border-indigo-200 dark:border-indigo-800 hover:border-indigo-500 bg-indigo-50/20 dark:bg-indigo-950/10 flex items-center gap-4 transition-all text-left group cursor-pointer"
                         >
                             <div class="size-10 rounded-lg bg-indigo-600/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center group-hover:scale-105 transition-all">
@@ -449,7 +611,7 @@ const deleteDoc = (id: number) => {
                     />
                 </div>
                 <Button 
-                    @click="isAddEventOpen = true"
+                    @click="openAddEvent()"
                     class="rounded-xl h-10 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold flex items-center gap-1.5 text-xs w-full sm:w-auto cursor-pointer"
                 >
                     <Plus class="size-4" />
@@ -714,9 +876,84 @@ const deleteDoc = (id: number) => {
                         <textarea v-model="eventForm.description" id="add-description" required rows="3" placeholder="Resumen del evento..." class="w-full p-3 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500"></textarea>
                     </div>
 
-                    <div class="space-y-1">
-                        <Label for="add-image-path" class="text-xs">URL de la Imagen (Facebook o CDN)</Label>
-                        <Input v-model="eventForm.image_path" id="add-image-path" type="url" placeholder="https://..." class="rounded-xl text-xs h-10" />
+                    <!-- Image Upload with drag cropper -->
+                    <div class="space-y-1.5">
+                        <Label class="text-xs">Imagen del Evento (Se convertirá a WebP ligero)</Label>
+                        
+                        <!-- File Input -->
+                        <div class="flex items-center gap-2">
+                            <input 
+                                type="file" 
+                                accept="image/*" 
+                                @change="e => onFileSelected(e, 'add')" 
+                                id="add-image-file" 
+                                class="hidden" 
+                            />
+                            <label 
+                                for="add-image-file" 
+                                class="flex items-center justify-center gap-2 px-4 py-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-500/5 hover:bg-indigo-500/10 transition-colors cursor-pointer select-none"
+                            >
+                                <Upload class="size-4" />
+                                Seleccionar Imagen
+                            </label>
+                            <span class="text-[10px] text-neutral-400 truncate max-w-[200px]" v-if="eventForm.image_file">
+                                {{ eventForm.image_file.name }} (WebP)
+                            </span>
+                        </div>
+                        <p v-if="eventForm.errors.image_file" class="text-red-500 text-[10px]">{{ eventForm.errors.image_file }}</p>
+
+                        <!-- Live Interactive Card Preview -->
+                        <div v-if="cropSource" class="mt-4 space-y-2">
+                            <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider block">Ajustar visualización en Tarjeta:</span>
+                            
+                            <!-- Card Image container box -->
+                            <div 
+                                ref="dragContainerRef"
+                                class="h-52 w-full relative overflow-hidden bg-neutral-150 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-2xl cursor-move select-none"
+                                @mousedown="startDrag"
+                                @mousemove="onDrag"
+                                @mouseup="stopDrag"
+                                @mouseleave="stopDrag"
+                                @touchstart="startDrag"
+                                @touchmove="onDrag"
+                                @touchend="stopDrag"
+                            >
+                                <img 
+                                    :src="cropSource" 
+                                    alt="Preview" 
+                                    class="absolute pointer-events-none origin-center"
+                                    :style="{
+                                        left: '50%',
+                                        top: '50%',
+                                        transform: `translate(-50%, -50%) translate(${positionX}px, ${positionY}px) scale(${zoom})`,
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover'
+                                    }"
+                                />
+                                <!-- Cropper Helper Grid lines -->
+                                <div class="absolute inset-0 border border-indigo-500/30 pointer-events-none flex items-center justify-center">
+                                    <div class="w-full h-[33.3%] border-y border-dashed border-white/20"></div>
+                                    <div class="h-full w-[33.3%] border-x border-dashed border-white/20 absolute"></div>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-neutral-400">Arrastra la foto para centrarla dentro del recuadro.</p>
+
+                            <!-- Zoom range control -->
+                            <div class="flex items-center gap-3 pt-1">
+                                <span class="text-[10px] font-bold text-neutral-500">Zoom:</span>
+                                <input 
+                                    type="range" 
+                                    min="1" 
+                                    max="3" 
+                                    step="0.05" 
+                                    v-model.number="zoom" 
+                                    @input="debouncedCrop"
+                                    class="flex-grow h-1.5 bg-neutral-200 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                                />
+                                <span class="text-[10px] font-mono text-neutral-500">{{ zoom.toFixed(1) }}x</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="space-y-1">
@@ -798,9 +1035,90 @@ const deleteDoc = (id: number) => {
                         <Label for="edit-description" class="text-xs">Descripción</Label>
                         <textarea v-model="editEventForm.description" id="edit-description" required rows="3" class="w-full p-3 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500"></textarea>
                     </div>
-                    <div class="space-y-1">
-                        <Label for="edit-image-path" class="text-xs">URL de Imagen</Label>
-                        <Input v-model="editEventForm.image_path" id="edit-image-path" type="url" class="rounded-xl text-xs h-10" />
+                    <!-- Image Upload with drag cropper -->
+                    <div class="space-y-1.5">
+                        <Label class="text-xs">Imagen del Evento (Se convertirá a WebP ligero)</Label>
+                        
+                        <!-- Current image preview if exists -->
+                        <div v-if="editEventForm.image_path && !cropSource" class="mb-2 relative w-full h-32 rounded-xl overflow-hidden bg-neutral-100 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800">
+                            <img :src="editEventForm.image_path" class="w-full h-full object-cover" />
+                            <div class="absolute inset-0 bg-black/45 flex items-center justify-center text-xs font-bold text-white">Imagen Actual</div>
+                        </div>
+
+                        <!-- File Input -->
+                        <div class="flex items-center gap-2">
+                            <input 
+                                type="file" 
+                                accept="image/*" 
+                                @change="e => onFileSelected(e, 'edit')" 
+                                id="edit-image-file" 
+                                class="hidden" 
+                            />
+                            <label 
+                                for="edit-image-file" 
+                                class="flex items-center justify-center gap-2 px-4 py-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-xs font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-500/5 hover:bg-indigo-500/10 transition-colors cursor-pointer select-none"
+                            >
+                                <Upload class="size-4" />
+                                Cambiar Imagen
+                            </label>
+                            <span class="text-[10px] text-neutral-400 truncate max-w-[200px]" v-if="editEventForm.image_file">
+                                {{ editEventForm.image_file.name }} (WebP)
+                            </span>
+                        </div>
+                        <p v-if="editEventForm.errors.image_file" class="text-red-500 text-[10px]">{{ editEventForm.errors.image_file }}</p>
+
+                        <!-- Live Interactive Card Preview -->
+                        <div v-if="cropSource" class="mt-4 space-y-2">
+                            <span class="text-[10px] font-bold text-neutral-400 uppercase tracking-wider block">Ajustar visualización en Tarjeta:</span>
+                            
+                            <!-- Card Image container box -->
+                            <div 
+                                ref="dragContainerRef"
+                                class="h-52 w-full relative overflow-hidden bg-neutral-150 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-2xl cursor-move select-none"
+                                @mousedown="startDrag"
+                                @mousemove="onDrag"
+                                @mouseup="stopDrag"
+                                @mouseleave="stopDrag"
+                                @touchstart="startDrag"
+                                @touchmove="onDrag"
+                                @touchend="stopDrag"
+                            >
+                                <img 
+                                    :src="cropSource" 
+                                    alt="Preview" 
+                                    class="absolute pointer-events-none origin-center"
+                                    :style="{
+                                        left: '50%',
+                                        top: '50%',
+                                        transform: `translate(-50%, -50%) translate(${positionX}px, ${positionY}px) scale(${zoom})`,
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover'
+                                    }"
+                                />
+                                <!-- Cropper Helper Grid lines -->
+                                <div class="absolute inset-0 border border-indigo-500/30 pointer-events-none flex items-center justify-center">
+                                    <div class="w-full h-[33.3%] border-y border-dashed border-white/20"></div>
+                                    <div class="h-full w-[33.3%] border-x border-dashed border-white/20 absolute"></div>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-neutral-400">Arrastra la foto para centrarla dentro del recuadro.</p>
+
+                            <!-- Zoom range control -->
+                            <div class="flex items-center gap-3 pt-1">
+                                <span class="text-[10px] font-bold text-neutral-500">Zoom:</span>
+                                <input 
+                                    type="range" 
+                                    min="1" 
+                                    max="3" 
+                                    step="0.05" 
+                                    v-model.number="zoom" 
+                                    @input="debouncedCrop"
+                                    class="flex-grow h-1.5 bg-neutral-200 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-indigo-600"
+                                />
+                                <span class="text-[10px] font-mono text-neutral-500">{{ zoom.toFixed(1) }}x</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="space-y-1">
                         <Label for="edit-fb-link" class="text-xs">Enlace de Facebook</Label>
