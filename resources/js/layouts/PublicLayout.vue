@@ -12,12 +12,10 @@ import {
     MapPin,
     Calendar,
     FileText,
-    LogIn,
-    User,
     ArrowRight,
     Award
 } from '@lucide/vue';
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -33,7 +31,6 @@ defineProps<{
 
 // Page info
 const page = usePage();
-const authUser = computed(() => page.props.auth?.user);
 
 // Theme appearance
 const { resolvedAppearance, updateAppearance } = useAppearance();
