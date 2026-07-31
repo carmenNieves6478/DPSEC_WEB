@@ -104,7 +104,7 @@ const faqs = computed(() => {
         <!-- Hero Header -->
         <section 
             class="relative h-[65vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
-            style="background-image: url('https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/497616302_715522607495641_394883363488073294_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeGrI1hDDYVjrJNw-q73inREMVdmvrNJwvIxV2a-s0nC8obUc7wSTwwkX8Pxeq4MnCjDhI9a_eEo44qzhHSIgsCp&_nc_ohc=Cs1YIslMJ30Q7kNvwEZo9RQ&_nc_oc=AdqHTCfnk7CGKzQOFhEfpy6m8Uw2sgaalYy2g9ueKbkMHo5j_romXa4UrGKW_Ajkq3Q&_nc_zt=23&_nc_ht=scontent.fjul1-1.fna&_nc_gid=8sQPwbXLoPgX_hlxlS0n_g&_nc_ss=7b2a8&oh=00_AQAo7iP5pkUZGWDtJHRiRIMhfPmqMBGbMt5oBEQx0W7Pcg&oe=6A5484CF');"
+            style="background-image: url('https://scontent.flim26-1.fna.fbcdn.net/v/t39.30808-6/684209047_988255950222304_4304482649156688022_n.jpg?stp=dst-jpg_tt6&cstp=mx1600x1066&ctp=s1600x1066&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeH8pRbDJterI_4kfAJrfhEth_fU78i5DjyH99TvyLkOPExIu168MRbh304r1boYntcawbcIzVWA6jNSHE0qw7vK&_nc_ohc=DSrFJcjrEkQQ7kNvwGyIDgy&_nc_oc=AdoCBBZlxeANzXpp9oF0Vksjh51HGnJ5Q7ldhYgtogCsyvNGr8IN7J-zKihz_V_BrE0&_nc_zt=23&_nc_ht=scontent.flim26-1.fna&_nc_gid=bNo6wW1ZIjfLU4SaWGl_xA&_nc_ss=7b2a8&oh=00_AQGJJ4rrIYMmva01quxB4XyQU25zJpRuvYgP5JOkZ2N_Hg&oe=6A72C0C9');"
         >
             <!-- Gradient Overlay for readability -->
             <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/90 via-neutral-950/70 to-transparent z-10"></div>

@@ -28,7 +28,7 @@ class PageSectionSeeder extends Seeder
                 'eyebrow' => '¿Quiénes Somos?',
                 'title' => 'Nosotros',
                 'description' => 'Conoce la misión, los valores y el equipo de profesionales que lidera la Dirección de Proyección Social y Extensión Cultural en su compromiso de vincular a la Universidad Nacional del Altiplano con el desarrollo de la región.',
-                'background_image' => 'https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/536276174_796288509419050_1500971593146748128_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&oh=00_AQDNODsPpOywvQ6UFtqDPnT4bEqSxVMpLRtrX-Dgrwj87A&oe=6A548E80',
+                'background_image' => 'https://scontent.flim26-1.fna.fbcdn.net/v/t39.30808-6/684209047_988255950222304_4304482649156688022_n.jpg?stp=dst-jpg_tt6&cstp=mx1600x1066&ctp=s1600x1066&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeH8pRbDJterI_4kfAJrfhEth_fU78i5DjyH99TvyLkOPExIu168MRbh304r1boYntcawbcIzVWA6jNSHE0qw7vK&_nc_ohc=DSrFJcjrEkQQ7kNvwGyIDgy&_nc_oc=AdoCBBZlxeANzXpp9oF0Vksjh51HGnJ5Q7ldhYgtogCsyvNGr8IN7J-zKihz_V_BrE0&_nc_zt=23&_nc_ht=scontent.flim26-1.fna&_nc_gid=bNo6wW1ZIjfLU4SaWGl_xA&_nc_ss=7b2a8&oh=00_AQGJJ4rrIYMmva01quxB4XyQU25zJpRuvYgP5JOkZ2N_Hg&oe=6A72C0C9',
                 'extra_data' => null
             ],
             [
@@ -78,7 +78,7 @@ class PageSectionSeeder extends Seeder
                 'eyebrow' => 'Oficina Principal',
                 'title' => 'Proyección Social y Extensión Cultural',
                 'description' => 'Planificamos, organizamos y evaluamos las acciones de proyección social y extensión cultural de las Escuelas Profesionales de la UNA Puno para lograr el desarrollo integral y sostenido de la sociedad.',
-                'background_image' => 'https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/497616302_715522607495641_394883363488073294_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&oh=00_AQAo7iP5pkUZGWDtJHRiRIMhfPmqMBGbMt5oBEQx0W7Pcg&oe=6A5484CF',
+                'background_image' => 'https://scontent.flim26-1.fna.fbcdn.net/v/t39.30808-6/684209047_988255950222304_4304482649156688022_n.jpg?stp=dst-jpg_tt6&cstp=mx1600x1066&ctp=s1600x1066&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeH8pRbDJterI_4kfAJrfhEth_fU78i5DjyH99TvyLkOPExIu168MRbh304r1boYntcawbcIzVWA6jNSHE0qw7vK&_nc_ohc=DSrFJcjrEkQQ7kNvwGyIDgy&_nc_oc=AdoCBBZlxeANzXpp9oF0Vksjh51HGnJ5Q7ldhYgtogCsyvNGr8IN7J-zKihz_V_BrE0&_nc_zt=23&_nc_ht=scontent.flim26-1.fna&_nc_gid=bNo6wW1ZIjfLU4SaWGl_xA&_nc_ss=7b2a8&oh=00_AQGJJ4rrIYMmva01quxB4XyQU25zJpRuvYgP5JOkZ2N_Hg&oe=6A72C0C9',
                 'extra_data' => null
             ],
 
@@ -89,7 +89,7 @@ class PageSectionSeeder extends Seeder
                 'eyebrow' => 'Agenda Institucional',
                 'title' => 'Eventos',
                 'description' => 'Sigue nuestro cronograma de festivales culturales, campañas de salud descentralizadas, convocatorias a voluntariados ecológicos y seminarios académicos de proyección social.',
-                'background_image' => 'https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/599715893_884448530603047_8830935029040207180_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&oh=00_AQCPYaYVBsK7Adxqddq_DlU6zk0tr2nCG3amFSJjCR6x5g&oe=6A547587',
+                'background_image' => 'https://scontent.flim26-1.fna.fbcdn.net/v/t39.30808-6/684209047_988255950222304_4304482649156688022_n.jpg?stp=dst-jpg_tt6&cstp=mx1600x1066&ctp=s1600x1066&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeH8pRbDJterI_4kfAJrfhEth_fU78i5DjyH99TvyLkOPExIu168MRbh304r1boYntcawbcIzVWA6jNSHE0qw7vK&_nc_ohc=DSrFJcjrEkQQ7kNvwGyIDgy&_nc_oc=AdoCBBZlxeANzXpp9oF0Vksjh51HGnJ5Q7ldhYgtogCsyvNGr8IN7J-zKihz_V_BrE0&_nc_zt=23&_nc_ht=scontent.flim26-1.fna&_nc_gid=bNo6wW1ZIjfLU4SaWGl_xA&_nc_ss=7b2a8&oh=00_AQGJJ4rrIYMmva01quxB4XyQU25zJpRuvYgP5JOkZ2N_Hg&oe=6A72C0C9',
                 'extra_data' => null
             ],
 
@@ -100,7 +100,7 @@ class PageSectionSeeder extends Seeder
                 'eyebrow' => 'Normativa y Transparencia',
                 'title' => 'Documentos de Gestión',
                 'description' => 'Consulta y descarga reglamentos, resoluciones, directivas vigentes y los formatos oficiales requeridos para las actividades de proyección social de la UNA Puno.',
-                'background_image' => 'https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/542755889_802384058809495_3360460449534539912_n.jpg?stp=dst-jpg_tt6&cstp=mx1587x1070&ctp=s1587x1070&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&oh=00_AQAedMPmXVlTlw5RV1VhOKPG8VAPcJvOKeETee504zDo8Q&oe=6A548F4B',
+                'background_image' => 'https://scontent.flim26-1.fna.fbcdn.net/v/t39.30808-6/684209047_988255950222304_4304482649156688022_n.jpg?stp=dst-jpg_tt6&cstp=mx1600x1066&ctp=s1600x1066&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeH8pRbDJterI_4kfAJrfhEth_fU78i5DjyH99TvyLkOPExIu168MRbh304r1boYntcawbcIzVWA6jNSHE0qw7vK&_nc_ohc=DSrFJcjrEkQQ7kNvwGyIDgy&_nc_oc=AdoCBBZlxeANzXpp9oF0Vksjh51HGnJ5Q7ldhYgtogCsyvNGr8IN7J-zKihz_V_BrE0&_nc_zt=23&_nc_ht=scontent.flim26-1.fna&_nc_gid=bNo6wW1ZIjfLU4SaWGl_xA&_nc_ss=7b2a8&oh=00_AQGJJ4rrIYMmva01quxB4XyQU25zJpRuvYgP5JOkZ2N_Hg&oe=6A72C0C9',
                 'extra_data' => null
             ],
 
@@ -111,7 +111,7 @@ class PageSectionSeeder extends Seeder
                 'eyebrow' => 'Sub Unidad',
                 'title' => 'Seguimiento al Graduado',
                 'description' => 'Vinculación profesional y acompañamiento al egresado de la Universidad Nacional del Altiplano en su inserción al mercado laboral.',
-                'background_image' => 'https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/605296083_769669972809513_1888138256417761411_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1267&ctp=s2048x1267&_nc_cat=111&ccb=1-7&_nc_sid=127cfc&oh=00_AQB07yMVCLvM2dYj9ZC6nRoS-85sQQP7yXNsWz-wd2SgUA&oe=6A5470B5',
+                'background_image' => 'https://scontent.flim26-1.fna.fbcdn.net/v/t39.30808-6/684209047_988255950222304_4304482649156688022_n.jpg?stp=dst-jpg_tt6&cstp=mx1600x1066&ctp=s1600x1066&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeH8pRbDJterI_4kfAJrfhEth_fU78i5DjyH99TvyLkOPExIu168MRbh304r1boYntcawbcIzVWA6jNSHE0qw7vK&_nc_ohc=DSrFJcjrEkQQ7kNvwGyIDgy&_nc_oc=AdoCBBZlxeANzXpp9oF0Vksjh51HGnJ5Q7ldhYgtogCsyvNGr8IN7J-zKihz_V_BrE0&_nc_zt=23&_nc_ht=scontent.flim26-1.fna&_nc_gid=bNo6wW1ZIjfLU4SaWGl_xA&_nc_ss=7b2a8&oh=00_AQGJJ4rrIYMmva01quxB4XyQU25zJpRuvYgP5JOkZ2N_Hg&oe=6A72C0C9',
                 'extra_data' => null
             ],
             [

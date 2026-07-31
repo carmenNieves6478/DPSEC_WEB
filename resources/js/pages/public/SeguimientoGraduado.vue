@@ -23,7 +23,7 @@ const handleSubscribe = (e: Event) => {
         <!-- Hero Header -->
         <section 
             class="relative h-[65vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
-            style="background-image: url('https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/605296083_769669972809513_1888138256417761411_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1267&ctp=s2048x1267&_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeErCVDX-2bhd-oXj91oxi8uP3zmIbV9bRQ_fOYhtX1tFEc26QCfmlKGVmIt8eHzOj4lP3fH8TmfbOE-Qa7r3CBf&_nc_ohc=y4O89CSTX3kQ7kNvwFpldty&_nc_oc=AdpXVqBXvCSHpZcxdtDOuOmzbcQxOARxVFWoV-b-eBj1cMdhr10LjIsIwnH7cQ57iro&_nc_zt=23&_nc_ht=scontent.fjul1-1.fna&_nc_gid=TRYXVfnqnL40UwnauglLhg&_nc_ss=7b2a8&oh=00_AQB07yMVCLvM2dYj9ZC6nRoS-85sQQP7yXNsWz-wd2SgUA&oe=6A5470B5');"
+            style="background-image: url('https://scontent.flim26-1.fna.fbcdn.net/v/t39.30808-6/684209047_988255950222304_4304482649156688022_n.jpg?stp=dst-jpg_tt6&cstp=mx1600x1066&ctp=s1600x1066&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeH8pRbDJterI_4kfAJrfhEth_fU78i5DjyH99TvyLkOPExIu168MRbh304r1boYntcawbcIzVWA6jNSHE0qw7vK&_nc_ohc=DSrFJcjrEkQQ7kNvwGyIDgy&_nc_oc=AdoCBBZlxeANzXpp9oF0Vksjh51HGnJ5Q7ldhYgtogCsyvNGr8IN7J-zKihz_V_BrE0&_nc_zt=23&_nc_ht=scontent.flim26-1.fna&_nc_gid=bNo6wW1ZIjfLU4SaWGl_xA&_nc_ss=7b2a8&oh=00_AQGJJ4rrIYMmva01quxB4XyQU25zJpRuvYgP5JOkZ2N_Hg&oe=6A72C0C9');"
         >
             <!-- Gradient Overlay for readability -->
             <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/90 via-neutral-950/70 to-transparent z-10"></div>

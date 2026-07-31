@@ -75,7 +75,7 @@ class Event extends Model
      */
     public function scopeActive(Builder $query): Builder
     {
-        return $query->orderBy('sort_order');
+        return $query->orderBy('sort_order')->orderBy('event_date', 'desc');
     }
 
     /**
