@@ -114,7 +114,7 @@ const filteredDocuments = computed(() => {
 </script>
 
 <template>
-    <PublicLayout title="Documentos Oficiales">
+    <PublicLayout title="Documentos de Gestión">
         <!-- Hero Header -->
         <section 
             class="relative h-[65vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
@@ -125,7 +125,7 @@ const filteredDocuments = computed(() => {
             
             <div class="max-w-7xl mx-auto w-full px-6 lg:px-8 text-left relative z-20 space-y-3">
                 <span class="text-xs font-bold uppercase tracking-widest text-blue-400">Normativa y Transparencia</span>
-                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Centro de Documentos</h1>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Documentos de Gestión</h1>
                 <p class="text-xs md:text-sm text-white/80 max-w-3xl leading-relaxed">
                     Consulta y descarga reglamentos, resoluciones, directivas vigentes y los formatos oficiales requeridos para las actividades de proyección social de la UNA Puno.
                 </p>

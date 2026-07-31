@@ -445,8 +445,8 @@ onUnmounted(() => {
                 <div class="text-center max-w-2xl mx-auto space-y-3">
                     <span
                         class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Directorio
-                        de SubUnidades</span>
-                    <h2 class="text-3xl font-extrabold tracking-tight">Accede a Nuestras Áreas</h2>
+                        de Sub-Unidades</span>
+                    <h2 class="text-3xl font-extrabold tracking-tight">Accede a nuestras Sub-Unidades</h2>
                     <p class="text-neutral-500 dark:text-neutral-400 text-sm">
                         Conoce las dependencias que forman parte de la Dirección de Proyección Social y Extensión
                         Cultural.
@@ -541,7 +541,7 @@ onUnmounted(() => {
                     <span
                         class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Transparencia
                         y Normas</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Documentación Oficial</h2>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Documentos de Gestión</h2>
                     <p class="text-neutral-600 dark:text-neutral-300 text-sm md:text-base leading-relaxed">
                         Descarga las resoluciones, directivas vigentes, reglamentos y guías metodológicas para registrar
                         tus proyectos de proyección social y extensión cultural adecuadamente.
@@ -549,7 +549,7 @@ onUnmounted(() => {
                     <Link href="/documentos">
                         <Button
                             class="rounded-xl bg-indigo-700 hover:bg-indigo-800 text-white flex items-center gap-2 cursor-pointer">
-                            Ver Todos los Documentos
+                            Ver Todos los Documentos de Gestión
                             <ArrowRight class="size-4" />
                         </Button>
                     </Link>

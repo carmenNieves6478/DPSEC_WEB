@@ -98,7 +98,7 @@ class PageSectionSeeder extends Seeder
                 'page_slug' => 'documentos',
                 'section_key' => 'hero',
                 'eyebrow' => 'Normativa y Transparencia',
-                'title' => 'Centro de Documentos',
+                'title' => 'Documentos de Gestión',
                 'description' => 'Consulta y descarga reglamentos, resoluciones, directivas vigentes y los formatos oficiales requeridos para las actividades de proyección social de la UNA Puno.',
                 'background_image' => 'https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/542755889_802384058809495_3360460449534539912_n.jpg?stp=dst-jpg_tt6&cstp=mx1587x1070&ctp=s1587x1070&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&oh=00_AQAedMPmXVlTlw5RV1VhOKPG8VAPcJvOKeETee504zDo8Q&oe=6A548F4B',
                 'extra_data' => null

@@ -215,82 +215,117 @@ const valueImages = [
     'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80'
 ];
 
-// Values list
-const values = computed(() => {
-    if (props.values && props.values.length > 0) {
-        return props.values.map((v, index) => ({
-            title: v.title,
-            description: v.description,
-            icon: iconMap[v.icon_name] || Heart,
-            glowBg: v.glow_bg_class || 'bg-indigo-500',
-            iconContainerClass: v.icon_container_class || 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 dark:bg-indigo-500/20',
-            accentLine: v.accent_line_class || 'bg-indigo-500',
-            image: valueImages[index % valueImages.length],
-            headerBg: 'bg-indigo-600 dark:bg-indigo-700'
-        }));
+// Distinct Theme Palettes for each Institutional Value card (Both Front & Back)
+const valueColorThemes = [
+    { // 0: Compromiso (Rose Red)
+        headerBg: 'bg-rose-600 dark:bg-rose-700',
+        backBg: 'bg-rose-50/90 dark:bg-rose-950/90 border-rose-200 dark:border-rose-800/70',
+        iconBg: 'bg-rose-600 text-white shadow-rose-500/30',
+        titleColor: 'text-rose-950 dark:text-rose-100',
+        descColor: 'text-rose-800/90 dark:text-rose-200/80',
+        badgeBorder: 'border-rose-300 dark:border-rose-700'
+    },
+    { // 1: Innovación (Amber Gold)
+        headerBg: 'bg-amber-600 dark:bg-amber-700',
+        backBg: 'bg-amber-50/90 dark:bg-amber-950/90 border-amber-200 dark:border-amber-800/70',
+        iconBg: 'bg-amber-600 text-white shadow-amber-500/30',
+        titleColor: 'text-amber-950 dark:text-amber-100',
+        descColor: 'text-amber-800/90 dark:text-amber-200/80',
+        badgeBorder: 'border-amber-300 dark:border-amber-700'
+    },
+    { // 2: Trabajo en Equipo (Blue)
+        headerBg: 'bg-blue-600 dark:bg-blue-700',
+        backBg: 'bg-blue-50/90 dark:bg-blue-950/90 border-blue-200 dark:border-blue-800/70',
+        iconBg: 'bg-blue-600 text-white shadow-blue-500/30',
+        titleColor: 'text-blue-950 dark:text-blue-100',
+        descColor: 'text-blue-800/90 dark:text-blue-200/80',
+        badgeBorder: 'border-blue-300 dark:border-blue-700'
+    },
+    { // 3: Integridad (Emerald Green)
+        headerBg: 'bg-emerald-600 dark:bg-emerald-700',
+        backBg: 'bg-emerald-50/90 dark:bg-emerald-950/90 border-emerald-200 dark:border-emerald-800/70',
+        iconBg: 'bg-emerald-600 text-white shadow-emerald-500/30',
+        titleColor: 'text-emerald-950 dark:text-emerald-100',
+        descColor: 'text-emerald-800/90 dark:text-emerald-200/80',
+        badgeBorder: 'border-emerald-300 dark:border-emerald-700'
+    },
+    { // 4: Pasión (Orange)
+        headerBg: 'bg-orange-600 dark:bg-orange-700',
+        backBg: 'bg-orange-50/90 dark:bg-orange-950/90 border-orange-200 dark:border-orange-800/70',
+        iconBg: 'bg-orange-600 text-white shadow-orange-500/30',
+        titleColor: 'text-orange-950 dark:text-orange-100',
+        descColor: 'text-orange-800/90 dark:text-orange-200/80',
+        badgeBorder: 'border-orange-300 dark:border-orange-700'
+    },
+    { // 5: Sostenibilidad (Teal)
+        headerBg: 'bg-teal-600 dark:bg-teal-700',
+        backBg: 'bg-teal-50/90 dark:bg-teal-950/90 border-teal-200 dark:border-teal-800/70',
+        iconBg: 'bg-teal-600 text-white shadow-teal-500/30',
+        titleColor: 'text-teal-950 dark:text-teal-100',
+        descColor: 'text-teal-800/90 dark:text-teal-200/80',
+        badgeBorder: 'border-teal-300 dark:border-teal-700'
     }
+];
 
-    return [
+// Values list with distinct theme assigned per item
+const values = computed(() => {
+    const defaultList = [
         {
             title: 'Compromiso',
             description: 'Nos dedicamos plenamente a nuestra misión y a las comunidades que servimos.',
             icon: Heart,
-            glowBg: 'bg-rose-500',
-            iconContainerClass: 'bg-rose-500/10 text-rose-600 dark:text-rose-400 dark:bg-rose-500/20',
-            accentLine: 'bg-rose-500',
             image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&auto=format&fit=crop&q=80',
-            headerBg: 'bg-rose-600 dark:bg-rose-700'
         },
         {
             title: 'Innovación',
             description: 'Buscamos constantemente nuevas soluciones a los desafíos sociales.',
             icon: Lightbulb,
-            glowBg: 'bg-amber-500',
-            iconContainerClass: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 dark:bg-amber-500/20',
-            accentLine: 'bg-amber-500',
             image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&auto=format&fit=crop&q=80',
-            headerBg: 'bg-amber-600 dark:bg-amber-700'
         },
         {
             title: 'Trabajo en Equipo',
             description: 'Creemos en el poder de la colaboración y el esfuerzo colectivo.',
             icon: Users,
-            glowBg: 'bg-blue-500',
-            iconContainerClass: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 dark:bg-blue-500/20',
-            accentLine: 'bg-blue-500',
             image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=80',
-            headerBg: 'bg-blue-600 dark:bg-blue-700'
         },
         {
             title: 'Integridad',
             description: 'Actuamos con transparencia y ética en todas nuestras acciones.',
             icon: ShieldCheck,
-            glowBg: 'bg-emerald-500',
-            iconContainerClass: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 dark:bg-emerald-500/20',
-            accentLine: 'bg-emerald-500',
             image: 'https://images.unsplash.com/photo-1579202673506-ca3ce28943ef?w=600&auto=format&fit=crop&q=80',
-            headerBg: 'bg-emerald-600 dark:bg-emerald-700'
         },
         {
             title: 'Pasión',
             description: 'Nos apasiona nuestro trabajo y el impacto que generamos.',
             icon: Flame,
-            glowBg: 'bg-orange-500',
-            iconContainerClass: 'bg-orange-500/10 text-orange-600 dark:text-orange-400 dark:bg-orange-500/20',
-            accentLine: 'bg-orange-500',
             image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&auto=format&fit=crop&q=80',
-            headerBg: 'bg-orange-600 dark:bg-orange-700'
         },
         {
             title: 'Sostenibilidad',
             description: 'Trabajamos por soluciones que perduren en el tiempo.',
             icon: Leaf,
-            glowBg: 'bg-teal-500',
-            iconContainerClass: 'bg-teal-500/10 text-teal-600 dark:text-teal-400 dark:bg-teal-500/20',
-            accentLine: 'bg-teal-500',
             image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80',
         }
     ];
+
+    const source = (props.values && props.values.length > 0) ? props.values : defaultList;
+
+    return source.map((v, index) => {
+        const theme = valueColorThemes[index % valueColorThemes.length];
+
+        return {
+            title: v.title,
+            description: v.description,
+            icon: v.icon || iconMap[v.icon_name] || Heart,
+            image: v.image || valueImages[index % valueImages.length],
+            headerBg: theme.headerBg,
+            backBg: theme.backBg,
+            iconBg: theme.iconBg,
+            titleColor: theme.titleColor,
+            descColor: theme.descColor,
+            badgeBorder: theme.badgeBorder,
+        };
+    });
 });
 
 // Scrollytelling Pinned Team Presentation Logic
@@ -628,15 +663,15 @@ onUnmounted(() => {
                                             </div>
                                         </div>
 
-                                        <!-- BACK SIDE (Shows value description - larger font sizes) -->
-                                        <div class="card-back bg-neutral-50 dark:bg-neutral-950 border border-neutral-200/80 dark:border-neutral-800/80 shadow-lg p-6 flex flex-col justify-center items-center text-center">
-                                            <div class="inline-flex size-10 rounded-xl items-center justify-center border border-current shadow-xs" :class="val.iconContainerClass">
+                                        <!-- BACK SIDE (Shows value description - themed per card) -->
+                                        <div class="card-back border shadow-lg p-6 flex flex-col justify-center items-center text-center transition-colors duration-300" :class="val.backBg">
+                                            <div class="inline-flex size-11 rounded-xl items-center justify-center border shadow-md shrink-0" :class="[val.iconBg, val.badgeBorder]">
                                                 <component :is="val.icon" class="size-5.5" />
                                             </div>
-                                            <h4 class="font-extrabold text-base text-neutral-900 dark:text-white mt-3.5 leading-tight">
+                                            <h4 class="font-extrabold text-base mt-3.5 leading-tight tracking-tight" :class="val.titleColor">
                                                 {{ val.title }}
                                             </h4>
-                                            <p class="text-[12px] text-neutral-600 dark:text-neutral-300 mt-2.5 leading-relaxed font-normal">
+                                            <p class="text-[12px] mt-2.5 leading-relaxed font-medium" :class="val.descColor">
                                                 {{ val.description }}
                                             </p>
                                         </div>

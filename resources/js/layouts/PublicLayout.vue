@@ -166,7 +166,7 @@ const suboffices = [
                         class="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-1.5"
                         :class="page.url.startsWith('/documentos') ? 'text-indigo-600 dark:text-indigo-400 font-semibold' : 'text-neutral-600 dark:text-neutral-300'">
                         <FileText class="size-4" />
-                        Documentos
+                        Documentos de Gestión
                     </Link>
 
                     <Link href="/eventos"
@@ -194,7 +194,7 @@ const suboffices = [
                         <Moon v-else class="h-4 w-4 text-indigo-950" />
                     </Button>
 
-                    <!-- Authentication / Portal access -->
+                    <!-- Authentication / Portal access (Ocultado según requerimiento)
                     <Link v-if="authUser" href="/dashboard">
                         <Button variant="outline"
                             class="rounded-xl flex items-center gap-2 border-neutral-300 dark:border-neutral-700">
@@ -209,6 +209,7 @@ const suboffices = [
                             Intranet
                         </Button>
                     </Link>
+                    -->
                 </div>
 
                 <!-- Mobile Menu Button -->
@@ -283,7 +284,7 @@ const suboffices = [
                             :class="page.url.startsWith('/documentos') ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900' : 'text-neutral-700 dark:text-neutral-300'"
                             @click="mobileMenuOpen = false">
                             <FileText class="size-5" />
-                            Documentos
+                            Documentos de Gestión
                         </Link>
 
                         <Link href="/eventos"
@@ -306,7 +307,7 @@ const suboffices = [
 
                     <div class="h-px bg-neutral-200 dark:bg-neutral-800 my-4"></div>
 
-                    <!-- Portal / Intranet Access (Mobile) -->
+                    <!-- Portal / Intranet Access (Mobile) (Ocultado según requerimiento)
                     <Link v-if="authUser" href="/dashboard" class="block w-full" @click="mobileMenuOpen = false">
                         <Button variant="outline" class="w-full rounded-xl flex items-center justify-center gap-2">
                             <User class="size-4 text-indigo-500" />
@@ -320,6 +321,7 @@ const suboffices = [
                             Acceso Intranet
                         </Button>
                     </Link>
+                    -->
                 </div>
             </transition>
         </header>
@@ -434,7 +436,7 @@ const suboffices = [
                             <Link href="/documentos"
                                 class="hover:text-white transition-colors flex items-center gap-1.5">
                                 <ArrowRight class="size-3 text-indigo-500" />
-                                Documentos
+                                Documentos de Gestión
                             </Link>
                         </li>
                         <li>
@@ -490,7 +492,7 @@ const suboffices = [
                 <div class="flex gap-6">
                     <a href="https://www.unap.edu.pe" target="_blank" rel="noopener noreferrer"
                         class="hover:text-white transition-colors">Portal UNA Puno</a>
-                    <a href="/login" class="hover:text-white transition-colors">Acceso Interno</a>
+                    <!-- <a href="/login" class="hover:text-white transition-colors">Acceso Interno</a> -->
                 </div>
             </div>
         </footer>

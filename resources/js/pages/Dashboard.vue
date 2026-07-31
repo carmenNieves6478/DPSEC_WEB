@@ -324,7 +324,7 @@ const deleteDoc = (id: number) => {
                     class="px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer"
                     :class="activeTab === 'docs' ? 'bg-white dark:bg-neutral-800 shadow-xs text-indigo-600 dark:text-indigo-400' : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900'"
                 >
-                    Documentos
+                    Documentos de Gestión
                 </button>
                 <button 
                     @click="activeTab = 'certificates'"
