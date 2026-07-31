@@ -12,7 +12,17 @@ class Event extends Model
     protected $fillable = [
         'title', 'type', 'category', 'event_date', 'time', 'location', 'organizer',
         'description', 'image_path', 'fb_link', 'is_proyeccion_social', 'sort_order',
+        'status', 'status_label', 'status_color',
     ];
+
+    protected static function booted(): void
+    {
+        static::saving(function (Event $event) {
+            $event->attributes['status'] = $event->status;
+            $event->attributes['status_label'] = $event->status_label;
+            $event->attributes['status_color'] = $event->status_color;
+        });
+    }
 
     /** @phpstan-ignore-next-line rules.modelAppends */
     protected $appends = ['status', 'status_label', 'status_color'];
