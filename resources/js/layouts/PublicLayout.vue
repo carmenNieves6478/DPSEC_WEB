@@ -492,7 +492,7 @@ const suboffices = [
                 <div class="flex gap-6">
                     <a href="https://www.unap.edu.pe" target="_blank" rel="noopener noreferrer"
                         class="hover:text-white transition-colors">Portal UNA Puno</a>
-                    <!-- <a href="/login" class="hover:text-white transition-colors">Acceso Interno</a> -->
+                    <a href="/login" class="hover:text-white transition-colors">Acceso Interno</a>
                 </div>
             </div>
         </footer>

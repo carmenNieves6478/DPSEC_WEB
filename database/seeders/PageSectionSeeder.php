@@ -87,7 +87,7 @@ class PageSectionSeeder extends Seeder
                 'page_slug' => 'eventos',
                 'section_key' => 'hero',
                 'eyebrow' => 'Agenda Institucional',
-                'title' => 'Eventos y Certificados',
+                'title' => 'Eventos',
                 'description' => 'Sigue nuestro cronograma de festivales culturales, campañas de salud descentralizadas, convocatorias a voluntariados ecológicos y seminarios académicos de proyección social.',
                 'background_image' => 'https://scontent.fjul1-1.fna.fbcdn.net/v/t39.30808-6/599715893_884448530603047_8830935029040207180_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=105&ccb=1-7&_nc_sid=127cfc&oh=00_AQCPYaYVBsK7Adxqddq_DlU6zk0tr2nCG3amFSJjCR6x5g&oe=6A547587',
                 'extra_data' => null
