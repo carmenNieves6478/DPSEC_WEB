@@ -84,12 +84,18 @@ class AdminCertificateController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'background_image' => 'required|image|mimes:jpeg,png,jpg|max:5120', // Max 5MB
+            'background_image' => 'required|file|max:5120', // Max 5MB
             'settings' => 'required|json',
         ]);
 
         if ($request->hasFile('background_image')) {
             $file = $request->file('background_image');
+            
+            // Validate extension manually
+            if (!in_array(strtolower($file->getClientOriginalExtension()), ['jpg', 'jpeg', 'png'])) {
+                return redirect()->back()->withErrors(['background_image' => 'La imagen de fondo debe ser un archivo JPG, JPEG o PNG.']);
+            }
+
             $path = $file->store('certificate_templates', 'public');
             if ($path === false) {
                 return redirect()->back()->with('error', 'Error al guardar el fondo del certificado.');
@@ -114,7 +120,7 @@ class AdminCertificateController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'background_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+            'background_image' => 'nullable|file|max:5120',
             'settings' => 'required|json',
         ]);
 
@@ -124,6 +130,13 @@ class AdminCertificateController extends Controller
         ];
 
         if ($request->hasFile('background_image')) {
+            $file = $request->file('background_image');
+            
+            // Validate extension manually
+            if (!in_array(strtolower($file->getClientOriginalExtension()), ['jpg', 'jpeg', 'png'])) {
+                return redirect()->back()->withErrors(['background_image' => 'La imagen de fondo debe ser un archivo JPG, JPEG o PNG.']);
+            }
+
             // Delete old file
             $oldPath = str_replace('/storage/', '', $template->background_path);
             Storage::disk('public')->delete($oldPath);
@@ -161,7 +174,7 @@ class AdminCertificateController extends Controller
     {
         $request->validate([
             'certificate_template_id' => 'required|exists:certificate_templates,id',
-            'csv_file' => 'required|file|mimes:csv,txt|max:5120',
+            'csv_file' => 'required|file|max:5120',
             'issue_date' => 'required|date',
         ]);
 
@@ -170,15 +183,36 @@ class AdminCertificateController extends Controller
 
         if ($request->hasFile('csv_file')) {
             $file = $request->file('csv_file');
+            
+            // Validate extension manually
+            if (!in_array(strtolower($file->getClientOriginalExtension()), ['csv', 'txt'])) {
+                return redirect()->back()->withErrors(['csv_file' => 'El archivo debe tener extensión .csv o .txt']);
+            }
+
             $filePath = $file->getRealPath();
 
             $handle = fopen($filePath, 'r');
             if ($handle !== false) {
-                // Read header and sanitize
-                $header = fgetcsv($handle, 1000, ',');
-                if (!$header) {
+                // Read first line to detect delimiter
+                $firstLine = fgets($handle);
+                if ($firstLine === false) {
                     fclose($handle);
                     return redirect()->back()->with('error', 'El archivo CSV está vacío.');
+                }
+                
+                // Count occurrences to determine delimiter
+                $commaCount = substr_count($firstLine, ',');
+                $semicolonCount = substr_count($firstLine, ';');
+                $delimiter = ($semicolonCount > $commaCount) ? ';' : ',';
+                
+                // Rewind file to start
+                rewind($handle);
+
+                // Read header and sanitize
+                $header = fgetcsv($handle, 1000, $delimiter);
+                if (!$header) {
+                    fclose($handle);
+                    return redirect()->back()->with('error', 'El archivo CSV está vacío o es inválido.');
                 }
 
                 // Sanitize header items (remove UTF-8 BOM if present, trim, lowercase)
@@ -205,15 +239,20 @@ class AdminCertificateController extends Controller
                 if ($emailIndex === false) $emailIndex = array_search('correo', $header);
 
                 $count = 0;
-                while (($row = fgetcsv($handle, 1000, ',')) !== false) {
-                    if (count($row) < 2) continue;
+                while (($row = fgetcsv($handle, 1000, $delimiter)) !== false) {
+                    // Skip empty rows or single-field rows that are empty
+                    if ($row === [null] || (count($row) === 1 && trim($row[0] ?? '') === '')) {
+                        continue;
+                    }
 
                     $recipientName = trim($row[$nameIndex] ?? '');
                     $recipientDoc = trim($row[$docIndex] ?? '');
 
-                    if (empty($recipientName) || empty($recipientDoc)) continue;
+                    if (empty($recipientName) || empty($recipientDoc)) {
+                        continue;
+                    }
 
-                    $recipientEmail = $roleIndex !== false ? trim($row[$emailIndex] ?? '') : null;
+                    $recipientEmail = $emailIndex !== false ? trim($row[$emailIndex] ?? '') : null;
                     $role = $roleIndex !== false ? trim($row[$roleIndex] ?? '') : 'Participante';
 
                     // Check if already registered for this template to prevent duplicates

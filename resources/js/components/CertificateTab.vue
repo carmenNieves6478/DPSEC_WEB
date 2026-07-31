@@ -367,6 +367,7 @@ const filterByTemplate = () => {
                         <option value="" disabled>Selecciona una plantilla...</option>
                         <option v-for="tmpl in templates" :key="tmpl.id" :value="tmpl.id">{{ tmpl.name }}</option>
                     </select>
+                    <p v-if="importForm.errors.certificate_template_id" class="text-red-500 text-[10px] mt-0.5">{{ importForm.errors.certificate_template_id }}</p>
                 </div>
 
                 <!-- Issue Date -->
@@ -378,6 +379,7 @@ const filterByTemplate = () => {
                         id="issue_date"
                         required
                     />
+                    <p v-if="importForm.errors.issue_date" class="text-red-500 text-[10px] mt-0.5">{{ importForm.errors.issue_date }}</p>
                 </div>
 
                 <!-- CSV File Upload -->
@@ -399,6 +401,7 @@ const filterByTemplate = () => {
                             <p class="text-xs text-neutral-400">Columnas requeridas: "nombre" y "dni".</p>
                         </div>
                     </div>
+                    <p v-if="importForm.errors.csv_file" class="text-red-500 text-[10px] mt-0.5 text-center">{{ importForm.errors.csv_file }}</p>
                 </div>
 
                 <!-- Info Alert -->
@@ -614,10 +617,12 @@ const filterByTemplate = () => {
                                 <div class="space-y-1.5">
                                     <Label for="name">Nombre de la Plantilla</Label>
                                     <Input v-model="templateForm.name" type="text" id="name" placeholder="ej: Congreso de Inteligencia Artificial 2026" required />
+                                    <p v-if="templateForm.errors.name" class="text-red-500 text-[10px] mt-0.5">{{ templateForm.errors.name }}</p>
                                 </div>
                                 <div class="space-y-1.5">
                                     <Label>Imagen de Fondo (A4 Horizontal - JPG o PNG)</Label>
                                     <Input type="file" accept="image/*" @change="(e: any) => templateForm.background_image = e.target.files[0]" :required="!editingTemplate" />
+                                    <p v-if="templateForm.errors.background_image" class="text-red-500 text-[10px] mt-0.5">{{ templateForm.errors.background_image }}</p>
                                 </div>
                             </div>
 
