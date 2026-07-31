@@ -101,7 +101,7 @@ const suboffices = [
 
 
                     <!-- Right Logo (DPESEC) -->
-                    <img src="https://scontent.fjul2-1.fna.fbcdn.net/v/t39.30808-6/272960757_4628681473926778_6629600432458897605_n.jpg?stp=dst-jpg_tt6&cstp=mx2017x2017&ctp=s2017x2017&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHBaLf3J-81ufN0a_aKDiM2_CXAVRfTpML8JcBVF9Okwi-ObQPJ2l_hpgobWaEa8kvwLwtiV8c6FSYlkmzkTl4w&_nc_ohc=wrHV8WCWZycQ7kNvwHCZBew&_nc_oc=AdpbL63KeM5lnk0dupHqlJkx7YdzBDcOuit1qi_ES7WKMaltLuOyChY9C5pAtRf2hKWmMOiRLBAZObJKdHoLjLcV&_nc_zt=23&_nc_ht=scontent.fjul2-1.fna&_nc_gid=ybk99yY1IxM4T39rXAqzfg&_nc_ss=7b2a8&oh=00_AQDQrgwIrLO0Czx6e42gIVAom26iOnD5tKk4Uw8MiohZ_Q&oe=6A5C9B9C"
+                    <img src="https://cdn.phototourl.com/free/2026-07-31-f705bacb-02f5-4ea3-aeed-7e4e724a1d9b.png"
                         alt="Logo DPESEC"
                         class="h-10 sm:h-12 w-auto object-contain rounded-full border border-neutral-200/50 dark:border-neutral-800/50 transition-transform duration-300 group-hover:scale-105" />
                 </Link>

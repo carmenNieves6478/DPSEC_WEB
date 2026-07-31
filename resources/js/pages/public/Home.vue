@@ -138,17 +138,17 @@ const subunitsFloating = computed(() => {
         {
             name: 'Proyección Social y Extensión Cultural',
             fbUrl: 'https://www.facebook.com/p/Direcci%C3%B3n-de-Proyecci%C3%B3n-Social-y-Extensi%C3%B3n-Cultural-UNA-Puno-100071137256988/',
-            logo: 'https://scontent.flim20-1.fna.fbcdn.net/v/t39.30808-6/272960757_4628681473926778_6629600432458897605_n.jpg?stp=dst-jpg_tt6&cstp=mx2017x2017&ctp=s2017x2017&_nc_cat=105&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=dzbou22md_cQ7kNvwEyqcpG&_nc_oc=AdrTJFZJ3SiFJerNaxkzfDV1mGeW5I0yYBdcjTVo79wyDOAyoF6VgcTxaEO2hMKdGfA&_nc_zt=23&_nc_ht=scontent.flim20-1.fna&_nc_gid=VJvqRFFVkVfJnr-RYSL3UA&_nc_ss=7b289&oh=00_AQAIEfjqOqi6lNXRJGchTrJDiR7lgLTCn1Tsr0u-PBGCMQ&oe=6A55939C'
+            logo: 'https://cdn.phototourl.com/free/2026-07-31-f705bacb-02f5-4ea3-aeed-7e4e724a1d9b.png'
         },
         {
             name: 'Gestión Ambiental',
             fbUrl: 'https://www.facebook.com/p/Gesti%C3%B3n-Ambiental-UNA-PUNO-Oficial-61552848737780/',
-            logo: 'https://scontent.flim26-1.fna.fbcdn.net/v/t39.30808-6/398995862_10222830756230066_520338572561505771_n.jpg?stp=dst-jpg_tt6&cstp=mx2026x2048&ctp=s2026x2048&_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeH3EDEG8C5PPZK1cepZi-gzWEwO4rVRrudYTA7itVGu59Y1kIb432fziteMQi84vz0QUhKmxFNEFi5DnQkhScWk&_nc_ohc=nRQOktJYbR0Q7kNvwEC4QdN&_nc_oc=AdrJt3WDqELGGuzNM9tj-wcHPMkFH_mL4IN9tghkkygDqkJnyE6WI06cQWZtmN9zXWY&_nc_zt=23&_nc_ht=scontent.flim26-1.fna&_nc_gid=2fhssmGxvnXXyOCPs31urw&_nc_ss=7b2a8&oh=00_AQBqcxqtRryOxfdDWVSMKxKwEz3Q3nom4XDNa6jobUDa4A&oe=6A55BE72'
+            logo: 'https://cdn.phototourl.com/free/2026-07-31-466e4242-9697-4d02-a2a8-8bb38185b202.jpg'
         },
         {
             name: 'Seguimiento del Graduado',
             fbUrl: 'https://www.facebook.com/p/Egresados-y-Graduados-UNA-Puno-100092995523250/',
-            logo: 'https://scontent.flim20-1.fna.fbcdn.net/v/t39.30808-6/359734308_147671118342738_5430089938518897443_n.jpg?stp=dst-jpg_tt6&cstp=mx272x272&ctp=s272x272&_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHM_qBi059xsXM_jGxjMq1rvhz2v_QXEJq-HPa_9BcQmk6RX7ZJsbRgGIRqPOP4LEyPmuAQoqbTC6eMfu65tG1o&_nc_ohc=1_x31ZGEeu8Q7kNvwGeKY5i&_nc_oc=AdqDmzs1k2F0vGxzLtl93-wXj-psE-MjziKdm0qzNDy_PnSh8Y8gUW9edDrARfiBgmw&_nc_zt=23&_nc_ht=scontent.flim20-1.fna&_nc_gid=GyE78RMdmDbtUi_hIdhKsg&_nc_ss=7b2a8&oh=00_AQCqEmTof-9bhusJcgLFU17KNI21K1cUYUZz039qp3XTZg&oe=6A55B461'
+            logo: 'https://cdn.phototourl.com/free/2026-07-31-aaa207df-3d13-45da-8947-299c143f1f7b.jpg'
         }
     ];
 });
