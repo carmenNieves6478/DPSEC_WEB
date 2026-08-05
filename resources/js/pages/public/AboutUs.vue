@@ -9,7 +9,9 @@ import {
     TrendingUp, 
     Scale, 
     UsersRound,
-    Leaf
+    Leaf,
+    ChevronLeft,
+    ChevronRight
 } from '@lucide/vue';
 import { onMounted, onUnmounted, ref, computed } from 'vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
@@ -328,50 +330,36 @@ const values = computed(() => {
     });
 });
 
-// Scrollytelling Pinned Team Presentation Logic
+// Team Card Interactive Presentation Logic (Click, Keyboard, Swipe, Buttons)
 const teamSectionRef = ref<HTMLElement | null>(null);
 const activeCardIndex = ref(0);
 
-const handleScrollPresentation = () => {
-    if (!teamSectionRef.value) {
-return;
-}
+const nextCard = () => {
+    activeCardIndex.value = (activeCardIndex.value + 1) % team.value.length;
+};
 
-    const rect = teamSectionRef.value.getBoundingClientRect();
-    const sectionHeight = rect.height;
-    const viewportHeight = window.innerHeight;
-    
-    // Scrolled distance within the section boundary
-    const scrolledDistance = -rect.top;
-    const totalScrollableDistance = sectionHeight - viewportHeight;
-    
-    if (totalScrollableDistance <= 0) {
-        return;
-    }
-    
-    let progress = scrolledDistance / totalScrollableDistance;
-    progress = Math.max(0, Math.min(1, progress));
-    
-    // Map progress to card index
-    const index = Math.min(Math.floor(progress * team.value.length), team.value.length - 1);
+const prevCard = () => {
+    activeCardIndex.value = (activeCardIndex.value - 1 + team.value.length) % team.value.length;
+};
+
+const setCard = (index: number) => {
     activeCardIndex.value = index;
 };
 
-const scrollToCard = (index: number) => {
-    if (!teamSectionRef.value) {
-        return;
-    }
-
+// Keyboard listener (Flechas Abajo/Derecha -> Siguiente, Arriba/Izquierda -> Anterior)
+const handleKeyDown = (event: KeyboardEvent) => {
+    if (!teamSectionRef.value) return;
+    
     const rect = teamSectionRef.value.getBoundingClientRect();
-    const sectionTop = window.scrollY + rect.top;
-    const totalScrollableDistance = rect.height - window.innerHeight;
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
     
-    const targetScrollY = sectionTop + (index / (team.value.length - 1 || 1)) * totalScrollableDistance + 10;
-    
-    window.scrollTo({
-        top: targetScrollY,
-        behavior: 'smooth'
-    });
+    if (inView) {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
+            nextCard();
+        } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+            prevCard();
+        }
+    }
 };
 
 onMounted(() => {
@@ -391,14 +379,11 @@ onMounted(() => {
     const sections = document.querySelectorAll('.reveal-section');
     sections.forEach((section) => revealObserver.observe(section));
 
-    // Register presentation scroll handler
-    window.addEventListener('scroll', handleScrollPresentation);
-    // Init state
-    handleScrollPresentation();
+    window.addEventListener('keydown', handleKeyDown);
 });
 
 onUnmounted(() => {
-    window.removeEventListener('scroll', handleScrollPresentation);
+    window.removeEventListener('keydown', handleKeyDown);
 });
 </script>
 
@@ -406,8 +391,8 @@ onUnmounted(() => {
     <PublicLayout title="Nosotros">
         <!-- 1. HERO SECTION -->
         <section 
-            class="relative h-[65vh] min-h-[260px] flex items-center overflow-hidden bg-cover bg-center text-white"
-            style="background-image: url('https://scontent.flim26-1.fna.fbcdn.net/v/t39.30808-6/684209047_988255950222304_4304482649156688022_n.jpg?stp=dst-jpg_tt6&cstp=mx1600x1066&ctp=s1600x1066&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeH8pRbDJterI_4kfAJrfhEth_fU78i5DjyH99TvyLkOPExIu168MRbh304r1boYntcawbcIzVWA6jNSHE0qw7vK&_nc_ohc=DSrFJcjrEkQQ7kNvwGyIDgy&_nc_oc=AdoCBBZlxeANzXpp9oF0Vksjh51HGnJ5Q7ldhYgtogCsyvNGr8IN7J-zKihz_V_BrE0&_nc_zt=23&_nc_ht=scontent.flim26-1.fna&_nc_gid=bNo6wW1ZIjfLU4SaWGl_xA&_nc_ss=7b2a8&oh=00_AQGJJ4rrIYMmva01quxB4XyQU25zJpRuvYgP5JOkZ2N_Hg&oe=6A72C0C9');"
+            class="relative h-[60vh] min-h-[350px] flex items-center overflow-hidden bg-cover bg-center text-white"
+            style="background-image: url('https://cdn.phototourl.com/free/2026-08-05-2af7bdd7-7eb6-4cca-9c51-1fc58cff7eeb.jpg');"
         >
             <!-- Gradient Overlay for readability -->
             <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/90 via-neutral-950/70 to-transparent z-10"></div>
@@ -457,71 +442,102 @@ onUnmounted(() => {
             </div>
         </section>
 
-        <!-- 3. TEAM SECTION (Scrollytelling pinned section) -->
-        <section ref="teamSectionRef" class="relative h-[250vh] lg:h-[350vh] bg-neutral-50/50 dark:bg-neutral-900/10 border-y border-neutral-200/55 dark:border-neutral-800/40">
-            <!-- Pinned Sticky Container (ocupa el alto de pantalla y queda fijo mientras se hace scroll) -->
-            <div class="sticky top-20 h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden w-full">
-                <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full relative">
-                        
-                        <!-- Left Column: Sticky Header (centrado verticalmente) -->
-                        <div class="lg:col-span-5 text-left space-y-4 lg:pr-8">
+        <!-- 3. TEAM SECTION (Interactive Team Presentation) -->
+        <section 
+            ref="teamSectionRef" 
+            class="reveal-section py-20 lg:py-28 bg-neutral-50/50 dark:bg-neutral-900/10 border-y border-neutral-200/55 dark:border-neutral-800/40 select-none"
+        >
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
+                    
+                    <!-- Left Column: Sticky Header & Interactive Member List -->
+                    <div class="lg:col-span-5 text-left space-y-6 lg:pr-4">
+                        <div class="space-y-3">
                             <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Liderazgo y Gestión</span>
                             <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">Nuestro Equipo</h2>
                             <div class="w-12 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></div>
                             <p class="text-xs md:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
                                 Contamos con un equipo multidisciplinario de profesionales apasionados por el cambio social, comprometidos con nuestros valores y enfocados en lograr resultados transformadores para nuestra comunidad universitaria y la región de Puno.
                             </p>
-
-                            <!-- Navigation Dots Indicator -->
-                            <div class="flex items-center gap-2 pt-4">
-                                <button 
-                                    v-for="(member, idx) in team" 
-                                    :key="idx"
-                                    @click="scrollToCard(idx)"
-                                    class="h-2 rounded-full transition-all duration-300 cursor-pointer"
-                                    :class="activeCardIndex === idx ? 'w-8 bg-indigo-600 dark:bg-indigo-400' : 'w-2 bg-neutral-300 dark:bg-neutral-700'"
-                                    :aria-label="'Ver integrante ' + (idx + 1)"
-                                ></button>
-                            </div>
                         </div>
 
-                        <!-- Right Column: Single Card Presentation with Transition Fade -->
-                        <div class="lg:col-span-7 flex items-center justify-center relative h-[450px] w-full">
-                            <template v-for="(member, index) in team" :key="member.name">
-                                <transition name="card-fade">
-                                    <div 
-                                        v-show="activeCardIndex === index"
-                                        class="team-card absolute group shadow-2xl"
-                                        :style="{
-                                            '--glow-shadow': member.glowShadow,
-                                            '--glow-shadow-hover': member.glowShadowHover,
-                                            '--tilt-angle': index % 2 === 0 ? '-2.5deg' : '2.5deg'
-                                        }"
-                                    >
-                                        <!-- Photo Frame Container (No overlays on image, fully visible portrait) -->
-                                        <div class="w-full h-[68%] rounded-2xl overflow-hidden bg-neutral-50 dark:bg-neutral-950 border border-neutral-200/60 dark:border-neutral-800/60 flex items-end justify-center relative">
-                                            <img 
-                                                :src="member.image" 
-                                                :alt="member.name" 
-                                                class="portrait-image" 
-                                            />
-                                        </div>
-
-                                        <!-- Details Area (Below the photo frame, no overlay covering the image) -->
-                                        <div class="w-full pt-4 px-1 flex flex-col items-center text-center">
-                                            <h3 class="name-label leading-tight">{{ member.name }}</h3>
-                                            <span class="inline-block px-2.5 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-widest bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 mb-1.5 mt-1.5">
-                                                {{ member.role }}
-                                            </span>
-                                            <p class="subunit-label line-clamp-2 max-w-[90%]">{{ member.department }}</p>
-                                        </div>
-                                    </div>
-                                </transition>
-                            </template>
+                        <!-- Interactive Member Selector List -->
+                        <div class="space-y-2 pt-2">
+                            <button 
+                                v-for="(member, idx) in team" 
+                                :key="idx"
+                                @click="setCard(idx)"
+                                class="w-full flex items-center gap-3 p-3 rounded-2xl transition-all duration-300 text-left border-0 cursor-pointer group"
+                                :class="activeCardIndex === idx 
+                                    ? 'bg-gradient-to-r from-indigo-500/15 via-indigo-500/10 to-transparent dark:from-indigo-500/25 dark:via-indigo-500/15 dark:to-transparent translate-x-1.5' 
+                                    : 'bg-transparent hover:bg-indigo-500/5 dark:hover:bg-indigo-500/10 opacity-75 hover:opacity-100'"
+                            >
+                                <div class="size-10 rounded-xl overflow-hidden bg-neutral-200 dark:bg-neutral-800 shrink-0 border border-neutral-300/40 dark:border-neutral-700/40">
+                                    <img :src="member.image" :alt="member.name" class="w-full h-full object-cover" />
+                                </div>
+                                <div class="flex-grow min-w-0">
+                                    <h4 class="text-xs font-bold text-neutral-900 dark:text-white truncate group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{{ member.name }}</h4>
+                                    <p class="text-[10px] text-neutral-500 dark:text-neutral-400 truncate">{{ member.role }}</p>
+                                </div>
+                            </button>
                         </div>
 
+                        <!-- Manual Controls (Previous / Next Buttons - Visible only on mobile/tablet) -->
+                        <div class="flex lg:hidden items-center gap-2 pt-2">
+                            <button 
+                                @click="prevCard"
+                                class="p-2.5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 hover:text-indigo-600 dark:hover:text-indigo-400 shadow-xs transition-all cursor-pointer"
+                                aria-label="Integrante anterior"
+                            >
+                                <ChevronLeft class="size-5" />
+                            </button>
+                            <button 
+                                @click="nextCard"
+                                class="p-2.5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 hover:text-indigo-600 dark:hover:text-indigo-400 shadow-xs transition-all cursor-pointer"
+                                aria-label="Siguiente integrante"
+                            >
+                                <ChevronRight class="size-5" />
+                            </button>
+                        </div>
                     </div>
+
+                    <!-- Right Column: Clickable Card Presentation -->
+                    <div class="lg:col-span-7 flex items-center justify-center relative h-[480px] w-full">
+
+                        <template v-for="(member, index) in team" :key="member.name">
+                            <transition name="card-fade">
+                                <div 
+                                    v-show="activeCardIndex === index"
+                                    @click="nextCard"
+                                    class="team-card absolute group shadow-2xl cursor-pointer"
+                                    :style="{
+                                        '--glow-shadow': member.glowShadow,
+                                        '--glow-shadow-hover': member.glowShadowHover,
+                                        '--tilt-angle': index % 2 === 0 ? '-2.5deg' : '2.5deg'
+                                    }"
+                                >
+                                    <!-- Photo Frame Container -->
+                                    <div class="w-full h-[68%] rounded-2xl overflow-hidden bg-neutral-50 dark:bg-neutral-950 border border-neutral-200/60 dark:border-neutral-800/60 flex items-end justify-center relative group-hover:scale-[1.02] transition-transform duration-300">
+                                        <img 
+                                            :src="member.image" 
+                                            :alt="member.name" 
+                                            class="portrait-image" 
+                                        />
+                                    </div>
+
+                                    <!-- Details Area -->
+                                    <div class="w-full pt-4 px-1 flex flex-col items-center text-center">
+                                        <h3 class="name-label leading-tight">{{ member.name }}</h3>
+                                        <span class="inline-block px-2.5 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-widest bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 mb-1.5 mt-1.5">
+                                            {{ member.role }}
+                                        </span>
+                                        <p class="subunit-label line-clamp-2 max-w-[90%]">{{ member.department }}</p>
+                                    </div>
+                                </div>
+                            </transition>
+                        </template>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -690,17 +706,17 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-/* Scroll Reveal animation for about sections */
+/* Scroll Reveal animation for about sections (notoria al bajar y subir) */
 .reveal-section {
   opacity: 0;
-  transform: translateY(35px);
-  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(50px) scale(0.97);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity;
 }
 
 .reveal-section.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 
 /* ===== PORTRAIT PHOTO STYLE (REAL PICTURE FRAME EDITION) ===== */

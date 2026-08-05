@@ -45,7 +45,7 @@ const mobileSubmenuOpen = ref(false);
 // Navigation links config
 const suboffices = [
     {
-        name: 'Proyección Social y Extensión Cultural',
+        name: 'Proyección Social y Extensión Universitaria',
         description: 'Coordinación de actividades comunitarias y extensión de la universidad.',
         href: '/proyeccion-social',
         external: false
@@ -57,7 +57,7 @@ const suboffices = [
         external: true
     },
     {
-        name: 'Seguimiento al Graduado',
+        name: 'Seguimiento y Desarrollo del Graduado',
         description: 'Servicios de bolsa de trabajo y vinculación con egresados.',
         href: '/seguimiento-graduado',
         external: false
@@ -68,7 +68,7 @@ const suboffices = [
 <template>
     <div class="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
 
-        <Head :title="title ? `${title} | DPESEC UNA Puno` : 'DPESEC - UNA Puno'" />
+        <Head :title="title ? `${title} | DPSEC UNA Puno` : 'DPSEC - UNA Puno'" />
 
 
 
@@ -77,34 +77,34 @@ const suboffices = [
             class="sticky top-0 z-50 w-full border-b border-neutral-200/80 bg-white/85 backdrop-blur-md dark:border-neutral-800/80 dark:bg-neutral-950/85">
             <div class="max-w-7xl mx-auto px-6 lg:px-8 h-24 flex justify-between items-center">
                 <!-- Logo & Brand -->
-                <Link href="/" class="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+                <Link href="/" class="flex items-center gap-2.5 sm:gap-3 group shrink-0 my-auto">
                     <!-- Left Logo (UNAP) -->
                     <img src="https://cdn.phototourl.com/free/2026-07-10-ea6ee316-4c97-416a-a4f4-52a5621cd3b2.png"
                         alt="Logo UNA Puno"
-                        class="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+                        class="h-10 sm:h-12 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105" />
 
                     <!-- Text in the middle -->
                     <div
-                        class="flex flex-col items-center justify-center text-center max-w-[140px] sm:max-w-[200px] md:max-w-[260px] lg:max-w-[340px] leading-tight">
+                        class="flex flex-col items-center justify-center text-center my-auto self-center max-w-[140px] sm:max-w-[200px] md:max-w-[260px] lg:max-w-[340px] leading-[1.2]">
                         <span
-                            class="font-extrabold text-[9px] sm:text-[11px] md:text-sm tracking-tight text-neutral-800 dark:text-neutral-100">
-                            Dirección de Proyección Social
+                            class="font-extrabold text-[9px] sm:text-[11px] md:text-sm tracking-tight text-neutral-800 dark:text-neutral-100 block">
+                            Dirección de Proyección Social y
                         </span>
                         <span
-                            class="font-extrabold text-[9px] sm:text-[11px] md:text-sm tracking-tight text-neutral-800 dark:text-neutral-100">
-                            y Extensión Cultural
+                            class="font-extrabold text-[9px] sm:text-[11px] md:text-sm tracking-tight text-neutral-800 dark:text-neutral-100 block">
+                            Extensión Cultural
                         </span>
                     </div>
 
 
                     <!-- Right Logo (DPESEC) -->
                     <img src="https://cdn.phototourl.com/free/2026-07-31-f705bacb-02f5-4ea3-aeed-7e4e724a1d9b.png"
-                        alt="Logo DPESEC"
-                        class="h-10 sm:h-12 w-auto object-contain rounded-full border border-neutral-200/50 dark:border-neutral-800/50 transition-transform duration-300 group-hover:scale-105" />
+                        alt="Logo DPSEC"
+                        class="h-10 sm:h-12 w-auto object-contain rounded-full border border-neutral-200/50 dark:border-neutral-800/50 shrink-0 transition-transform duration-300 group-hover:scale-105" />
                 </Link>
 
-                <!-- Desktop Navigation Links -->
-                <nav class="hidden lg:flex items-center gap-8">
+                <!-- Desktop Navigation Links (Pushed to the right next to theme toggle) -->
+                <nav class="hidden lg:flex items-center gap-5 xl:gap-7 ml-auto mr-4 xl:mr-6">
                     <Link href="/"
                         class="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                         :class="page.url === '/' ? 'text-indigo-600 dark:text-indigo-400 font-semibold' : 'text-neutral-600 dark:text-neutral-300'">
@@ -121,14 +121,14 @@ const suboffices = [
                     <DropdownMenu>
                         <DropdownMenuTrigger
                             class="flex items-center gap-1 text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none cursor-pointer">
-                            Subunidades
+                            Sub Unidades
                             <ChevronDown class="size-4 opacity-75" />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="start"
                             class="w-80 p-2 mt-1 rounded-xl shadow-xl border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900">
                             <div
                                 class="px-3 py-2 text-xs font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">
-                                Subunidades
+                                Sub Unidades
                             </div>
                             <div class="h-px bg-neutral-100 dark:bg-neutral-800 my-1"></div>
 
@@ -149,8 +149,6 @@ const suboffices = [
                                     <div
                                         class="font-semibold text-sm text-neutral-800 dark:text-neutral-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 flex items-center justify-between">
                                         {{ office.name }}
-                                        <span v-if="office.name.includes('Graduado')"
-                                            class="text-[9px] bg-amber-500/10 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Próximamente</span>
                                     </div>
                                     <p class="text-xs text-neutral-500 dark:text-neutral-400 leading-normal">{{
                                         office.description }}</p>
@@ -182,22 +180,17 @@ const suboffices = [
                 <!-- Action buttons -->
                 <div class="hidden lg:flex items-center gap-4">
                     <!-- Compact Icon-Only Segmented Theme Toggle -->
-                    <button 
-                        @click="toggleTheme" 
+                    <button @click="toggleTheme"
                         class="relative inline-flex items-center p-0.5 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100/90 dark:bg-neutral-900/90 text-xs font-bold transition-all cursor-pointer shadow-xs select-none hover:border-indigo-500/40"
-                        title="Cambiar modo visual (Claro / Oscuro)"
-                        aria-label="Cambiar tema de color"
-                    >
-                        <span 
+                        title="Cambiar modo visual (Claro / Oscuro)" aria-label="Cambiar tema de color">
+                        <span
                             class="inline-flex items-center justify-center p-1.5 rounded-full transition-all duration-300"
-                            :class="resolvedAppearance === 'light' ? 'bg-white text-amber-500 shadow-xs' : 'text-neutral-400 hover:text-neutral-600 dark:text-neutral-500'"
-                        >
+                            :class="resolvedAppearance === 'light' ? 'bg-white text-amber-500 shadow-xs' : 'text-neutral-400 hover:text-neutral-600 dark:text-neutral-500'">
                             <Sun class="size-3.5" />
                         </span>
-                        <span 
+                        <span
                             class="inline-flex items-center justify-center p-1.5 rounded-full transition-all duration-300"
-                            :class="resolvedAppearance === 'dark' ? 'bg-neutral-800 text-indigo-400 shadow-xs' : 'text-neutral-400 hover:text-neutral-600 dark:text-neutral-500'"
-                        >
+                            :class="resolvedAppearance === 'dark' ? 'bg-neutral-800 text-indigo-400 shadow-xs' : 'text-neutral-400 hover:text-neutral-600 dark:text-neutral-500'">
                             <Moon class="size-3.5" />
                         </span>
                     </button>
@@ -222,22 +215,17 @@ const suboffices = [
 
                 <!-- Mobile Menu Button & Theme Switch -->
                 <div class="lg:hidden flex items-center gap-2.5">
-                    <button 
-                        @click="toggleTheme" 
+                    <button @click="toggleTheme"
                         class="relative inline-flex items-center p-0.5 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 text-xs font-bold transition-all cursor-pointer shadow-xs select-none"
-                        aria-label="Cambiar tema de color"
-                        title="Cambiar tema de color"
-                    >
-                        <span 
+                        aria-label="Cambiar tema de color" title="Cambiar tema de color">
+                        <span
                             class="inline-flex items-center justify-center p-1.5 rounded-full transition-all duration-300"
-                            :class="resolvedAppearance === 'light' ? 'bg-white text-amber-500 shadow-xs' : 'text-neutral-400'"
-                        >
+                            :class="resolvedAppearance === 'light' ? 'bg-white text-amber-500 shadow-xs' : 'text-neutral-400'">
                             <Sun class="size-3.5" />
                         </span>
-                        <span 
+                        <span
                             class="inline-flex items-center justify-center p-1.5 rounded-full transition-all duration-300"
-                            :class="resolvedAppearance === 'dark' ? 'bg-neutral-800 text-indigo-400 shadow-xs' : 'text-neutral-400'"
-                        >
+                            :class="resolvedAppearance === 'dark' ? 'bg-neutral-800 text-indigo-400 shadow-xs' : 'text-neutral-400'">
                             <Moon class="size-3.5" />
                         </span>
                     </button>
@@ -276,7 +264,7 @@ const suboffices = [
                         <div class="space-y-2">
                             <button @click="mobileSubmenuOpen = !mobileSubmenuOpen"
                                 class="w-full flex items-center justify-between text-base font-semibold px-2 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors text-neutral-700 dark:text-neutral-300 text-left focus:outline-none">
-                                Subunidades
+                                Sub Unidades
                                 <ChevronDown class="size-4 transform transition-transform duration-200"
                                     :class="{ 'rotate-180': mobileSubmenuOpen }" />
                             </button>
@@ -295,8 +283,6 @@ const suboffices = [
                                         :class="page.url === office.href ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900 font-medium' : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-900'"
                                         @click="mobileMenuOpen = false">
                                         {{ office.name }}
-                                        <span v-if="office.name.includes('Graduado')"
-                                            class="text-[8px] bg-amber-500/10 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Próximamente</span>
                                     </Link>
                                 </template>
                             </div>
@@ -329,22 +315,20 @@ const suboffices = [
 
                     <!-- Theme Selector inside Mobile Drawer -->
                     <div class="flex items-center justify-between px-2 py-1">
-                        <span class="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">Modo Visual</span>
-                        <button 
-                            @click="toggleTheme" 
-                            class="relative inline-flex items-center p-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 text-xs font-bold transition-all cursor-pointer shadow-xs select-none"
-                        >
-                            <span 
+                        <span
+                            class="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">Modo
+                            Visual</span>
+                        <button @click="toggleTheme"
+                            class="relative inline-flex items-center p-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 text-xs font-bold transition-all cursor-pointer shadow-xs select-none">
+                            <span
                                 class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-300"
-                                :class="resolvedAppearance === 'light' ? 'bg-white text-neutral-900 shadow-xs font-black' : 'text-neutral-400'"
-                            >
+                                :class="resolvedAppearance === 'light' ? 'bg-white text-neutral-900 shadow-xs font-black' : 'text-neutral-400'">
                                 <Sun class="size-3.5 text-amber-500" />
                                 <span class="text-[11px]">Claro</span>
                             </span>
-                            <span 
+                            <span
                                 class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-300"
-                                :class="resolvedAppearance === 'dark' ? 'bg-neutral-800 text-indigo-300 shadow-xs font-black' : 'text-neutral-400'"
-                            >
+                                :class="resolvedAppearance === 'dark' ? 'bg-neutral-800 text-indigo-300 shadow-xs font-black' : 'text-neutral-400'">
                                 <Moon class="size-3.5 text-indigo-400" />
                                 <span class="text-[11px]">Oscuro</span>
                             </span>
@@ -388,7 +372,7 @@ const suboffices = [
                         </div>
 
                         <div class="flex flex-col">
-                            <span class="font-bold text-lg text-white leading-none">DPESEC</span>
+                            <span class="font-bold text-lg text-white leading-none">DPSEC</span>
                             <span class="text-[8px] text-neutral-400 uppercase tracking-widest">UNA Puno</span>
                         </div>
                     </div>
@@ -429,7 +413,8 @@ const suboffices = [
                         </a>
 
                         <!-- WhatsApp -->
-                        <a href="https://wa.me/51987947628?text=Hola,%20deseo%20realizar%20una%20consulta." target="_blank" rel="noopener noreferrer"
+                        <a href="https://wa.me/51987947628?text=Hola,%20deseo%20realizar%20una%20consulta."
+                            target="_blank" rel="noopener noreferrer"
                             class="size-9 rounded-lg bg-neutral-900 hover:bg-green-900/60 hover:text-green-500 flex items-center justify-center text-neutral-300 transition-colors">
                             <svg class="size-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -498,7 +483,7 @@ const suboffices = [
                     <ul class="space-y-3.5 text-sm">
                         <li class="flex items-start gap-2.5">
                             <MapPin class="size-5 text-indigo-500 shrink-0 mt-0.5" />
-                            <span>Tercer piso del Auditorio Magno, Av. Floral 1153, Puno, Perú</span>
+                            <span>Auditorio Magno (Tercer piso) Av. Floral 1153, Puno, Perú</span>
                         </li>
                         <li class="flex items-center gap-2.5">
                             <Mail class="size-5 text-indigo-500 shrink-0" />
@@ -519,7 +504,7 @@ const suboffices = [
                         <div class="flex justify-between">
                             <span class="text-neutral-400">Lunes a Viernes</span>
                         </div>
-                        <div class="font-semibold text-white">08:00 AM - 02:00 PM</div>
+                        <div class="font-semibold text-white">08:00 AM - 02:30 PM</div>
                         <div class="h-px bg-neutral-800 my-2"></div>
                         <p class="text-xs text-neutral-500 leading-normal">
                             Consultas presenciales en la oficina DPSEC.
@@ -534,9 +519,9 @@ const suboffices = [
                 class="max-w-7xl mx-auto px-6 lg:px-8 mt-12 pt-6 border-t border-neutral-900 text-xs flex flex-col md:flex-row justify-between items-center gap-4">
                 <p>&copy; 2026 DPSEC UNA Puno. Todos los derechos reservados.</p>
                 <div class="flex gap-6">
-                    <a href="https://www.unap.edu.pe" target="_blank" rel="noopener noreferrer"
+                    <!-- <a href="https://www.unap.edu.pe" target="_blank" rel="noopener noreferrer"
                         class="hover:text-white transition-colors">Portal UNA Puno</a>
-                    <a href="/login" class="hover:text-white transition-colors">Acceso Interno</a>
+                    <a href="/login" class="hover:text-white transition-colors">Acceso Interno</a> -->
                 </div>
             </div>
         </footer>

@@ -79,8 +79,8 @@ const stats = computed(() => {
     ];
 });
 
-// Map DB events to template-friendly format
-const latestActivities = computed(() => (props.events ?? []).map(e => ({
+// Map DB events to template-friendly format (Máximo 3 actividades)
+const latestActivities = computed(() => (props.events ?? []).slice(0, 3).map(e => ({
     ...e,
     image: e.image_path,
     date: e.event_date ? new Date(e.event_date).toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric' }) : '',
@@ -136,7 +136,7 @@ const subunitsFloating = computed(() => {
 
     return [
         {
-            name: 'Proyección Social y Extensión Cultural',
+            name: 'Proyección Social y Extensión Universitaria',
             fbUrl: 'https://www.facebook.com/p/Direcci%C3%B3n-de-Proyecci%C3%B3n-Social-y-Extensi%C3%B3n-Cultural-UNA-Puno-100071137256988/',
             logo: 'https://cdn.phototourl.com/free/2026-07-31-f705bacb-02f5-4ea3-aeed-7e4e724a1d9b.png'
         },
@@ -146,7 +146,7 @@ const subunitsFloating = computed(() => {
             logo: 'https://cdn.phototourl.com/free/2026-07-31-466e4242-9697-4d02-a2a8-8bb38185b202.jpg'
         },
         {
-            name: 'Seguimiento del Graduado',
+            name: 'Seguimiento y Desarrollo del Graduado',
             fbUrl: 'https://www.facebook.com/p/Egresados-y-Graduados-UNA-Puno-100092995523250/',
             logo: 'https://cdn.phototourl.com/free/2026-07-31-aaa207df-3d13-45da-8947-299c143f1f7b.jpg'
         }
@@ -206,7 +206,7 @@ onMounted(() => {
 
     window.addEventListener('scroll', handleScroll);
 
-    // Scroll Reveal Intersection Observer (always active)
+    // Scroll Reveal Intersection Observer (active on scroll down and scroll up)
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
@@ -216,7 +216,7 @@ onMounted(() => {
             }
         });
     }, {
-        threshold: 0.08, // trigger when 8% is visible
+        threshold: 0.12, // trigger when 12% is visible
         rootMargin: '0px 0px -40px 0px'
     });
 
@@ -294,31 +294,22 @@ onUnmounted(() => {
 
 
         <!-- 2. FEATURED LATEST ACTIVITIES (Inspriado de Facebook) -->
-        <section class="reveal-section py-20 lg:py-28">
+        <section class="reveal-section py-20 lg:py-28 bg-neutral-50/80 dark:bg-neutral-900/40 border-b border-neutral-200/60 dark:border-neutral-800/40">
             <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-12">
 
                 <!-- Section Header -->
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                    <div class="space-y-3 text-left">
-                        <span
-                            class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Noticias
-                            y Publicaciones</span>
-                        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Actividades Recientes</h2>
-                        <p class="text-neutral-500 dark:text-neutral-400 max-w-xl text-sm md:text-base">
-                            Mantente al día con los últimos eventos, campañas de voluntariado y proyectos de proyección
-                            social publicados en nuestros canales oficiales.
-                        </p>
-                    </div>
-                    <Link href="/eventos">
-                        <Button variant="ghost"
-                            class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 font-semibold group flex items-center gap-1 cursor-pointer">
-                            Ver mas Actividades
-                            <ChevronRight class="size-4 group-hover:translate-x-1 transition-transform" />
-                        </Button>
-                    </Link>
+                <div class="text-center max-w-2xl mx-auto space-y-3">
+                    <span
+                        class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Noticias
+                        y Publicaciones</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Actividades Recientes</h2>
+                    <p class="text-neutral-500 dark:text-neutral-400 text-sm md:text-base">
+                        Mantente al día con los últimos eventos, campañas de voluntariado y proyectos de proyección
+                        social publicados en nuestros canales oficiales.
+                    </p>
                 </div>
 
-                <!-- Activities Grid -->
+                <!-- Activities Grid (Máximo 3) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div v-for="activity in latestActivities" :key="activity.id"
                         class="group relative flex flex-col bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
@@ -378,11 +369,22 @@ onUnmounted(() => {
                         </div>
                     </div>
                 </div>
+
+                <!-- Centered "Ver más Actividades" Button Below Grid -->
+                <div class="flex justify-center pt-2">
+                    <Link href="/eventos">
+                        <Button variant="outline"
+                            class="rounded-xl border-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-indigo-600 dark:text-indigo-400 font-semibold group flex items-center gap-2 px-6 py-2.5 cursor-pointer shadow-xs">
+                            Ver más Actividades
+                            <ArrowRight class="size-4 group-hover:translate-x-1 transition-transform" />
+                        </Button>
+                    </Link>
+                </div>
             </div>
         </section>
 
         <!-- VIDEOS SECTOR (YOUTUBE EMBEDS) -->
-        <section class="reveal-section py-20 border-t border-neutral-200/50 dark:border-neutral-800/30">
+        <section class="reveal-section py-20 lg:py-28 bg-white dark:bg-neutral-950">
             <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-12">
                 <div class="text-center max-w-2xl mx-auto space-y-3">
                     <span
@@ -438,15 +440,15 @@ onUnmounted(() => {
             </div>
         </section>
 
-        <!-- 3. QUICK OFFICE ACCESS DIRECTORY -->
+        <!-- 3. DIRECTORY OF SUBUNIDADES -->
         <section
-            class="reveal-section py-20 bg-neutral-50/50 dark:bg-neutral-900/10 border-t border-neutral-200/50 dark:border-neutral-800/30">
+            class="reveal-section py-20 lg:py-28 bg-neutral-50/80 dark:bg-neutral-900/40 border-y border-neutral-200/60 dark:border-neutral-800/40">
             <div class="max-w-7xl mx-auto px-6 lg:px-8 space-y-12">
                 <div class="text-center max-w-2xl mx-auto space-y-3">
                     <span
                         class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Directorio
-                        de Sub-Unidades</span>
-                    <h2 class="text-3xl font-extrabold tracking-tight">Accede a nuestras Sub-Unidades</h2>
+                        de Sub Unidades</span>
+                    <h2 class="text-3xl font-extrabold tracking-tight">Accede a nuestras Sub Unidades</h2>
                     <p class="text-neutral-500 dark:text-neutral-400 text-sm">
                         Conoce las dependencias que forman parte de la Dirección de Proyección Social y Extensión
                         Cultural.
@@ -463,16 +465,16 @@ onUnmounted(() => {
                                 <Award class="size-6" />
                             </div>
                             <h3 class="text-xl font-bold text-neutral-950 dark:text-white">Proyección Social y Extensión
-                                Cultural</h3>
+                                Universitaria</h3>
                             <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
                                 Foco principal de gestión. Coordina y aprueba proyectos sociales, prácticas en
                                 comunidades y eventos culturales impulsados por las facultades.
                             </p>
                         </div>
                         <Link href="/proyeccion-social" class="pt-4 block">
-                            <Button
-                                class="w-full rounded-xl bg-neutral-950 hover:bg-neutral-900 dark:bg-white dark:text-neutral-950 dark:hover:bg-neutral-100 flex items-center justify-center gap-2 cursor-pointer">
-                                Ver Actividades
+                            <Button variant="outline"
+                                class="w-full rounded-xl flex items-center justify-center gap-2 border-neutral-300 dark:border-neutral-700 cursor-pointer">
+                                Más información
                                 <ArrowRight class="size-4" />
                             </Button>
                         </Link>
@@ -495,26 +497,21 @@ onUnmounted(() => {
                         <a href="https://www.unap.edu.pe" target="_blank" rel="noopener noreferrer" class="pt-4 block">
                             <Button variant="outline"
                                 class="w-full rounded-xl flex items-center justify-center gap-2 border-neutral-300 dark:border-neutral-700 cursor-pointer">
-                                Visitar Sitio Web
+                                Más información
                                 <ExternalLink class="size-4 text-neutral-500" />
                             </Button>
                         </a>
                     </div>
 
-                    <!-- Card 3: Seguimiento al Graduado -->
+                    <!-- Card 3: Seguimiento y Desarrollo del Graduado -->
                     <div
-                        class="p-8 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 shadow-xs space-y-5 text-left flex flex-col h-full justify-between opacity-85 hover:opacity-100 transition-opacity">
+                        class="p-8 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 shadow-xs space-y-5 text-left flex flex-col h-full justify-between">
                         <div class="space-y-4">
                             <div
                                 class="size-12 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
                                 <Users class="size-6" />
                             </div>
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-xl font-bold text-neutral-950 dark:text-white">Seguimiento al Graduado
-                                </h3>
-                                <span
-                                    class="text-[9px] bg-amber-500/10 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded font-bold uppercase tracking-wider shrink-0">Próximamente</span>
-                            </div>
+                            <h3 class="text-xl font-bold text-neutral-950 dark:text-white">Seguimiento y Desarrollo del Graduado</h3>
                             <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
                                 Plataforma futura de inserción laboral, encuestas de egresados y contacto con las redes
                                 de exalumnos de la UNA Puno.
@@ -523,7 +520,7 @@ onUnmounted(() => {
                         <Link href="/seguimiento-graduado" class="pt-4 block">
                             <Button variant="outline"
                                 class="w-full rounded-xl flex items-center justify-center gap-2 border-neutral-300 dark:border-neutral-700 cursor-pointer">
-                                Conoce Más
+                                Más información
                                 <ArrowRight class="size-4" />
                             </Button>
                         </Link>
@@ -533,7 +530,7 @@ onUnmounted(() => {
         </section>
 
         <!-- 4. RECENT DOCUMENTS PREVIEW -->
-        <section class="reveal-section py-20">
+        <section class="reveal-section py-20 lg:py-28 bg-white dark:bg-neutral-950">
             <div class="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
                 <!-- Left Details -->
@@ -585,7 +582,7 @@ onUnmounted(() => {
 
         <!-- 5. STATS SECTION (GLASSMORPHIC CARDS) -->
         <section
-            class="reveal-section py-12 border-y border-neutral-200/55 dark:border-neutral-800/40 bg-neutral-50/50 dark:bg-neutral-900/10">
+            class="reveal-section py-16 bg-neutral-50/80 dark:bg-neutral-900/40 border-y border-neutral-200/60 dark:border-neutral-800/40">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <div v-for="stat in stats" :key="stat.label"
@@ -782,17 +779,17 @@ onUnmounted(() => {
     opacity: 0;
 }
 
-/* Scroll Reveal animation for home sections */
+/* Scroll Reveal animation for home sections (notoria al bajar y subir) */
 .reveal-section {
     opacity: 0;
-    transform: translateY(35px);
-    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(50px) scale(0.97);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform, opacity;
 }
 
 .reveal-section.is-visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
 /* Modal Transition Animations */
