@@ -160,23 +160,20 @@ const suboffices = [
                     </DropdownMenu>
 
                     <Link href="/documentos"
-                        class="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-1.5"
+                        class="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                         :class="page.url.startsWith('/documentos') ? 'text-indigo-600 dark:text-indigo-400 font-semibold' : 'text-neutral-600 dark:text-neutral-300'">
-                        <FileText class="size-4" />
-                        Documentos de Gestión
+                        Documentos
                     </Link>
 
                     <Link href="/eventos"
-                        class="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-1.5"
+                        class="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                         :class="page.url.startsWith('/eventos') ? 'text-indigo-600 dark:text-indigo-400 font-semibold' : 'text-neutral-600 dark:text-neutral-300'">
-                        <Calendar class="size-4" />
                         Eventos
                     </Link>
 
                     <Link href="/certificados"
-                        class="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors flex items-center gap-1.5"
+                        class="text-sm font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                         :class="page.url.startsWith('/certificados') ? 'text-indigo-600 dark:text-indigo-400 font-semibold' : 'text-neutral-600 dark:text-neutral-300'">
-                        <Award class="size-4" />
                         Certificados
                     </Link>
                 </nav>
@@ -184,12 +181,26 @@ const suboffices = [
 
                 <!-- Action buttons -->
                 <div class="hidden lg:flex items-center gap-4">
-                    <!-- Theme Toggle -->
-                    <Button variant="ghost" size="icon" class="h-9 w-9 rounded-lg" @click="toggleTheme"
-                        aria-label="Alternar tema oscuro">
-                        <Sun v-if="resolvedAppearance === 'dark'" class="h-4 w-4 text-amber-400" />
-                        <Moon v-else class="h-4 w-4 text-indigo-950" />
-                    </Button>
+                    <!-- Compact Icon-Only Segmented Theme Toggle -->
+                    <button 
+                        @click="toggleTheme" 
+                        class="relative inline-flex items-center p-0.5 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100/90 dark:bg-neutral-900/90 text-xs font-bold transition-all cursor-pointer shadow-xs select-none hover:border-indigo-500/40"
+                        title="Cambiar modo visual (Claro / Oscuro)"
+                        aria-label="Cambiar tema de color"
+                    >
+                        <span 
+                            class="inline-flex items-center justify-center p-1.5 rounded-full transition-all duration-300"
+                            :class="resolvedAppearance === 'light' ? 'bg-white text-amber-500 shadow-xs' : 'text-neutral-400 hover:text-neutral-600 dark:text-neutral-500'"
+                        >
+                            <Sun class="size-3.5" />
+                        </span>
+                        <span 
+                            class="inline-flex items-center justify-center p-1.5 rounded-full transition-all duration-300"
+                            :class="resolvedAppearance === 'dark' ? 'bg-neutral-800 text-indigo-400 shadow-xs' : 'text-neutral-400 hover:text-neutral-600 dark:text-neutral-500'"
+                        >
+                            <Moon class="size-3.5" />
+                        </span>
+                    </button>
 
                     <!-- Authentication / Portal access (Ocultado según requerimiento)
                     <Link v-if="authUser" href="/dashboard">
@@ -209,12 +220,27 @@ const suboffices = [
                     -->
                 </div>
 
-                <!-- Mobile Menu Button -->
-                <div class="lg:hidden flex items-center gap-2">
-                    <Button variant="ghost" size="icon" class="h-9 w-9" @click="toggleTheme">
-                        <Sun v-if="resolvedAppearance === 'dark'" class="h-4 w-4 text-amber-400" />
-                        <Moon v-else class="h-4 w-4 text-indigo-950" />
-                    </Button>
+                <!-- Mobile Menu Button & Theme Switch -->
+                <div class="lg:hidden flex items-center gap-2.5">
+                    <button 
+                        @click="toggleTheme" 
+                        class="relative inline-flex items-center p-0.5 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 text-xs font-bold transition-all cursor-pointer shadow-xs select-none"
+                        aria-label="Cambiar tema de color"
+                        title="Cambiar tema de color"
+                    >
+                        <span 
+                            class="inline-flex items-center justify-center p-1.5 rounded-full transition-all duration-300"
+                            :class="resolvedAppearance === 'light' ? 'bg-white text-amber-500 shadow-xs' : 'text-neutral-400'"
+                        >
+                            <Sun class="size-3.5" />
+                        </span>
+                        <span 
+                            class="inline-flex items-center justify-center p-1.5 rounded-full transition-all duration-300"
+                            :class="resolvedAppearance === 'dark' ? 'bg-neutral-800 text-indigo-400 shadow-xs' : 'text-neutral-400'"
+                        >
+                            <Moon class="size-3.5" />
+                        </span>
+                    </button>
 
                     <Button variant="ghost" size="icon" class="h-9 w-9 rounded-lg"
                         @click="mobileMenuOpen = !mobileMenuOpen">
@@ -277,32 +303,53 @@ const suboffices = [
                         </div>
 
                         <Link href="/documentos"
-                            class="text-base font-semibold px-2 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors flex items-center gap-2"
+                            class="text-base font-semibold px-2 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
                             :class="page.url.startsWith('/documentos') ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900' : 'text-neutral-700 dark:text-neutral-300'"
                             @click="mobileMenuOpen = false">
-                            <FileText class="size-5" />
-                            Documentos de Gestión
+                            Documentos
                         </Link>
 
                         <Link href="/eventos"
-                            class="text-base font-semibold px-2 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors flex items-center gap-2"
+                            class="text-base font-semibold px-2 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
                             :class="page.url.startsWith('/eventos') ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900' : 'text-neutral-700 dark:text-neutral-300'"
                             @click="mobileMenuOpen = false">
-                            <Calendar class="size-5" />
                             Eventos
                         </Link>
 
                         <Link href="/certificados"
-                            class="text-base font-semibold px-2 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors flex items-center gap-2"
+                            class="text-base font-semibold px-2 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
                             :class="page.url.startsWith('/certificados') ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900' : 'text-neutral-700 dark:text-neutral-300'"
                             @click="mobileMenuOpen = false">
-                            <Award class="size-5" />
                             Certificados
                         </Link>
                     </nav>
 
 
                     <div class="h-px bg-neutral-200 dark:bg-neutral-800 my-4"></div>
+
+                    <!-- Theme Selector inside Mobile Drawer -->
+                    <div class="flex items-center justify-between px-2 py-1">
+                        <span class="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">Modo Visual</span>
+                        <button 
+                            @click="toggleTheme" 
+                            class="relative inline-flex items-center p-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 text-xs font-bold transition-all cursor-pointer shadow-xs select-none"
+                        >
+                            <span 
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-300"
+                                :class="resolvedAppearance === 'light' ? 'bg-white text-neutral-900 shadow-xs font-black' : 'text-neutral-400'"
+                            >
+                                <Sun class="size-3.5 text-amber-500" />
+                                <span class="text-[11px]">Claro</span>
+                            </span>
+                            <span 
+                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-300"
+                                :class="resolvedAppearance === 'dark' ? 'bg-neutral-800 text-indigo-300 shadow-xs font-black' : 'text-neutral-400'"
+                            >
+                                <Moon class="size-3.5 text-indigo-400" />
+                                <span class="text-[11px]">Oscuro</span>
+                            </span>
+                        </button>
+                    </div>
 
                     <!-- Portal / Intranet Access (Mobile) (Ocultado según requerimiento)
                     <Link v-if="authUser" href="/dashboard" class="block w-full" @click="mobileMenuOpen = false">
