@@ -179,7 +179,7 @@ const faqs = computed(() => {
                 </div>
 
                 <!-- Action Card (Form mock trigger) -->
-                <div class="p-6 rounded-2xl bg-gradient-to-br from-indigo-800 to-indigo-950 text-white shadow-md text-left space-y-4">
+                <!-- <div class="p-6 rounded-2xl bg-gradient-to-br from-indigo-800 to-indigo-950 text-white shadow-md text-left space-y-4">
                     <h4 class="font-bold text-base">¿Tienes una propuesta?</h4>
                     <p class="text-xs text-white/80 leading-relaxed">
                         Si eres docente de la UNA Puno y quieres registrar un proyecto o voluntariado social para este semestre, puedes iniciar el trámite aquí.
@@ -188,7 +188,7 @@ const faqs = computed(() => {
                         <PlusCircle class="size-4 text-indigo-600" />
                         Registrar Proyecto
                     </Button>
-                </div>
+                </div> -->
             </div>
 
             <!-- Activities Listings Grid -->

@@ -19,7 +19,7 @@ const props = defineProps<{
     events?: any[];
 }>();
 
-const activeFilter = ref('Proximos');
+const activeFilter = ref('Todos');
 
 // Modal states
 const selectedEvent = ref<any>(null);
@@ -84,6 +84,13 @@ const filteredEvents = computed(() => {
                 <!-- Filter buttons -->
                 <div class="inline-flex p-1 rounded-xl bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-sm">
                     <button 
+                        @click="activeFilter = 'Todos'"
+                        class="px-5 py-2 rounded-lg font-bold transition-all text-xs cursor-pointer"
+                        :class="activeFilter === 'Todos' ? 'bg-indigo-600 text-white shadow-xs' : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'"
+                    >
+                        Todos
+                    </button>
+                    <button 
                         @click="activeFilter = 'Proximos'"
                         class="px-5 py-2 rounded-lg font-bold transition-all text-xs cursor-pointer"
                         :class="activeFilter === 'Proximos' ? 'bg-indigo-600 text-white shadow-xs' : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'"
@@ -104,20 +111,13 @@ const filteredEvents = computed(() => {
                     >
                         Pasados
                     </button>
-                    <button 
-                        @click="activeFilter = 'Todos'"
-                        class="px-5 py-2 rounded-lg font-bold transition-all text-xs cursor-pointer"
-                        :class="activeFilter === 'Todos' ? 'bg-indigo-600 text-white shadow-xs' : 'text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200'"
-                    >
-                        Todos
-                    </button>
                 </div>
 
                 <!-- Info message -->
-                <span class="text-xs text-neutral-400 font-medium flex items-center gap-1.5">
+               <!--  <span class="text-xs text-neutral-400 font-medium flex items-center gap-1.5">
                     <Info class="size-3.5 text-indigo-500" />
                     Las inscripciones cierran 24 horas antes del evento.
-                </span>
+                </span> -->
             </div>
 
             <!-- Events Grid -->
@@ -132,7 +132,6 @@ const filteredEvents = computed(() => {
                     v-for="ev in filteredEvents" 
                     :key="ev.id" 
                     class="group relative flex flex-col bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
-                    :class="{ 'opacity-80': ev.status === 'Pasados' }"
                     @click="openEventModal(ev)"
                 >
                     <!-- Image Section -->
@@ -204,7 +203,7 @@ const filteredEvents = computed(() => {
             </div>
 
             <!-- Activity proposal banner -->
-            <div class="mt-20 p-8 rounded-3xl bg-gradient-to-br from-[#00004d] to-indigo-950 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 text-left">
+          <!--   <div class="mt-20 p-8 rounded-3xl bg-gradient-to-br from-[#00004d] to-indigo-950 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6 text-left">
                 <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.15),transparent_40%)]"></div>
                 <div class="space-y-2 relative z-10 max-w-2xl">
                     <div class="inline-flex items-center gap-1.5 text-xs text-amber-300 font-bold uppercase tracking-wider">
@@ -224,7 +223,7 @@ const filteredEvents = computed(() => {
                         </Button>
                     </a>
                 </div>
-            </div>
+            </div> -->
 
         </section>
 
