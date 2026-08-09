@@ -296,22 +296,22 @@ onUnmounted(() => {
                 </div>
             </div>
 
-            <!-- Bottom 10% SubUnits Facebook Pages Bar on Mobile (Facebook Blue & Square Edges) -->
-            <div class="h-[10%] md:hidden w-full bg-gradient-to-r from-[#1877f2] to-[#0866ff] border-t border-white/20 px-2 flex items-center justify-between text-white rounded-none shrink-0 z-30 shadow-lg">
-                <!-- Facebook Brand Indicator on Left -->
-                <div class="flex items-center gap-1 px-1 text-white shrink-0 border-r border-white/20 pr-1.5" title="Páginas Oficiales de Facebook">
-                    <svg class="size-4 fill-current text-white shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <!-- Bottom Compact 7.5% SubUnits Facebook Pages Horizontal Slider on Mobile (Facebook Blue, Taller Logos & Larger Text) -->
+            <div class="h-[7.5%] min-h-[44px] md:hidden w-full bg-gradient-to-r from-[#1877f2] via-[#0866ff] to-[#1877f2] border-t border-white/30 px-2 flex items-center justify-between text-white rounded-none shrink-0 z-30 shadow-lg">
+                <!-- Facebook Brand Indicator on Left (Fixed) -->
+                <div class="flex items-center gap-1.5 px-2 py-1 text-white shrink-0 border-r border-white/30 pr-2 bg-black/10 shadow-inner" title="Páginas Oficiales de Facebook">
+                    <svg class="size-4.5 fill-current text-white shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1V12h3l-.5 3h-2.5v6.8c4.56-.93 8-4.96 8-9.8z" />
                     </svg>
-                    <span class="text-[8.5px] font-black uppercase tracking-wider text-white">FB</span>
+                    <span class="text-[9px] font-black uppercase tracking-wider text-white">FB</span>
                 </div>
 
-                <!-- 3 Subunits Facebook Links -->
-                <div class="flex-1 flex items-center justify-around gap-1 pl-1">
+                <!-- Interactive Horizontal Sliding Subunits Bar (Larger Logos & Text) -->
+                <div class="flex-1 overflow-x-auto no-scrollbar scroll-smooth flex items-center gap-2 pl-2 py-0.5">
                     <a v-for="sub in subunitsFloating" :key="sub.name" :href="sub.fbUrl" target="_blank" rel="noopener noreferrer"
-                        class="flex items-center gap-1 px-1.5 py-1 bg-white/15 hover:bg-white/25 active:bg-white/35 backdrop-blur-md rounded-none border border-white/30 text-white transition-colors shrink-0 max-w-[31%] text-left">
-                        <img :src="sub.logo" :alt="sub.name" class="size-5 object-cover shrink-0 rounded-none border border-white/40" />
-                        <span class="text-[8px] sm:text-[9px] font-extrabold leading-tight line-clamp-2 text-white">{{ sub.name }}</span>
+                        class="flex items-center gap-2 px-2.5 py-1 bg-white/20 hover:bg-white/30 active:scale-95 backdrop-blur-md rounded-none border border-white/40 text-white transition-all shrink-0">
+                        <img :src="sub.logo" :alt="sub.name" class="size-7 sm:size-8 object-cover shrink-0 rounded-none border-2 border-white/70 shadow-sm" />
+                        <span class="text-xs font-black leading-tight text-white whitespace-nowrap drop-shadow-xs">{{ sub.name }}</span>
                     </a>
                 </div>
             </div>
