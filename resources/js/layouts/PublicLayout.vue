@@ -135,28 +135,28 @@ const handleImageError = (e: Event) => {
                 <!-- Center on Mobile / Left on Desktop: Logos & Brand Title -->
                 <div class="flex-1 flex justify-center lg:justify-start lg:flex-initial my-auto">
                     <Link href="/" class="flex items-center gap-2 sm:gap-3 group shrink-0 my-auto">
-                        <!-- Left Logo (UNAP) -->
+                        <!-- Left Logo (UNAP - Enlarge on Mobile) -->
                         <img src="https://cdn.phototourl.com/free/2026-07-10-ea6ee316-4c97-416a-a4f4-52a5621cd3b2.png"
                             alt="Logo UNA Puno"
-                            class="h-9 sm:h-12 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105" />
+                            class="h-11 sm:h-13 md:h-12 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105" />
 
-                        <!-- Text in the middle (Larger Font) -->
+                        <!-- Text in the middle (Larger Font & Container) -->
                         <div
-                            class="flex flex-col items-center justify-center text-center my-auto self-center max-w-[145px] sm:max-w-[200px] md:max-w-[260px] lg:max-w-[340px] leading-snug">
+                            class="flex flex-col items-center justify-center text-center my-auto self-center max-w-[170px] sm:max-w-[220px] md:max-w-[260px] lg:max-w-[340px] leading-snug">
                             <span
-                                class="font-black text-[10px] sm:text-xs md:text-sm tracking-tight text-neutral-900 dark:text-neutral-100 block">
+                                class="font-black text-xs sm:text-sm tracking-tight text-neutral-900 dark:text-neutral-100 block">
                                 Dirección de Proyección Social y
                             </span>
                             <span
-                                class="font-black text-[10px] sm:text-xs md:text-sm tracking-tight text-neutral-900 dark:text-neutral-100 block">
+                                class="font-black text-xs sm:text-sm tracking-tight text-neutral-900 dark:text-neutral-100 block">
                                 Extensión Cultural
                             </span>
                         </div>
 
-                        <!-- Right Logo (DPESEC) -->
+                        <!-- Right Logo (DPESEC - Enlarge on Mobile) -->
                         <img src="https://cdn.phototourl.com/free/2026-07-31-f705bacb-02f5-4ea3-aeed-7e4e724a1d9b.png"
                             alt="Logo DPSEC"
-                            class="h-9 sm:h-12 w-auto object-contain rounded-full border border-neutral-200/50 dark:border-neutral-800/50 shrink-0 transition-transform duration-300 group-hover:scale-105" />
+                            class="h-11 sm:h-13 md:h-12 w-auto object-contain rounded-full border border-neutral-200/50 dark:border-neutral-800/50 shrink-0 transition-transform duration-300 group-hover:scale-105" />
                     </Link>
                 </div>
 
