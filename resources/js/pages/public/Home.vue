@@ -261,15 +261,15 @@ onUnmounted(() => {
                     </div>
 
                     <!-- Inner Container with side padding (px-3.5) for Heading & Description on Mobile -->
-                    <div class="px-3.5 md:px-0 space-y-1 md:space-y-4 my-auto">
-                        <h1 class="text-xl sm:text-3xl md:text-5xl lg:text-6xl font-black md:font-extrabold tracking-tight leading-tight md:leading-[1.1] text-white">
+                    <div class="px-3.5 md:px-0 space-y-1.5 md:space-y-4 my-auto">
+                        <h1 class="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black md:font-extrabold tracking-tight leading-tight md:leading-[1.1] text-white">
                             Conectando la <span
                                 class="bg-gradient-to-r from-indigo-400 via-blue-400 to-indigo-300 bg-clip-text text-transparent">Universidad</span>
                             <br class="hidden md:block" />
                             con nuestra Sociedad
                         </h1>
 
-                        <p class="text-[10px] sm:text-xs md:text-lg text-neutral-300 leading-tight md:leading-relaxed max-w-2xl font-normal line-clamp-2 md:line-clamp-none">
+                        <p class="text-xs sm:text-sm md:text-lg text-neutral-200 leading-snug md:leading-relaxed max-w-2xl font-medium md:font-normal line-clamp-3 md:line-clamp-none">
                             La Dirección de Proyección Social y Extensión Cultural de la UNA Puno lidera programas
                             integradores, voluntariados, preservación del patrimonio cultural altiplánico y proyectos
                             sostenibles para el desarrollo regional.
