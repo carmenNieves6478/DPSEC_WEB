@@ -690,9 +690,9 @@ clearInterval(mobileTeamInterval);
 
                 <!-- Continuous Marquee Carousel for Values -->
                 <div class="relative w-full select-none">
-                    <!-- Ambient fading gradients on the left and right edges for a premium vignette look -->
-                    <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-neutral-50 dark:from-neutral-900 to-transparent z-10 pointer-events-none"></div>
-                    <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-neutral-50 dark:from-neutral-900 to-transparent z-10 pointer-events-none"></div>
+                    <!-- Ambient fading gradients on the left and right edges for a premium vignette look (Hidden on mobile) -->
+                    <div class="hidden md:block absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-neutral-50 dark:from-neutral-900 to-transparent z-10 pointer-events-none"></div>
+                    <div class="hidden md:block absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-neutral-50 dark:from-neutral-900 to-transparent z-10 pointer-events-none"></div>
 
                     <!-- Marquee Track Wrapper (With vertical padding to prevent 3D flip scale clipping) -->
                     <div class="marquee-wrapper flex w-full overflow-hidden py-12">
