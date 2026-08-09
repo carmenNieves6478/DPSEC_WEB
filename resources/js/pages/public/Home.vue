@@ -143,12 +143,12 @@ const subunitsFloating = computed(() => {
         {
             name: 'Gestión Ambiental',
             fbUrl: 'https://www.facebook.com/p/Gesti%C3%B3n-Ambiental-UNA-PUNO-Oficial-61552848737780/',
-            logo: 'https://cdn.phototourl.com/free/2026-07-31-466e4242-9697-4d02-a2a8-8bb38185b202.jpg'
+            logo: 'https://cdn.phototourl.com/free/2026-07-31-aaa207df-3d13-45da-8947-299c143f1f7b.jpg'
         },
         {
             name: 'Seguimiento y Desarrollo del Graduado',
             fbUrl: 'https://www.facebook.com/p/Egresados-y-Graduados-UNA-Puno-100092995523250/',
-            logo: 'https://cdn.phototourl.com/free/2026-07-31-aaa207df-3d13-45da-8947-299c143f1f7b.jpg'
+            logo: 'https://cdn.phototourl.com/free/2026-07-31-466e4242-9697-4d02-a2a8-8bb38185b202.jpg'
         }
     ];
 });

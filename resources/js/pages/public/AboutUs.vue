@@ -209,12 +209,12 @@ const getObjectiveStyle = (index: number) => {
 };
 
 const valueImages = [
-    'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1579202673506-ca3ce28943ef?w=600&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80'
+    'https://cdn.phototourl.com/free/2026-08-09-e1d600ed-05d6-4ba7-8183-8de6577300eb.jpg',
+    'https://cdn.phototourl.com/free/2026-08-09-79549af3-bb13-4a78-a5fd-ac53aa8ddafd.jpg',
+    'https://cdn.phototourl.com/free/2026-08-09-ae473ad0-8722-4a2f-983c-68f0b46c9d7e.jpg',
+    'https://cdn.phototourl.com/free/2026-08-09-178458db-9dcd-40c6-8f97-d8bc593d117d.jpg',
+    'https://cdn.phototourl.com/free/2026-08-09-e4e5d7ff-c8c7-4415-a339-4d41a5e114b1.jpg',
+    'https://cdn.phototourl.com/free/2026-08-09-5669c7b7-504d-447b-a65e-08371d9c2073.jpg'
 ];
 
 // Distinct Theme Palettes for each Institutional Value card (Both Front & Back)
@@ -276,37 +276,37 @@ const values = computed(() => {
             title: 'Compromiso',
             description: 'Nos dedicamos plenamente a nuestra misión y a las comunidades que servimos.',
             icon: Heart,
-            image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&auto=format&fit=crop&q=80',
+            image: 'https://cdn.phototourl.com/free/2026-08-09-e1d600ed-05d6-4ba7-8183-8de6577300eb.jpg',
         },
         {
             title: 'Innovación',
             description: 'Buscamos constantemente nuevas soluciones a los desafíos sociales.',
             icon: Lightbulb,
-            image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&auto=format&fit=crop&q=80',
+            image: 'https://cdn.phototourl.com/free/2026-08-09-79549af3-bb13-4a78-a5fd-ac53aa8ddafd.jpg',
         },
         {
             title: 'Trabajo en Equipo',
             description: 'Creemos en el poder de la colaboración y el esfuerzo colectivo.',
             icon: Users,
-            image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&auto=format&fit=crop&q=80',
+            image: 'https://cdn.phototourl.com/free/2026-08-09-ae473ad0-8722-4a2f-983c-68f0b46c9d7e.jpg',
         },
         {
             title: 'Integridad',
             description: 'Actuamos con transparencia y ética en todas nuestras acciones.',
             icon: ShieldCheck,
-            image: 'https://images.unsplash.com/photo-1579202673506-ca3ce28943ef?w=600&auto=format&fit=crop&q=80',
+            image: 'https://cdn.phototourl.com/free/2026-08-09-178458db-9dcd-40c6-8f97-d8bc593d117d.jpg',
         },
         {
             title: 'Pasión',
             description: 'Nos apasiona nuestro trabajo y el impacto que generamos.',
             icon: Flame,
-            image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600&auto=format&fit=crop&q=80',
+            image: 'https://cdn.phototourl.com/free/2026-08-09-e4e5d7ff-c8c7-4415-a339-4d41a5e114b1.jpg',
         },
         {
             title: 'Sostenibilidad',
             description: 'Trabajamos por soluciones que perduren en el tiempo.',
             icon: Leaf,
-            image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80',
+            image: 'https://cdn.phototourl.com/free/2026-08-09-5669c7b7-504d-447b-a65e-08371d9c2073.jpg',
         }
     ];
 
