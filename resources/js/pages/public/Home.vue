@@ -199,12 +199,46 @@ const handleScroll = () => {
     showFloatingBar.value = isPastHero && !collidesWithFooter;
 };
 
+const activitiesContainerRef = ref<HTMLElement | null>(null);
+const videosContainerRef = ref<HTMLElement | null>(null);
+const statsContainerRef = ref<HTMLElement | null>(null);
+
+let activitiesInterval: ReturnType<typeof setInterval> | null = null;
+let videosInterval: ReturnType<typeof setInterval> | null = null;
+let statsInterval: ReturnType<typeof setInterval> | null = null;
+
+const autoScrollTrack = (container: HTMLElement | null) => {
+    if (!container || window.innerWidth >= 768) {
+return;
+}
+
+    const maxScroll = container.scrollWidth - container.clientWidth;
+
+    if (maxScroll <= 0) {
+return;
+}
+
+    const current = container.scrollLeft;
+    const cardWidth = (container.children[0] as HTMLElement)?.clientWidth || 280;
+
+    if (current + cardWidth >= maxScroll - 15) {
+        container.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+        container.scrollBy({ left: cardWidth + 16, behavior: 'smooth' });
+    }
+};
+
 onMounted(() => {
     timer = setInterval(() => {
         currentSlide.value = (currentSlide.value + 1) % slides.value.length;
     }, 6000); // 6 seconds
 
     window.addEventListener('scroll', handleScroll);
+
+    // Auto-scroll mobile sliders (Activities, Videos, Stats)
+    activitiesInterval = setInterval(() => autoScrollTrack(activitiesContainerRef.value), 4000);
+    videosInterval = setInterval(() => autoScrollTrack(videosContainerRef.value), 4500);
+    statsInterval = setInterval(() => autoScrollTrack(statsContainerRef.value), 5000);
 
     // Scroll Reveal Intersection Observer (active on scroll down and scroll up)
     const revealObserver = new IntersectionObserver((entries) => {
@@ -228,6 +262,18 @@ onUnmounted(() => {
     if (timer) {
         clearInterval(timer);
     }
+
+    if (activitiesInterval) {
+clearInterval(activitiesInterval);
+}
+
+    if (videosInterval) {
+clearInterval(videosInterval);
+}
+
+    if (statsInterval) {
+clearInterval(statsInterval);
+}
 
     window.removeEventListener('scroll', handleScroll);
 });
@@ -315,10 +361,10 @@ onUnmounted(() => {
                     </p>
                 </div>
 
-                <!-- Activities Grid (Máximo 3) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Activities Horizontal Slider on Mobile, Grid on Desktop (Auto-scroll & manual swipeable) -->
+                <div ref="activitiesContainerRef" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar space-x-4 pb-4 px-1 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:space-x-0 md:pb-0 md:gap-8 scroll-smooth">
                     <div v-for="activity in latestActivities" :key="activity.id"
-                        class="group relative flex flex-col bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                        class="w-[85vw] sm:w-[320px] md:w-auto shrink-0 snap-center group relative flex flex-col bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
                         @click="openActivityModal(activity)">
                         <!-- Image Section -->
                         <div class="h-52 relative overflow-hidden bg-neutral-150 dark:bg-neutral-950 shrink-0">
@@ -403,10 +449,11 @@ onUnmounted(() => {
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Videos Horizontal Slider on Mobile, Grid on Desktop (Auto-scroll & manual swipeable) -->
+                <div ref="videosContainerRef" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar space-x-4 pb-4 px-1 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-3 md:space-x-0 md:pb-0 md:gap-8 scroll-smooth">
                     <!-- Dynamic Videos -->
                     <div v-for="vid in mappedVideos" :key="vid.id"
-                        class="group relative flex flex-col bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+                        class="w-[85vw] sm:w-[320px] md:w-auto shrink-0 snap-center group relative flex flex-col bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
                         <div class="relative aspect-video overflow-hidden bg-neutral-950">
                             <iframe class="w-full h-full border-0" :src="vid.embedUrl"
                                 :title="vid.title"
@@ -590,9 +637,10 @@ onUnmounted(() => {
         <section
             class="reveal-section py-16 bg-neutral-50/80 dark:bg-neutral-900/40 border-y border-neutral-200/60 dark:border-neutral-800/40">
             <div class="max-w-7xl mx-auto px-6 lg:px-8">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Stats Horizontal Slider on Mobile, Grid on Desktop (Auto-scroll & manual swipeable) -->
+                <div ref="statsContainerRef" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar space-x-4 pb-2 px-1 md:px-0 md:grid md:grid-cols-2 lg:grid-cols-4 md:space-x-0 md:pb-0 md:gap-6 scroll-smooth">
                     <div v-for="stat in stats" :key="stat.label"
-                        class="p-6 rounded-2xl bg-white dark:bg-neutral-900/50 border border-neutral-200/60 dark:border-neutral-800/60 shadow-xs flex items-start gap-4 hover:shadow-md transition-shadow">
+                        class="w-[75vw] sm:w-[260px] md:w-auto shrink-0 snap-center p-6 rounded-2xl bg-white dark:bg-neutral-900/50 border border-neutral-200/60 dark:border-neutral-800/60 shadow-xs flex items-start gap-4 hover:shadow-md transition-shadow">
                         <div class="p-3 rounded-xl shrink-0" :class="stat.color">
                             <component :is="stat.icon" class="size-6" />
                         </div>
@@ -818,5 +866,14 @@ onUnmounted(() => {
 .modal-leave-to .relative {
     transform: scale(0.92) translateY(20px);
     opacity: 0;
+}
+
+/* Hide scrollbar for clean mobile sliding */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 </style>
