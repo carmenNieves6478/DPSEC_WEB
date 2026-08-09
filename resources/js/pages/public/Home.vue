@@ -236,7 +236,7 @@ onUnmounted(() => {
 <template>
     <PublicLayout title="Inicio">
         <section
-            class="relative flex flex-col md:flex-row md:items-center overflow-hidden bg-neutral-950 text-white h-[calc(100vh-96px)] min-h-[480px]">
+            class="relative flex flex-col md:flex-row md:items-center overflow-hidden bg-neutral-950 text-white h-[calc(100vh-128px)] md:h-[calc(100vh-96px)] min-h-[480px]">
             <!-- Top 58% Image Carousel Block on Mobile, Full-Screen Overlay on Desktop -->
             <div class="h-[58%] md:h-full w-full relative md:absolute md:inset-0 z-0 overflow-hidden shrink-0">
                 <transition-group name="fade">
