@@ -68,6 +68,7 @@ const subunitsFloating = [
         logo: 'https://cdn.phototourl.com/free/2026-07-31-f705bacb-02f5-4ea3-aeed-7e4e724a1d9b.png'
     },
     {
+        
         name: 'Gestión Ambiental',
         fbUrl: 'https://www.facebook.com/p/Gesti%C3%B3n-Ambiental-UNA-PUNO-Oficial-61552848737780/',
         logo: 'https://cdn.phototourl.com/free/2026-08-09-aaa207df-3d13-45da-8947-299c143f1f7b.jpg'
@@ -85,33 +86,35 @@ const subunitsFloating = [
 
         <Head :title="title ? `${title} | DPSEC UNA Puno` : 'DPSEC - UNA Puno'" />
 
-        <!-- 1. TOP MOBILE AUTOMATIC SUBUNITS MARQUEE BANNER (Above Navbar, Borderless Items) -->
-        <div class="lg:hidden w-full bg-gradient-to-r from-[#1877f2] via-[#0866ff] to-[#1877f2] text-white py-1.5 overflow-hidden relative shadow-xs z-50">
-            <div class="flex items-center w-full">
-                <!-- Facebook Fixed Brand Icon on Left -->
-                <div class="flex items-center gap-1.5 px-2 py-0.5 text-white shrink-0 z-10 bg-[#1877f2] border-r border-white/20 shadow-xs pr-2.5" title="Páginas Oficiales de Facebook">
-                    <svg class="size-4 fill-current text-white shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1V12h3l-.5 3h-2.5v6.8c4.56-.93 8-4.96 8-9.8z" />
-                    </svg>
-                    <span class="text-[9.5px] font-black uppercase tracking-wider text-white">FB</span>
-                </div>
+        <!-- 1. STICKY TOP WRAPPER (Banner + Navbar) -->
+        <div class="sticky top-0 z-50 w-full">
+            <!-- TOP MOBILE AUTOMATIC SUBUNITS MARQUEE BANNER (Above Navbar, Borderless Items) -->
+            <div class="lg:hidden w-full bg-gradient-to-r from-[#1877f2] via-[#0866ff] to-[#1877f2] text-white py-1.5 overflow-hidden relative shadow-xs">
+                <div class="flex items-center w-full">
+                    <!-- Facebook Fixed Brand Icon on Left -->
+                    <div class="flex items-center gap-1.5 px-2 py-0.5 text-white shrink-0 z-10 bg-[#1877f2] border-r border-white/20 shadow-xs pr-2.5" title="Páginas Oficiales de Facebook">
+                        <svg class="size-4 fill-current text-white shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1V12h3l-.5 3h-2.5v6.8c4.56-.93 8-4.96 8-9.8z" />
+                        </svg>
+                        <span class="text-[9.5px] font-black uppercase tracking-wider text-white">FB</span>
+                    </div>
 
-                <!-- Continuous Infinite Marquee Track -->
-                <div class="overflow-hidden w-full relative">
-                    <div class="animate-marquee flex items-center gap-8 whitespace-nowrap">
-                        <a v-for="(sub, idx) in [...subunitsFloating, ...subunitsFloating, ...subunitsFloating]" :key="idx" :href="sub.fbUrl" target="_blank" rel="noopener noreferrer"
-                            class="flex items-center gap-2 text-white shrink-0 hover:opacity-90 transition-opacity border-0">
-                            <img :src="sub.logo" :alt="sub.name" class="size-7 sm:size-8 object-cover shrink-0 rounded-full border-0 shadow-xs" />
-                            <span class="text-xs font-black leading-none text-white tracking-wide border-0">{{ sub.name }}</span>
-                        </a>
+                    <!-- Continuous Infinite Marquee Track -->
+                    <div class="overflow-hidden w-full relative">
+                        <div class="animate-marquee flex items-center gap-8 whitespace-nowrap">
+                            <a v-for="(sub, idx) in [...subunitsFloating, ...subunitsFloating, ...subunitsFloating]" :key="idx" :href="sub.fbUrl" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center gap-2 text-white shrink-0 hover:opacity-90 transition-opacity border-0">
+                                <img :src="sub.logo" :alt="sub.name" class="size-7 sm:size-8 object-cover shrink-0 rounded-full border-0 shadow-xs" />
+                                <span class="text-xs font-black leading-none text-white tracking-wide border-0">{{ sub.name }}</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- 2. STICKY GLASSMORPHIC NAVBAR -->
-        <header
-            class="sticky top-0 z-50 w-full border-b border-neutral-200/80 bg-white/85 backdrop-blur-md dark:border-neutral-800/80 dark:bg-neutral-950/85">
+            <!-- STICKY GLASSMORPHIC NAVBAR -->
+            <header
+                class="w-full border-b border-neutral-200/80 bg-white/85 backdrop-blur-md dark:border-neutral-800/80 dark:bg-neutral-950/85">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
                 
                 <!-- Mobile Left: Hamburger Menu Button (3 lines) -->
@@ -347,6 +350,7 @@ const subunitsFloating = [
                 </div>
             </transition>
         </header>
+        </div>
 
         <!-- 3. PAGE MAIN CONTENT -->
         <main class="flex-grow">
@@ -462,12 +466,6 @@ const subunitsFloating = [
                                 Documentos de Gestión
                             </Link>
                         </li>
-                        <li>
-                            <Link href="/eventos" class="hover:text-white transition-colors flex items-center gap-1.5">
-                                <ArrowRight class="size-3 text-indigo-500" />
-                                Eventos
-                            </Link>
-                        </li>
                     </ul>
                 </div>
 
@@ -480,23 +478,28 @@ const subunitsFloating = [
                             <span>Auditorio Magno (Tercer piso) Av. Floral 1153, Puno, Perú</span>
                         </li>
                         <li class="flex items-center gap-2.5">
-                            <Mail class="size-5 text-indigo-500 shrink-0" />
-                            <a href="mailto:proyeccionsocial@unap.edu.pe"
-                                class="hover:text-white transition-colors">drs@unap.edu.pe</a>
+                            <Phone class="size-4 text-indigo-500 shrink-0" />
+                            <span>+51 (051) 363543</span>
                         </li>
                         <li class="flex items-center gap-2.5">
-                            <Phone class="size-5 text-indigo-500 shrink-0" />
-                            <span>987 947 628</span>
+                            <Mail class="size-4 text-indigo-500 shrink-0" />
+                            <a href="mailto:proyeccionsocial@unap.edu.pe"
+                                class="hover:text-indigo-400 transition-colors">proyeccionsocial@unap.edu.pe</a>
                         </li>
                     </ul>
                 </div>
 
-                <!-- Col 4: Horas de Atención / Enlaces UNA -->
+                <!-- Col 4: Horario de Atención -->
                 <div class="space-y-4">
-                    <h3 class="font-bold text-white tracking-wide text-sm uppercase">Atención al Público</h3>
-                    <div class="bg-neutral-900/60 p-4 rounded-xl border border-neutral-900 text-sm space-y-2">
-                        <div class="flex justify-between">
-                            <span class="text-neutral-400">Lunes a Viernes</span>
+                    <h3 class="font-bold text-white tracking-wide text-sm uppercase">Horario de Atención</h3>
+                    <div
+                        class="p-4 rounded-2xl bg-neutral-900/60 border border-neutral-800/80 space-y-2 backdrop-blur-xs">
+                        <div class="text-xs font-semibold text-neutral-300 flex items-center justify-between">
+                            <span>Lunes a Viernes</span>
+                            <span
+                                class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                Presencial
+                            </span>
                         </div>
                         <div class="font-semibold text-white">08:00 AM - 02:30 PM</div>
                         <div class="h-px bg-neutral-800 my-2"></div>
@@ -513,9 +516,6 @@ const subunitsFloating = [
                 class="max-w-7xl mx-auto px-6 lg:px-8 mt-12 pt-6 border-t border-neutral-900 text-xs flex flex-col md:flex-row justify-between items-center gap-4">
                 <p>&copy; 2026 DPSEC UNA Puno. Todos los derechos reservados.</p>
                 <div class="flex gap-6">
-                    <!-- <a href="https://www.unap.edu.pe" target="_blank" rel="noopener noreferrer"
-                        class="hover:text-white transition-colors">Portal UNA Puno</a>
-                    <a href="/login" class="hover:text-white transition-colors">Acceso Interno</a> -->
                 </div>
             </div>
         </footer>
@@ -535,7 +535,7 @@ const subunitsFloating = [
 .animate-marquee {
     display: flex;
     width: max-content;
-    animation: marquee 20s linear infinite;
+    animation: marquee 38s linear infinite;
 }
 
 .animate-marquee:hover {
