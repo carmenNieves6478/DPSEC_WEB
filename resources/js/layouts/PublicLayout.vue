@@ -61,24 +61,30 @@ const suboffices = [
     }
 ];
 
+const defaultLogo = 'https://cdn.phototourl.com/free/2026-07-31-f705bacb-02f5-4ea3-aeed-7e4e724a1d9b.png';
+const unaLogo = 'https://cdn.phototourl.com/free/2026-07-10-ea6ee316-4c97-416a-a4f4-52a5621cd3b2.png';
+
 const subunitsFloating = [
     {
         name: 'Proyección Social y Extensión Universitaria',
         fbUrl: 'https://www.facebook.com/p/Direcci%C3%B3n-de-Proyecci%C3%B3n-Social-y-Extensi%C3%B3n-Cultural-UNA-Puno-100071137256988/',
-        logo: 'https://cdn.phototourl.com/free/2026-07-31-f705bacb-02f5-4ea3-aeed-7e4e724a1d9b.png'
+        logo: defaultLogo
     },
     {
-        
         name: 'Gestión Ambiental',
         fbUrl: 'https://www.facebook.com/p/Gesti%C3%B3n-Ambiental-UNA-PUNO-Oficial-61552848737780/',
-        logo: 'https://cdn.phototourl.com/free/2026-08-09-aaa207df-3d13-45da-8947-299c143f1f7b.jpg'
+        logo: unaLogo
     },
     {
         name: 'Seguimiento y Desarrollo del Graduado',
         fbUrl: 'https://www.facebook.com/p/Egresados-y-Graduados-UNA-Puno-100092995523250/',
-        logo: 'https://cdn.phototourl.com/free/2026-08-09-466e4242-9697-4d02-a2a8-8bb38185b202.jpg'
+        logo: defaultLogo
     }
 ];
+
+const handleImageError = (e: Event) => {
+    (e.target as HTMLImageElement).src = defaultLogo;
+};
 </script>
 
 <template>
@@ -104,7 +110,7 @@ const subunitsFloating = [
                         <div class="animate-marquee flex items-center gap-8 whitespace-nowrap">
                             <a v-for="(sub, idx) in [...subunitsFloating, ...subunitsFloating, ...subunitsFloating]" :key="idx" :href="sub.fbUrl" target="_blank" rel="noopener noreferrer"
                                 class="flex items-center gap-2 text-white shrink-0 hover:opacity-90 transition-opacity border-0">
-                                <img :src="sub.logo" :alt="sub.name" class="size-7 sm:size-8 object-cover shrink-0 rounded-full border-0 shadow-xs" />
+                                <img :src="sub.logo" :alt="sub.name" @error="handleImageError" class="size-7 sm:size-8 object-contain bg-white p-0.5 shrink-0 rounded-full border-0 shadow-xs" />
                                 <span class="text-xs font-black leading-none text-white tracking-wide border-0">{{ sub.name }}</span>
                             </a>
                         </div>
