@@ -296,13 +296,13 @@ clearInterval(statsInterval);
                 </div>
             </div>
 
-            <!-- Bottom 42% Glassmorphism Text & Buttons Block on Mobile (Efecto Vidrio, Taller Buttons & Badge) -->
-            <div class="h-[42%] md:h-auto w-full bg-neutral-950/40 backdrop-blur-xl md:bg-transparent px-0 py-0 sm:px-6 md:px-8 max-w-7xl mx-auto flex flex-col justify-between border-t border-white/20 md:border-0 shrink-0 z-20 md:my-auto shadow-2xl">
+            <!-- Bottom 42% Glassmorphism Text & Buttons Block on Mobile, Clean Non-Glass Text Block on Desktop -->
+            <div class="h-[42%] md:h-auto w-full max-md:bg-neutral-950/40 max-md:backdrop-blur-xl max-md:border-t max-md:border-white/20 max-md:shadow-2xl md:bg-transparent md:backdrop-blur-none md:border-0 md:shadow-none px-0 py-0 sm:px-6 md:px-8 max-w-7xl mx-auto flex flex-col justify-between shrink-0 z-20 md:my-auto">
                 <div class="w-full h-full flex flex-col justify-between text-left space-y-1 md:space-y-6">
-                    <!-- Taller Square Badge on Mobile (Glass Tinted), Pill Badge on Desktop -->
+                    <!-- Taller Square Badge on Mobile (Glass Tinted), Clean Solid Badge on Desktop -->
                     <div
-                        class="w-full md:w-fit flex md:inline-flex items-center gap-2.5 px-4 py-3 md:py-1.5 rounded-none md:rounded-full bg-indigo-500/35 backdrop-blur-md text-indigo-100 text-xs sm:text-sm font-black md:font-semibold uppercase tracking-wider border-l-4 border-indigo-400 border-y border-r border-white/20 md:border md:border-indigo-500/30 shadow-sm shrink-0">
-                        <TrendingUp class="size-5 shrink-0 text-indigo-300" />
+                        class="w-full md:w-fit flex md:inline-flex items-center gap-2.5 px-4 py-3 md:py-1.5 rounded-none md:rounded-full max-md:bg-indigo-500/35 max-md:backdrop-blur-md md:bg-indigo-600/90 md:backdrop-blur-none text-indigo-100 text-xs sm:text-sm font-black md:font-semibold uppercase tracking-wider border-l-4 border-indigo-400 border-y border-r border-white/20 md:border md:border-indigo-400/40 shadow-sm shrink-0">
+                        <TrendingUp class="size-5 shrink-0 text-indigo-300 md:text-white" />
                         <span class="truncate">Compromiso Social y Cultural</span>
                     </div>
 
@@ -333,7 +333,7 @@ clearInterval(statsInterval);
                         </Link>
                         <Link href="/documentos" class="w-full md:w-auto">
                             <Button variant="outline"
-                                class="w-full md:w-auto rounded-none md:rounded-xl h-13 md:h-12 px-2 md:px-6 border-0 md:border border-white/30 md:border-white/20 bg-white/15 md:bg-white/5 text-white hover:bg-white/25 md:hover:bg-white/10 transition-all text-xs sm:text-sm md:text-base font-black md:font-semibold flex items-center justify-center md:justify-start gap-2 cursor-pointer backdrop-blur-md">
+                                class="w-full md:w-auto rounded-none md:rounded-xl h-13 md:h-12 px-2 md:px-6 border-0 md:border border-white/30 md:border-white/20 bg-white/15 md:bg-white/10 text-white hover:bg-white/25 md:hover:bg-white/20 transition-all text-xs sm:text-sm md:text-base font-black md:font-semibold flex items-center justify-center md:justify-start gap-2 cursor-pointer max-md:backdrop-blur-md md:backdrop-blur-none">
                                 <FileText class="size-5 text-indigo-300 shrink-0" />
                                 <span class="truncate">Normativas y Guías</span>
                             </Button>

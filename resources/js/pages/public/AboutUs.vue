@@ -492,11 +492,11 @@ clearInterval(mobileTeamInterval);
             class="reveal-section py-20 lg:py-28 bg-neutral-50/50 dark:bg-neutral-900/10 border-y border-neutral-200/55 dark:border-neutral-800/40 select-none"
         >
             <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full space-y-8">
-                <!-- Section Header -->
-                <div class="text-center max-w-3xl mx-auto space-y-3">
+                <!-- Mobile Section Header -->
+                <div class="lg:hidden text-center max-w-3xl mx-auto space-y-3">
                     <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Liderazgo y Gestión</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">Nuestro Equipo</h2>
-                    <p class="text-xs md:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+                    <h2 class="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white">Nuestro Equipo</h2>
+                    <p class="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
                         Conoce a los profesionales apasionados que lideran el desarrollo social y cultural en la UNA Puno.
                     </p>
                 </div>
@@ -540,9 +540,18 @@ clearInterval(mobileTeamInterval);
 
                 <!-- Desktop Interactive Presentation (Hidden on Mobile) -->
                 <div class="hidden lg:grid grid-cols-12 gap-12 items-center w-full pt-6">
-                    <!-- Left Column: Interactive Member Selector List -->
+                    <!-- Left Column: Sticky Header & Interactive Member List -->
                     <div class="col-span-5 text-left space-y-6 pr-4">
-                        <div class="space-y-2">
+                        <div class="space-y-3">
+                            <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Liderazgo y Gestión</span>
+                            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">Nuestro Equipo</h2>
+                            <div class="w-12 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></div>
+                            <p class="text-xs md:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+                                Contamos con un equipo multidisciplinario de profesionales apasionados por el cambio social, comprometidos con nuestros valores y enfocados en lograr resultados transformadores para nuestra comunidad universitaria y la región de Puno.
+                            </p>
+                        </div>
+
+                        <div class="space-y-2 pt-2">
                             <button 
                                 v-for="(member, idx) in team" 
                                 :key="idx"
