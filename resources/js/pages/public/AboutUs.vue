@@ -348,7 +348,9 @@ const setCard = (index: number) => {
 
 // Keyboard listener (Flechas Abajo/Derecha -> Siguiente, Arriba/Izquierda -> Anterior)
 const handleKeyDown = (event: KeyboardEvent) => {
-    if (!teamSectionRef.value) return;
+    if (!teamSectionRef.value) {
+return;
+}
     
     const rect = teamSectionRef.value.getBoundingClientRect();
     const inView = rect.top < window.innerHeight && rect.bottom > 0;

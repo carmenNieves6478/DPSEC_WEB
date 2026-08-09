@@ -10,10 +10,7 @@ import {
     Mail,
     Phone,
     MapPin,
-    Calendar,
-    FileText,
-    ArrowRight,
-    Award
+    ArrowRight
 } from '@lucide/vue';
 import { ref } from 'vue';
 import { Button } from '@/components/ui/button';

@@ -2,10 +2,8 @@
 import { 
     Search, 
     Download, 
-    ExternalLink, 
     Calendar, 
     Tag, 
-    HelpCircle,
     Info
 } from '@lucide/vue';
 import { ref, computed } from 'vue';

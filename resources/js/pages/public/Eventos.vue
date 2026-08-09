@@ -4,9 +4,6 @@ import {
     MapPin, 
     Clock, 
     ChevronRight, 
-    Info, 
-    Sparkles, 
-    Mail, 
     X, 
     UserCheck
 } from '@lucide/vue';
