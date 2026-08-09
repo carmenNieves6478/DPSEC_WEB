@@ -70,38 +70,51 @@ const suboffices = [
 
         <Head :title="title ? `${title} | DPSEC UNA Puno` : 'DPSEC - UNA Puno'" />
 
-
-
         <!-- 2. STICKY GLASSMORPHIC NAVBAR -->
         <header
             class="sticky top-0 z-50 w-full border-b border-neutral-200/80 bg-white/85 backdrop-blur-md dark:border-neutral-800/80 dark:bg-neutral-950/85">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 h-24 flex justify-between items-center">
-                <!-- Logo & Brand -->
-                <Link href="/" class="flex items-center gap-2.5 sm:gap-3 group shrink-0 my-auto">
-                    <!-- Left Logo (UNAP) -->
-                    <img src="https://cdn.phototourl.com/free/2026-07-10-ea6ee316-4c97-416a-a4f4-52a5621cd3b2.png"
-                        alt="Logo UNA Puno"
-                        class="h-10 sm:h-12 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105" />
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+                
+                <!-- Mobile Left: Hamburger Menu Button (3 lines) -->
+                <div class="lg:hidden flex items-center">
+                    <Button variant="ghost" size="icon" class="h-10 w-10 rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-900 cursor-pointer"
+                        @click="mobileMenuOpen = !mobileMenuOpen"
+                        aria-label="Abrir menú de navegación">
+                        <Menu v-if="!mobileMenuOpen" class="h-6 w-6 text-neutral-800 dark:text-neutral-200" />
+                        <X v-else class="h-6 w-6 text-neutral-800 dark:text-neutral-200" />
+                    </Button>
+                </div>
 
-                    <!-- Text in the middle -->
-                    <div
-                        class="flex flex-col items-center justify-center text-center my-auto self-center max-w-[140px] sm:max-w-[200px] md:max-w-[260px] lg:max-w-[340px] leading-[1.2]">
-                        <span
-                            class="font-extrabold text-[9px] sm:text-[11px] md:text-sm tracking-tight text-neutral-800 dark:text-neutral-100 block">
-                            Dirección de Proyección Social y
-                        </span>
-                        <span
-                            class="font-extrabold text-[9px] sm:text-[11px] md:text-sm tracking-tight text-neutral-800 dark:text-neutral-100 block">
-                            Extensión Cultural
-                        </span>
-                    </div>
+                <!-- Center on Mobile / Left on Desktop: Logos & Brand Title -->
+                <div class="flex-1 flex justify-center lg:justify-start lg:flex-initial my-auto">
+                    <Link href="/" class="flex items-center gap-2 sm:gap-3 group shrink-0 my-auto">
+                        <!-- Left Logo (UNAP) -->
+                        <img src="https://cdn.phototourl.com/free/2026-07-10-ea6ee316-4c97-416a-a4f4-52a5621cd3b2.png"
+                            alt="Logo UNA Puno"
+                            class="h-9 sm:h-12 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105" />
 
+                        <!-- Text in the middle -->
+                        <div
+                            class="flex flex-col items-center justify-center text-center my-auto self-center max-w-[135px] sm:max-w-[200px] md:max-w-[260px] lg:max-w-[340px] leading-[1.2]">
+                            <span
+                                class="font-extrabold text-[9px] sm:text-[11px] md:text-sm tracking-tight text-neutral-800 dark:text-neutral-100 block">
+                                Dirección de Proyección Social y
+                            </span>
+                            <span
+                                class="font-extrabold text-[9px] sm:text-[11px] md:text-sm tracking-tight text-neutral-800 dark:text-neutral-100 block">
+                                Extensión Cultural
+                            </span>
+                        </div>
 
-                    <!-- Right Logo (DPESEC) -->
-                    <img src="https://cdn.phototourl.com/free/2026-07-31-f705bacb-02f5-4ea3-aeed-7e4e724a1d9b.png"
-                        alt="Logo DPSEC"
-                        class="h-10 sm:h-12 w-auto object-contain rounded-full border border-neutral-200/50 dark:border-neutral-800/50 shrink-0 transition-transform duration-300 group-hover:scale-105" />
-                </Link>
+                        <!-- Right Logo (DPESEC) -->
+                        <img src="https://cdn.phototourl.com/free/2026-07-31-f705bacb-02f5-4ea3-aeed-7e4e724a1d9b.png"
+                            alt="Logo DPSEC"
+                            class="h-9 sm:h-12 w-auto object-contain rounded-full border border-neutral-200/50 dark:border-neutral-800/50 shrink-0 transition-transform duration-300 group-hover:scale-105" />
+                    </Link>
+                </div>
+
+                <!-- Mobile Right: Invisible Spacer to keep logos 100% centered -->
+                <div class="lg:hidden h-10 w-10 pointer-events-none"></div>
 
                 <!-- Desktop Navigation Links (Pushed to the right next to theme toggle) -->
                 <nav class="hidden lg:flex items-center gap-5 xl:gap-7 ml-auto mr-4 xl:mr-6">
@@ -176,10 +189,8 @@ const suboffices = [
                     </Link>
                 </nav>
 
-
-                <!-- Action buttons -->
+                <!-- Desktop Action buttons (Theme toggle) -->
                 <div class="hidden lg:flex items-center gap-4">
-                    <!-- Compact Icon-Only Segmented Theme Toggle -->
                     <button @click="toggleTheme"
                         class="relative inline-flex items-center p-0.5 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100/90 dark:bg-neutral-900/90 text-xs font-bold transition-all cursor-pointer shadow-xs select-none hover:border-indigo-500/40"
                         title="Cambiar modo visual (Claro / Oscuro)" aria-label="Cambiar tema de color">
@@ -194,47 +205,6 @@ const suboffices = [
                             <Moon class="size-3.5" />
                         </span>
                     </button>
-
-                    <!-- Authentication / Portal access (Ocultado según requerimiento)
-                    <Link v-if="authUser" href="/dashboard">
-                        <Button variant="outline"
-                            class="rounded-xl flex items-center gap-2 border-neutral-300 dark:border-neutral-700">
-                            <User class="size-4 text-indigo-500" />
-                            Mi Cuenta
-                        </Button>
-                    </Link>
-                    <Link v-else href="/login">
-                        <Button
-                            class="rounded-xl bg-gradient-to-r from-indigo-700 to-indigo-900 text-white shadow-md shadow-indigo-600/10 hover:opacity-90 transition-opacity flex items-center gap-2">
-                            <LogIn class="size-4" />
-                            Intranet
-                        </Button>
-                    </Link>
-                    -->
-                </div>
-
-                <!-- Mobile Menu Button & Theme Switch -->
-                <div class="lg:hidden flex items-center gap-2.5">
-                    <button @click="toggleTheme"
-                        class="relative inline-flex items-center p-0.5 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 text-xs font-bold transition-all cursor-pointer shadow-xs select-none"
-                        aria-label="Cambiar tema de color" title="Cambiar tema de color">
-                        <span
-                            class="inline-flex items-center justify-center p-1.5 rounded-full transition-all duration-300"
-                            :class="resolvedAppearance === 'light' ? 'bg-white text-amber-500 shadow-xs' : 'text-neutral-400'">
-                            <Sun class="size-3.5" />
-                        </span>
-                        <span
-                            class="inline-flex items-center justify-center p-1.5 rounded-full transition-all duration-300"
-                            :class="resolvedAppearance === 'dark' ? 'bg-neutral-800 text-indigo-400 shadow-xs' : 'text-neutral-400'">
-                            <Moon class="size-3.5" />
-                        </span>
-                    </button>
-
-                    <Button variant="ghost" size="icon" class="h-9 w-9 rounded-lg"
-                        @click="mobileMenuOpen = !mobileMenuOpen">
-                        <Menu v-if="!mobileMenuOpen" class="h-5 w-5" />
-                        <X v-else class="h-5 w-5" />
-                    </Button>
                 </div>
             </div>
 
@@ -245,42 +215,42 @@ const suboffices = [
                 leave-to-class="opacity-0 translate-y-[-10px]">
                 <div v-if="mobileMenuOpen"
                     class="lg:hidden border-t border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-950 px-6 py-6 shadow-xl space-y-4">
-                    <nav class="flex flex-col gap-4">
+                    <nav class="flex flex-col gap-3">
                         <Link href="/"
-                            class="text-base font-semibold px-2 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
-                            :class="page.url === '/' ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900' : 'text-neutral-700 dark:text-neutral-300'"
+                            class="text-base font-semibold px-3 py-2 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+                            :class="page.url === '/' ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900 font-bold' : 'text-neutral-700 dark:text-neutral-300'"
                             @click="mobileMenuOpen = false">
                             Inicio
                         </Link>
 
                         <Link href="/nosotros"
-                            class="text-base font-semibold px-2 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
-                            :class="page.url === '/nosotros' ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900' : 'text-neutral-700 dark:text-neutral-300'"
+                            class="text-base font-semibold px-3 py-2 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+                            :class="page.url === '/nosotros' ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900 font-bold' : 'text-neutral-700 dark:text-neutral-300'"
                             @click="mobileMenuOpen = false">
                             Nosotros
                         </Link>
 
                         <!-- Subunidades Mobile Section -->
-                        <div class="space-y-2">
+                        <div class="space-y-1">
                             <button @click="mobileSubmenuOpen = !mobileSubmenuOpen"
-                                class="w-full flex items-center justify-between text-base font-semibold px-2 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors text-neutral-700 dark:text-neutral-300 text-left focus:outline-none">
+                                class="w-full flex items-center justify-between text-base font-semibold px-3 py-2 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors text-neutral-700 dark:text-neutral-300 text-left focus:outline-none cursor-pointer">
                                 Sub Unidades
                                 <ChevronDown class="size-4 transform transition-transform duration-200"
                                     :class="{ 'rotate-180': mobileSubmenuOpen }" />
                             </button>
 
                             <div v-show="mobileSubmenuOpen"
-                                class="pl-4 border-l border-neutral-200 dark:border-neutral-800 space-y-2 py-1">
+                                class="pl-4 border-l border-neutral-200 dark:border-neutral-800 space-y-1 py-1">
                                 <template v-for="office in suboffices" :key="office.name">
                                     <a v-if="office.external" :href="office.href" target="_blank"
                                         rel="noopener noreferrer"
-                                        class="flex items-center justify-between text-sm py-2 px-2 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-indigo-600 dark:hover:text-indigo-400">
+                                        class="flex items-center justify-between text-sm py-2 px-3 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-900 hover:text-indigo-600 dark:hover:text-indigo-400">
                                         {{ office.name }}
                                         <ExternalLink class="size-3.5 opacity-60" />
                                     </a>
                                     <Link v-else :href="office.href"
-                                        class="flex items-center justify-between text-sm py-2 px-2 rounded-lg"
-                                        :class="page.url === office.href ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900 font-medium' : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-900'"
+                                        class="flex items-center justify-between text-sm py-2 px-3 rounded-lg"
+                                        :class="page.url === office.href ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900 font-bold' : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-900'"
                                         @click="mobileMenuOpen = false">
                                         {{ office.name }}
                                     </Link>
@@ -289,67 +259,52 @@ const suboffices = [
                         </div>
 
                         <Link href="/documentos"
-                            class="text-base font-semibold px-2 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
-                            :class="page.url.startsWith('/documentos') ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900' : 'text-neutral-700 dark:text-neutral-300'"
+                            class="text-base font-semibold px-3 py-2 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+                            :class="page.url.startsWith('/documentos') ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900 font-bold' : 'text-neutral-700 dark:text-neutral-300'"
                             @click="mobileMenuOpen = false">
                             Documentos
                         </Link>
 
                         <Link href="/eventos"
-                            class="text-base font-semibold px-2 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
-                            :class="page.url.startsWith('/eventos') ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900' : 'text-neutral-700 dark:text-neutral-300'"
+                            class="text-base font-semibold px-3 py-2 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+                            :class="page.url.startsWith('/eventos') ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900 font-bold' : 'text-neutral-700 dark:text-neutral-300'"
                             @click="mobileMenuOpen = false">
                             Eventos
                         </Link>
 
                         <Link href="/certificados"
-                            class="text-base font-semibold px-2 py-1.5 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
-                            :class="page.url.startsWith('/certificados') ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900' : 'text-neutral-700 dark:text-neutral-300'"
+                            class="text-base font-semibold px-3 py-2 rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
+                            :class="page.url.startsWith('/certificados') ? 'text-indigo-600 dark:text-indigo-400 bg-neutral-50 dark:bg-neutral-900 font-bold' : 'text-neutral-700 dark:text-neutral-300'"
                             @click="mobileMenuOpen = false">
                             Certificados
                         </Link>
+
+                        <div class="h-px bg-neutral-200/80 dark:bg-neutral-800 my-2"></div>
+
+                        <!-- Theme Selector (Modo Visual - Claro/Oscuro) as the last item inside the Mobile Menu Drawer -->
+                        <div class="flex items-center justify-between px-3 py-2.5 rounded-xl bg-neutral-50/80 dark:bg-neutral-900/60 border border-neutral-200/80 dark:border-neutral-800">
+                            <span class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 flex items-center gap-2">
+                                <Sun v-if="resolvedAppearance === 'light'" class="size-4 text-amber-500" />
+                                <Moon v-else class="size-4 text-indigo-400" />
+                                Modo Visual
+                            </span>
+                            <button @click="toggleTheme"
+                                class="relative inline-flex items-center p-1 rounded-full border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-950 text-xs font-bold transition-all cursor-pointer shadow-xs select-none">
+                                <span
+                                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-300"
+                                    :class="resolvedAppearance === 'light' ? 'bg-indigo-600 text-white shadow-xs font-bold' : 'text-neutral-400'">
+                                    <Sun class="size-3.5" />
+                                    <span class="text-[11px]">Claro</span>
+                                </span>
+                                <span
+                                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-300"
+                                    :class="resolvedAppearance === 'dark' ? 'bg-indigo-600 text-white shadow-xs font-bold' : 'text-neutral-400'">
+                                    <Moon class="size-3.5" />
+                                    <span class="text-[11px]">Oscuro</span>
+                                </span>
+                            </button>
+                        </div>
                     </nav>
-
-
-                    <div class="h-px bg-neutral-200 dark:bg-neutral-800 my-4"></div>
-
-                    <!-- Theme Selector inside Mobile Drawer -->
-                    <div class="flex items-center justify-between px-2 py-1">
-                        <span
-                            class="text-xs font-bold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">Modo
-                            Visual</span>
-                        <button @click="toggleTheme"
-                            class="relative inline-flex items-center p-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-100 dark:bg-neutral-900 text-xs font-bold transition-all cursor-pointer shadow-xs select-none">
-                            <span
-                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-300"
-                                :class="resolvedAppearance === 'light' ? 'bg-white text-neutral-900 shadow-xs font-black' : 'text-neutral-400'">
-                                <Sun class="size-3.5 text-amber-500" />
-                                <span class="text-[11px]">Claro</span>
-                            </span>
-                            <span
-                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full transition-all duration-300"
-                                :class="resolvedAppearance === 'dark' ? 'bg-neutral-800 text-indigo-300 shadow-xs font-black' : 'text-neutral-400'">
-                                <Moon class="size-3.5 text-indigo-400" />
-                                <span class="text-[11px]">Oscuro</span>
-                            </span>
-                        </button>
-                    </div>
-
-                    <!-- Portal / Intranet Access (Mobile) (Ocultado según requerimiento)
-                    <Link v-if="authUser" href="/dashboard" class="block w-full" @click="mobileMenuOpen = false">
-                        <Button variant="outline" class="w-full rounded-xl flex items-center justify-center gap-2">
-                            <User class="size-4 text-indigo-500" />
-                            Panel de Administración
-                        </Button>
-                    </Link>
-                    <Link v-else href="/login" class="block w-full" @click="mobileMenuOpen = false">
-                        <Button
-                            class="w-full rounded-xl bg-gradient-to-r from-indigo-700 to-indigo-900 text-white flex items-center justify-center gap-2">
-                            <LogIn class="size-4" />
-                            Acceso Intranet
-                        </Button>
-                    </Link>
-                    -->
                 </div>
             </transition>
         </header>

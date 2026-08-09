@@ -174,7 +174,7 @@ const filteredDocuments = computed(() => {
                 </div>
 
                 <!-- Info Help Card -->
-                <div class="p-6 rounded-2xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-left space-y-4">
+                <!-- <div class="p-6 rounded-2xl bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-left space-y-4">
                     <h4 class="font-bold text-sm text-neutral-950 dark:text-white flex items-center gap-1.5">
                         <HelpCircle class="size-4.5 text-indigo-500" />
                         ¿Cómo enviar?
@@ -186,7 +186,7 @@ const filteredDocuments = computed(() => {
                         Mesa de Partes Virtual
                         <ExternalLink class="size-3" />
                     </a>
-                </div>
+                </div> -->
             </div>
 
             <!-- Documents Table/List -->
