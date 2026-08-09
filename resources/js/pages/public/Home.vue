@@ -250,43 +250,44 @@ onUnmounted(() => {
                 </div>
             </div>
 
-            <!-- Middle 30% Text & Buttons Block on Mobile -->
+            <!-- Middle 30% Text & Buttons Block on Mobile (Restored to original design on Desktop) -->
             <div class="h-[30%] md:h-auto w-full bg-neutral-950 md:bg-transparent px-3 py-2.5 sm:px-6 md:px-8 max-w-7xl mx-auto flex flex-col justify-between border-t-2 border-indigo-600/50 md:border-0 shrink-0 z-20 md:my-auto">
                 <div class="w-full h-full flex flex-col justify-between text-left space-y-1.5 md:space-y-6">
-                    <!-- Full-Width Square Badge (No rounded corners) -->
+                    <!-- Square Badge on Mobile, Original Pill Badge on Desktop -->
                     <div
-                        class="w-full flex items-center gap-2 px-3 py-1 rounded-none bg-indigo-500/20 text-indigo-300 text-xs sm:text-sm font-black uppercase tracking-wider border-l-4 border-indigo-500 border-y border-r border-indigo-500/30 shadow-xs shrink-0">
-                        <TrendingUp class="size-4 shrink-0 text-indigo-400" />
+                        class="w-full md:w-auto flex md:inline-flex items-center gap-2 px-3 py-1 md:py-1.5 rounded-none md:rounded-full bg-indigo-500/20 text-indigo-300 text-xs sm:text-sm font-black md:font-semibold uppercase tracking-wider border-l-4 border-indigo-500 border-y border-r border-indigo-500/30 md:border md:border-indigo-500/30 shadow-xs shrink-0">
+                        <TrendingUp class="size-3.5 md:size-4 shrink-0 text-indigo-400" />
                         <span class="truncate">Compromiso Social y Cultural</span>
                     </div>
 
                     <!-- Heading & Description (Middle) -->
-                    <div class="space-y-1 my-auto">
-                        <h1 class="text-xl sm:text-3xl md:text-5xl lg:text-6xl font-black tracking-tight leading-snug md:leading-[1.1] text-white">
+                    <div class="space-y-1 md:space-y-4 my-auto">
+                        <h1 class="text-xl sm:text-3xl md:text-5xl lg:text-6xl font-black md:font-extrabold tracking-tight leading-tight md:leading-[1.1] text-white">
                             Conectando la <span
                                 class="bg-gradient-to-r from-indigo-400 via-blue-400 to-indigo-300 bg-clip-text text-transparent">Universidad</span>
                             con nuestra Sociedad
                         </h1>
 
-                        <p class="text-xs sm:text-sm md:text-lg text-neutral-300 leading-tight max-w-2xl font-normal line-clamp-2 md:line-clamp-none">
+                        <p class="text-[10px] sm:text-xs md:text-lg text-neutral-300 leading-tight md:leading-relaxed max-w-2xl font-normal line-clamp-2 md:line-clamp-none">
                             La Dirección de Proyección Social y Extensión Cultural de la UNA Puno lidera programas
-                            integradores, voluntariados y proyectos sostenibles para el desarrollo regional.
+                            integradores, voluntariados, preservación del patrimonio cultural altiplánico y proyectos
+                            sostenibles para el desarrollo regional.
                         </p>
                     </div>
 
-                    <!-- Full-Width Side-By-Side Buttons in 1 Line (No rounded corners) -->
-                    <div class="grid grid-cols-2 gap-2 pt-0.5 w-full shrink-0">
-                        <Link href="/proyeccion-social" class="w-full">
+                    <!-- Side-By-Side Buttons on Mobile, Original Flex Buttons on Desktop -->
+                    <div class="grid grid-cols-2 md:flex md:flex-wrap gap-2 md:gap-4 pt-0.5 md:pt-2 w-full md:w-auto shrink-0">
+                        <Link href="/proyeccion-social" class="w-full md:w-auto">
                             <Button
-                                class="w-full rounded-none h-9 sm:h-12 px-2 sm:px-4 bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/30 transition-all text-[11px] sm:text-sm font-bold flex items-center justify-center gap-1 cursor-pointer border-0">
+                                class="w-full md:w-auto rounded-none md:rounded-xl h-9 md:h-12 px-2 md:px-6 bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/25 transition-all text-[11px] sm:text-sm md:text-base font-bold md:font-semibold flex items-center justify-center md:justify-start gap-1 md:gap-2 cursor-pointer border-0">
                                 <span class="truncate">Ver Actividades</span>
-                                <ArrowRight class="size-3 shrink-0" />
+                                <ArrowRight class="size-3.5 md:size-4 shrink-0" />
                             </Button>
                         </Link>
-                        <Link href="/documentos" class="w-full">
+                        <Link href="/documentos" class="w-full md:w-auto">
                             <Button variant="outline"
-                                class="w-full rounded-none h-9 sm:h-12 px-2 sm:px-4 border-white/30 bg-white/10 text-white hover:bg-white/20 transition-all text-[11px] sm:text-sm font-bold flex items-center justify-center gap-1 cursor-pointer backdrop-blur-md">
-                                <FileText class="size-3 text-indigo-300 shrink-0" />
+                                class="w-full md:w-auto rounded-none md:rounded-xl h-9 md:h-12 px-2 md:px-6 border-white/30 md:border-white/20 bg-white/10 md:bg-white/5 text-white hover:bg-white/20 md:hover:bg-white/10 transition-all text-[11px] sm:text-sm md:text-base font-bold md:font-semibold flex items-center justify-center md:justify-start gap-1 md:gap-2 cursor-pointer backdrop-blur-md">
+                                <FileText class="size-3.5 md:size-4 text-indigo-300 shrink-0" />
                                 <span class="truncate">Normativas y Guías</span>
                             </Button>
                         </Link>
