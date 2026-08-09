@@ -203,28 +203,28 @@ const activitiesContainerRef = ref<HTMLElement | null>(null);
 const videosContainerRef = ref<HTMLElement | null>(null);
 const statsContainerRef = ref<HTMLElement | null>(null);
 
+const activitiesIndex = ref(0);
+const videosIndex = ref(0);
+const statsIndex = ref(0);
+
 let activitiesInterval: ReturnType<typeof setInterval> | null = null;
 let videosInterval: ReturnType<typeof setInterval> | null = null;
 let statsInterval: ReturnType<typeof setInterval> | null = null;
 
-const autoScrollTrack = (container: HTMLElement | null) => {
-    if (!container || window.innerWidth >= 768) {
+const stepNextSlide = (container: HTMLElement | null, currentIndexRef: { value: number }) => {
+    if (!container || window.innerWidth >= 768 || !container.children.length) {
 return;
 }
 
-    const maxScroll = container.scrollWidth - container.clientWidth;
+    const totalCards = container.children.length;
+    currentIndexRef.value = (currentIndexRef.value + 1) % totalCards;
+    const targetCard = container.children[currentIndexRef.value] as HTMLElement;
 
-    if (maxScroll <= 0) {
-return;
-}
-
-    const current = container.scrollLeft;
-    const cardWidth = (container.children[0] as HTMLElement)?.clientWidth || 280;
-
-    if (current + cardWidth >= maxScroll - 15) {
-        container.scrollTo({ left: 0, behavior: 'smooth' });
-    } else {
-        container.scrollBy({ left: cardWidth + 16, behavior: 'smooth' });
+    if (targetCard) {
+        container.scrollTo({
+            left: targetCard.offsetLeft - container.offsetLeft,
+            behavior: 'smooth'
+        });
     }
 };
 
@@ -235,10 +235,10 @@ onMounted(() => {
 
     window.addEventListener('scroll', handleScroll);
 
-    // Auto-scroll mobile sliders (Activities, Videos, Stats)
-    activitiesInterval = setInterval(() => autoScrollTrack(activitiesContainerRef.value), 4000);
-    videosInterval = setInterval(() => autoScrollTrack(videosContainerRef.value), 4500);
-    statsInterval = setInterval(() => autoScrollTrack(statsContainerRef.value), 5000);
+    // Auto-scroll mobile sliders sequentially (Card 1 -> Card 2 -> Card 3 -> Card 1)
+    activitiesInterval = setInterval(() => stepNextSlide(activitiesContainerRef.value, activitiesIndex), 4500);
+    videosInterval = setInterval(() => stepNextSlide(videosContainerRef.value, videosIndex), 5000);
+    statsInterval = setInterval(() => stepNextSlide(statsContainerRef.value, statsIndex), 5500);
 
     // Scroll Reveal Intersection Observer (active on scroll down and scroll up)
     const revealObserver = new IntersectionObserver((entries) => {
