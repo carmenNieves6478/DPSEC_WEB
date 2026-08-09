@@ -508,14 +508,14 @@ clearInterval(mobileTeamInterval);
                             v-for="member in team" 
                             :key="member.name"
                             @click="stepNextTeamSlide"
-                            class="w-full shrink-0 snap-center relative rounded-3xl overflow-hidden shadow-none border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900 group aspect-[4/5] cursor-pointer p-3 flex flex-col transition-all duration-300"
+                            class="w-full shrink-0 snap-center relative rounded-[2.25rem] overflow-hidden shadow-none border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900 group aspect-[4/5] cursor-pointer p-3 flex flex-col transition-all duration-300"
                         >
-                            <!-- Inner Photo Frame Box (Estilo marco recto de la web) -->
-                            <div class="w-full h-full rounded-2xl overflow-hidden bg-neutral-100 dark:bg-neutral-950 relative flex items-end justify-center border border-neutral-200/60 dark:border-neutral-800/60">
+                            <!-- Inner Photo Frame Box (Con bordes perfectamente redondeados) -->
+                            <div class="w-full h-full rounded-[1.75rem] overflow-hidden bg-neutral-100 dark:bg-neutral-950 relative flex items-end justify-center border border-neutral-200/60 dark:border-neutral-800/60">
                                 <img :src="member.image" :alt="member.name" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
                                 
-                                <!-- Bottom Glass Overlay with Name & Role (Adaptativo: Claro en Light Mode / Oscuro en Dark Mode) -->
-                                <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/95 via-white/85 to-transparent dark:from-neutral-950 dark:via-neutral-950/85 dark:to-transparent backdrop-blur-md flex flex-col items-start text-left space-y-1 z-10 border-t border-black/5 dark:border-white/10">
+                                <!-- Bottom Glass Overlay with Name & Role (Adaptativo y Redondeado Abajo) -->
+                                <div class="absolute inset-x-0 bottom-0 p-4 rounded-b-[1.75rem] bg-gradient-to-t from-white/95 via-white/85 to-transparent dark:from-neutral-950 dark:via-neutral-950/85 dark:to-transparent backdrop-blur-md flex flex-col items-start text-left space-y-1 z-10 border-t border-black/5 dark:border-white/10">
                                     <span class="px-2.5 py-1 rounded-full text-[9.5px] font-black uppercase tracking-widest bg-indigo-600 text-white">
                                         {{ member.role }}
                                     </span>
