@@ -253,9 +253,9 @@ onUnmounted(() => {
             <!-- Middle 30% Text & Buttons Block on Mobile (Restored to original design on Desktop) -->
             <div class="h-[30%] md:h-auto w-full bg-neutral-950 md:bg-transparent px-3 py-2.5 sm:px-6 md:px-8 max-w-7xl mx-auto flex flex-col justify-between border-t-2 border-indigo-600/50 md:border-0 shrink-0 z-20 md:my-auto">
                 <div class="w-full h-full flex flex-col justify-between text-left space-y-1.5 md:space-y-6">
-                    <!-- Square Badge on Mobile, Original Pill Badge on Desktop -->
+                    <!-- Square Badge on Mobile, Compact Fit Pill Badge on Desktop -->
                     <div
-                        class="w-full md:w-auto flex md:inline-flex items-center gap-2 px-3 py-1 md:py-1.5 rounded-none md:rounded-full bg-indigo-500/20 text-indigo-300 text-xs sm:text-sm font-black md:font-semibold uppercase tracking-wider border-l-4 border-indigo-500 border-y border-r border-indigo-500/30 md:border md:border-indigo-500/30 shadow-xs shrink-0">
+                        class="w-full md:w-fit flex md:inline-flex items-center gap-2 px-3 py-1 md:py-1.5 rounded-none md:rounded-full bg-indigo-500/20 text-indigo-300 text-xs sm:text-sm font-black md:font-semibold uppercase tracking-wider border-l-4 border-indigo-500 border-y border-r border-indigo-500/30 md:border md:border-indigo-500/30 shadow-xs shrink-0">
                         <TrendingUp class="size-3.5 md:size-4 shrink-0 text-indigo-400" />
                         <span class="truncate">Compromiso Social y Cultural</span>
                     </div>
@@ -265,6 +265,7 @@ onUnmounted(() => {
                         <h1 class="text-xl sm:text-3xl md:text-5xl lg:text-6xl font-black md:font-extrabold tracking-tight leading-tight md:leading-[1.1] text-white">
                             Conectando la <span
                                 class="bg-gradient-to-r from-indigo-400 via-blue-400 to-indigo-300 bg-clip-text text-transparent">Universidad</span>
+                            <br class="hidden md:block" />
                             con nuestra Sociedad
                         </h1>
 
