@@ -57,13 +57,13 @@ const filteredEvents = computed(() => {
     <PublicLayout title="Eventos">
         <!-- Hero Header -->
         <section 
-            class="relative h-[60vh] min-h-[350px] flex items-center overflow-hidden bg-cover bg-center text-white"
+            class="relative h-[60vh] min-h-[350px] flex items-end pb-8 md:items-center md:pb-0 overflow-hidden bg-cover bg-center text-white"
             style="background-image: url('https://cdn.phototourl.com/free/2026-08-05-2af7bdd7-7eb6-4cca-9c51-1fc58cff7eeb.jpg');"
         >
-            <!-- Gradient Overlay for readability -->
-            <div class="absolute inset-0 bg-gradient-to-r from-neutral-950/90 via-neutral-950/70 to-transparent z-10"></div>
+            <!-- Gradient Overlay (Bottom gradient on mobile, side gradient on desktop) -->
+            <div class="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/80 to-transparent md:bg-gradient-to-r md:from-neutral-950/90 md:via-neutral-950/70 md:to-transparent z-10"></div>
             
-            <div class="max-w-7xl mx-auto w-full px-6 lg:px-8 text-left relative z-20 space-y-3">
+            <div class="max-w-7xl mx-auto w-full px-6 lg:px-8 text-left relative z-20 space-y-2 md:space-y-3">
                 <span class="text-xs font-bold uppercase tracking-widest text-blue-400">Agenda Institucional</span>
                 <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Eventos</h1>
                 <p class="text-xs md:text-sm text-white/80 max-w-3xl leading-relaxed">
