@@ -250,8 +250,8 @@ onUnmounted(() => {
                 </div>
             </div>
 
-            <!-- Middle 30% Text & Buttons Block on Mobile (Translucent background, taller buttons & badge) -->
-            <div class="h-[30%] md:h-auto w-full bg-neutral-950/80 backdrop-blur-md md:bg-transparent px-0 py-0 sm:px-6 md:px-8 max-w-7xl mx-auto flex flex-col justify-between border-t-2 border-indigo-600/50 md:border-0 shrink-0 z-20 md:my-auto">
+            <!-- Bottom 40% Text & Buttons Block on Mobile (Translucent background, taller buttons & badge) -->
+            <div class="h-[40%] md:h-auto w-full bg-neutral-950/85 backdrop-blur-md md:bg-transparent px-0 py-0 sm:px-6 md:px-8 max-w-7xl mx-auto flex flex-col justify-between border-t-2 border-indigo-600/50 md:border-0 shrink-0 z-20 md:my-auto">
                 <div class="w-full h-full flex flex-col justify-between text-left space-y-1 md:space-y-6">
                     <!-- Taller Square Badge on Mobile, Pill Badge on Desktop -->
                     <div
@@ -293,26 +293,6 @@ onUnmounted(() => {
                             </Button>
                         </Link>
                     </div>
-                </div>
-            </div>
-
-            <!-- Bottom Compact 7.5% SubUnits Facebook Pages Horizontal Slider on Mobile (Facebook Blue, Taller Logos & Larger Text) -->
-            <div class="h-[7.5%] min-h-[44px] md:hidden w-full bg-gradient-to-r from-[#1877f2] via-[#0866ff] to-[#1877f2] border-t border-white/30 px-2 flex items-center justify-between text-white rounded-none shrink-0 z-30 shadow-lg">
-                <!-- Facebook Brand Indicator on Left (Fixed) -->
-                <div class="flex items-center gap-1.5 px-2 py-1 text-white shrink-0 border-r border-white/30 pr-2 bg-black/10 shadow-inner" title="Páginas Oficiales de Facebook">
-                    <svg class="size-4.5 fill-current text-white shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1V12h3l-.5 3h-2.5v6.8c4.56-.93 8-4.96 8-9.8z" />
-                    </svg>
-                    <span class="text-[9px] font-black uppercase tracking-wider text-white">FB</span>
-                </div>
-
-                <!-- Interactive Horizontal Sliding Subunits Bar (Larger Logos & Text) -->
-                <div class="flex-1 overflow-x-auto no-scrollbar scroll-smooth flex items-center gap-2 pl-2 py-0.5">
-                    <a v-for="sub in subunitsFloating" :key="sub.name" :href="sub.fbUrl" target="_blank" rel="noopener noreferrer"
-                        class="flex items-center gap-2 px-2.5 py-1 bg-white/20 hover:bg-white/30 active:scale-95 backdrop-blur-md rounded-none border border-white/40 text-white transition-all shrink-0">
-                        <img :src="sub.logo" :alt="sub.name" class="size-7 sm:size-8 object-cover shrink-0 rounded-none border-2 border-white/70 shadow-sm" />
-                        <span class="text-xs font-black leading-tight text-white whitespace-nowrap drop-shadow-xs">{{ sub.name }}</span>
-                    </a>
                 </div>
             </div>
         </section>
