@@ -9,9 +9,7 @@ import {
     TrendingUp, 
     Scale, 
     UsersRound,
-    Leaf,
-    ChevronLeft,
-    ChevronRight
+    Leaf
 } from '@lucide/vue';
 import { onMounted, onUnmounted, ref, computed } from 'vue';
 import PublicLayout from '@/layouts/PublicLayout.vue';
@@ -334,6 +332,27 @@ const values = computed(() => {
 const teamSectionRef = ref<HTMLElement | null>(null);
 const activeCardIndex = ref(0);
 
+const mobileTeamContainerRef = ref<HTMLElement | null>(null);
+const mobileTeamIndex = ref(0);
+let mobileTeamInterval: ReturnType<typeof setInterval> | null = null;
+
+const stepNextTeamSlide = () => {
+    if (!mobileTeamContainerRef.value || window.innerWidth >= 1024 || !mobileTeamContainerRef.value.children.length) {
+return;
+}
+
+    const total = mobileTeamContainerRef.value.children.length;
+    mobileTeamIndex.value = (mobileTeamIndex.value + 1) % total;
+    const targetCard = mobileTeamContainerRef.value.children[mobileTeamIndex.value] as HTMLElement;
+
+    if (targetCard) {
+        mobileTeamContainerRef.value.scrollTo({
+            left: targetCard.offsetLeft - mobileTeamContainerRef.value.offsetLeft,
+            behavior: 'smooth'
+        });
+    }
+};
+
 const nextCard = () => {
     activeCardIndex.value = (activeCardIndex.value + 1) % team.value.length;
 };
@@ -349,12 +368,12 @@ const setCard = (index: number) => {
 // Keyboard listener (Flechas Abajo/Derecha -> Siguiente, Arriba/Izquierda -> Anterior)
 const handleKeyDown = (event: KeyboardEvent) => {
     if (!teamSectionRef.value) {
-return;
-}
-    
+        return;
+    }
+
     const rect = teamSectionRef.value.getBoundingClientRect();
     const inView = rect.top < window.innerHeight && rect.bottom > 0;
-    
+
     if (inView) {
         if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
             nextCard();
@@ -382,10 +401,17 @@ onMounted(() => {
     sections.forEach((section) => revealObserver.observe(section));
 
     window.addEventListener('keydown', handleKeyDown);
+
+    // Auto-scroll mobile team cards
+    mobileTeamInterval = setInterval(stepNextTeamSlide, 4500);
 });
 
 onUnmounted(() => {
     window.removeEventListener('keydown', handleKeyDown);
+
+    if (mobileTeamInterval) {
+clearInterval(mobileTeamInterval);
+}
 });
 </script>
 
@@ -449,22 +475,44 @@ onUnmounted(() => {
             ref="teamSectionRef" 
             class="reveal-section py-20 lg:py-28 bg-neutral-50/50 dark:bg-neutral-900/10 border-y border-neutral-200/55 dark:border-neutral-800/40 select-none"
         >
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
-                    
-                    <!-- Left Column: Sticky Header & Interactive Member List -->
-                    <div class="lg:col-span-5 text-left space-y-6 lg:pr-4">
-                        <div class="space-y-3">
-                            <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Liderazgo y Gestión</span>
-                            <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">Nuestro Equipo</h2>
-                            <div class="w-12 h-1.5 bg-indigo-600 dark:bg-indigo-400 rounded-full"></div>
-                            <p class="text-xs md:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
-                                Contamos con un equipo multidisciplinario de profesionales apasionados por el cambio social, comprometidos con nuestros valores y enfocados en lograr resultados transformadores para nuestra comunidad universitaria y la región de Puno.
-                            </p>
-                        </div>
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full space-y-8">
+                <!-- Section Header -->
+                <div class="text-center max-w-3xl mx-auto space-y-3">
+                    <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Liderazgo y Gestión</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-white">Nuestro Equipo</h2>
+                    <p class="text-xs md:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+                        Conoce a los profesionales apasionados que lideran el desarrollo social y cultural en la UNA Puno.
+                    </p>
+                </div>
 
-                        <!-- Interactive Member Selector List -->
-                        <div class="space-y-2 pt-2">
+                <!-- Mobile Interactive Photo Slider (Visual & Interactive - Solo Fotos con Overlay Glass) -->
+                <div class="lg:hidden w-full pt-2">
+                    <div ref="mobileTeamContainerRef" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar space-x-4 pb-4 px-1 scroll-smooth">
+                        <div 
+                            v-for="member in team" 
+                            :key="member.name"
+                            class="w-[82vw] sm:w-[320px] shrink-0 snap-center relative rounded-3xl overflow-hidden shadow-xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-950 group aspect-[3/4]"
+                        >
+                            <!-- Full Photo -->
+                            <img :src="member.image" :alt="member.name" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+                            
+                            <!-- Bottom Glass Overlay with Name & Role -->
+                            <div class="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-neutral-950 via-neutral-950/85 to-transparent backdrop-blur-md flex flex-col items-start text-left space-y-1 z-10 border-t border-white/10">
+                                <span class="px-2.5 py-1 rounded-full text-[9.5px] font-black uppercase tracking-widest bg-indigo-600 text-white shadow-xs">
+                                    {{ member.role }}
+                                </span>
+                                <h3 class="text-lg font-black text-white leading-tight drop-shadow-sm">{{ member.name }}</h3>
+                                <p class="text-xs text-neutral-300 font-medium line-clamp-1 opacity-90">{{ member.department }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Interactive Presentation (Hidden on Mobile) -->
+                <div class="hidden lg:grid grid-cols-12 gap-12 items-center w-full pt-6">
+                    <!-- Left Column: Interactive Member Selector List -->
+                    <div class="col-span-5 text-left space-y-6 pr-4">
+                        <div class="space-y-2">
                             <button 
                                 v-for="(member, idx) in team" 
                                 :key="idx"
@@ -483,29 +531,10 @@ onUnmounted(() => {
                                 </div>
                             </button>
                         </div>
-
-                        <!-- Manual Controls (Previous / Next Buttons - Visible only on mobile/tablet) -->
-                        <div class="flex lg:hidden items-center gap-2 pt-2">
-                            <button 
-                                @click="prevCard"
-                                class="p-2.5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 hover:text-indigo-600 dark:hover:text-indigo-400 shadow-xs transition-all cursor-pointer"
-                                aria-label="Integrante anterior"
-                            >
-                                <ChevronLeft class="size-5" />
-                            </button>
-                            <button 
-                                @click="nextCard"
-                                class="p-2.5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-200/80 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 hover:text-indigo-600 dark:hover:text-indigo-400 shadow-xs transition-all cursor-pointer"
-                                aria-label="Siguiente integrante"
-                            >
-                                <ChevronRight class="size-5" />
-                            </button>
-                        </div>
                     </div>
 
-                    <!-- Right Column: Clickable Card Presentation -->
-                    <div class="lg:col-span-7 flex items-center justify-center relative h-[480px] w-full">
-
+                    <!-- Right Column: Clickable 3D Card Presentation -->
+                    <div class="col-span-7 flex items-center justify-center relative h-[480px] w-full">
                         <template v-for="(member, index) in team" :key="member.name">
                             <transition name="card-fade">
                                 <div 
@@ -539,7 +568,6 @@ onUnmounted(() => {
                             </transition>
                         </template>
                     </div>
-
                 </div>
             </div>
         </section>
