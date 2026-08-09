@@ -514,13 +514,13 @@ clearInterval(mobileTeamInterval);
                             <div class="w-full h-full rounded-2xl overflow-hidden bg-neutral-100 dark:bg-neutral-950 relative flex items-end justify-center border border-neutral-200/60 dark:border-neutral-800/60">
                                 <img :src="member.image" :alt="member.name" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
                                 
-                                <!-- Bottom Glass Overlay with Name & Role (Estilo Mantenido) -->
-                                <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-neutral-950 via-neutral-950/85 to-transparent backdrop-blur-md flex flex-col items-start text-left space-y-1 z-10 border-t border-white/10">
+                                <!-- Bottom Glass Overlay with Name & Role (Adaptativo: Claro en Light Mode / Oscuro en Dark Mode) -->
+                                <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/95 via-white/85 to-transparent dark:from-neutral-950 dark:via-neutral-950/85 dark:to-transparent backdrop-blur-md flex flex-col items-start text-left space-y-1 z-10 border-t border-black/5 dark:border-white/10">
                                     <span class="px-2.5 py-1 rounded-full text-[9.5px] font-black uppercase tracking-widest bg-indigo-600 text-white shadow-xs">
                                         {{ member.role }}
                                     </span>
-                                    <h3 class="text-base sm:text-lg font-black text-white leading-tight drop-shadow-sm">{{ member.name }}</h3>
-                                    <p class="text-xs text-neutral-300 font-medium line-clamp-1 opacity-90">{{ member.department }}</p>
+                                    <h3 class="text-base sm:text-lg font-black text-neutral-950 dark:text-white leading-tight drop-shadow-xs">{{ member.name }}</h3>
+                                    <p class="text-xs text-neutral-600 dark:text-neutral-300 font-medium line-clamp-1 opacity-95">{{ member.department }}</p>
                                 </div>
                             </div>
                         </div>
