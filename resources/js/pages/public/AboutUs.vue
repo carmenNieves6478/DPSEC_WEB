@@ -338,12 +338,28 @@ let mobileTeamInterval: ReturnType<typeof setInterval> | null = null;
 
 const stepNextTeamSlide = () => {
     if (!mobileTeamContainerRef.value || window.innerWidth >= 1024 || !mobileTeamContainerRef.value.children.length) {
-return;
-}
+        return;
+    }
 
     const total = mobileTeamContainerRef.value.children.length;
     mobileTeamIndex.value = (mobileTeamIndex.value + 1) % total;
     const targetCard = mobileTeamContainerRef.value.children[mobileTeamIndex.value] as HTMLElement;
+
+    if (targetCard) {
+        mobileTeamContainerRef.value.scrollTo({
+            left: targetCard.offsetLeft - mobileTeamContainerRef.value.offsetLeft,
+            behavior: 'smooth'
+        });
+    }
+};
+
+const setMobileCard = (index: number) => {
+    if (!mobileTeamContainerRef.value) {
+return;
+}
+
+    mobileTeamIndex.value = index;
+    const targetCard = mobileTeamContainerRef.value.children[index] as HTMLElement;
 
     if (targetCard) {
         mobileTeamContainerRef.value.scrollTo({
@@ -402,8 +418,8 @@ onMounted(() => {
 
     window.addEventListener('keydown', handleKeyDown);
 
-    // Auto-scroll mobile team cards
-    mobileTeamInterval = setInterval(stepNextTeamSlide, 4500);
+    // Auto-scroll mobile team cards (Slower, 7 seconds)
+    mobileTeamInterval = setInterval(stepNextTeamSlide, 7000);
 });
 
 onUnmounted(() => {
@@ -485,26 +501,40 @@ clearInterval(mobileTeamInterval);
                     </p>
                 </div>
 
-                <!-- Mobile Interactive Photo Slider (Visual & Interactive - Solo Fotos con Overlay Glass) -->
-                <div class="lg:hidden w-full pt-2">
-                    <div ref="mobileTeamContainerRef" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar space-x-4 pb-4 px-1 scroll-smooth">
+                <!-- Mobile Single-Card Photo Carousel (Fondo Blanco en Claro / Negro en Oscuro, Táctil/Click, Sin Foto Cortada, Recto Normal) -->
+                <div class="lg:hidden w-full max-w-sm sm:max-w-md mx-auto pt-2 space-y-4">
+                    <div ref="mobileTeamContainerRef" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar w-full scroll-smooth">
                         <div 
                             v-for="member in team" 
                             :key="member.name"
-                            class="w-[82vw] sm:w-[320px] shrink-0 snap-center relative rounded-3xl overflow-hidden shadow-xl border border-neutral-200/80 dark:border-neutral-800 bg-neutral-950 group aspect-[3/4]"
+                            @click="stepNextTeamSlide"
+                            class="w-full shrink-0 snap-center relative rounded-3xl overflow-hidden shadow-xl border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900 group aspect-[4/5] cursor-pointer p-3 flex flex-col transition-all duration-300"
                         >
-                            <!-- Full Photo -->
-                            <img :src="member.image" :alt="member.name" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
-                            
-                            <!-- Bottom Glass Overlay with Name & Role -->
-                            <div class="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-neutral-950 via-neutral-950/85 to-transparent backdrop-blur-md flex flex-col items-start text-left space-y-1 z-10 border-t border-white/10">
-                                <span class="px-2.5 py-1 rounded-full text-[9.5px] font-black uppercase tracking-widest bg-indigo-600 text-white shadow-xs">
-                                    {{ member.role }}
-                                </span>
-                                <h3 class="text-lg font-black text-white leading-tight drop-shadow-sm">{{ member.name }}</h3>
-                                <p class="text-xs text-neutral-300 font-medium line-clamp-1 opacity-90">{{ member.department }}</p>
+                            <!-- Inner Photo Frame Box (Estilo marco recto de la web) -->
+                            <div class="w-full h-full rounded-2xl overflow-hidden bg-neutral-100 dark:bg-neutral-950 relative flex items-end justify-center border border-neutral-200/60 dark:border-neutral-800/60">
+                                <img :src="member.image" :alt="member.name" class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" />
+                                
+                                <!-- Bottom Glass Overlay with Name & Role (Estilo Mantenido) -->
+                                <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-neutral-950 via-neutral-950/85 to-transparent backdrop-blur-md flex flex-col items-start text-left space-y-1 z-10 border-t border-white/10">
+                                    <span class="px-2.5 py-1 rounded-full text-[9.5px] font-black uppercase tracking-widest bg-indigo-600 text-white shadow-xs">
+                                        {{ member.role }}
+                                    </span>
+                                    <h3 class="text-base sm:text-lg font-black text-white leading-tight drop-shadow-sm">{{ member.name }}</h3>
+                                    <p class="text-xs text-neutral-300 font-medium line-clamp-1 opacity-90">{{ member.department }}</p>
+                                </div>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Slide Indicator Dots on Mobile -->
+                    <div class="flex items-center justify-center gap-2">
+                        <span 
+                            v-for="(member, i) in team" 
+                            :key="i"
+                            @click="setMobileCard(i)"
+                            class="h-2 rounded-full transition-all duration-300 cursor-pointer"
+                            :class="mobileTeamIndex === i ? 'w-6 bg-indigo-600 dark:bg-indigo-400' : 'w-2 bg-neutral-300 dark:bg-neutral-700'"
+                        ></span>
                     </div>
                 </div>
 
