@@ -250,17 +250,17 @@ onUnmounted(() => {
                 </div>
             </div>
 
-            <!-- Middle 30% Text & Buttons Block on Mobile (Outer padding removed on mobile, edge-to-edge) -->
-            <div class="h-[30%] md:h-auto w-full bg-neutral-950 md:bg-transparent px-0 py-0 sm:px-6 md:px-8 max-w-7xl mx-auto flex flex-col justify-between border-t-2 border-indigo-600/50 md:border-0 shrink-0 z-20 md:my-auto">
+            <!-- Middle 30% Text & Buttons Block on Mobile (Translucent background, taller buttons & badge) -->
+            <div class="h-[30%] md:h-auto w-full bg-neutral-950/80 backdrop-blur-md md:bg-transparent px-0 py-0 sm:px-6 md:px-8 max-w-7xl mx-auto flex flex-col justify-between border-t-2 border-indigo-600/50 md:border-0 shrink-0 z-20 md:my-auto">
                 <div class="w-full h-full flex flex-col justify-between text-left space-y-1 md:space-y-6">
-                    <!-- Square Badge on Mobile (Edge-to-Edge), Pill Badge on Desktop -->
+                    <!-- Taller Square Badge on Mobile, Pill Badge on Desktop -->
                     <div
-                        class="w-full md:w-fit flex md:inline-flex items-center gap-2 px-3 py-1 md:py-1.5 rounded-none md:rounded-full bg-indigo-500/20 text-indigo-300 text-xs sm:text-sm font-black md:font-semibold uppercase tracking-wider border-l-4 border-indigo-500 border-y border-r border-indigo-500/30 md:border md:border-indigo-500/30 shadow-xs shrink-0">
-                        <TrendingUp class="size-3.5 md:size-4 shrink-0 text-indigo-400" />
+                        class="w-full md:w-fit flex md:inline-flex items-center gap-2 px-3.5 py-2 md:py-1.5 rounded-none md:rounded-full bg-indigo-500/25 text-indigo-300 text-xs sm:text-sm font-black md:font-semibold uppercase tracking-wider border-l-4 border-indigo-500 border-y border-r border-indigo-500/30 md:border md:border-indigo-500/30 shadow-xs shrink-0">
+                        <TrendingUp class="size-4 shrink-0 text-indigo-400" />
                         <span class="truncate">Compromiso Social y Cultural</span>
                     </div>
 
-                    <!-- Inner Container with side padding (px-4) for Heading & Description on Mobile -->
+                    <!-- Inner Container with side padding (px-3.5) for Heading & Description on Mobile -->
                     <div class="px-3.5 md:px-0 space-y-1 md:space-y-4 my-auto">
                         <h1 class="text-xl sm:text-3xl md:text-5xl lg:text-6xl font-black md:font-extrabold tracking-tight leading-tight md:leading-[1.1] text-white">
                             Conectando la <span
@@ -276,19 +276,19 @@ onUnmounted(() => {
                         </p>
                     </div>
 
-                    <!-- Side-By-Side Edge-To-Edge Buttons on Mobile (gap-0), Original Flex Buttons on Desktop -->
+                    <!-- Taller Side-By-Side Edge-To-Edge Buttons on Mobile (h-11, text-xs/font-black), Original Flex Buttons on Desktop -->
                     <div class="grid grid-cols-2 md:flex md:flex-wrap gap-0 md:gap-4 pt-0 md:pt-2 w-full md:w-auto shrink-0">
                         <Link href="/proyeccion-social" class="w-full md:w-auto">
                             <Button
-                                class="w-full md:w-auto rounded-none md:rounded-xl h-9 md:h-12 px-2 md:px-6 bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/25 transition-all text-[11px] sm:text-sm md:text-base font-bold md:font-semibold flex items-center justify-center md:justify-start gap-1 md:gap-2 cursor-pointer border-0 border-r border-indigo-700/50 md:border-r-0">
+                                class="w-full md:w-auto rounded-none md:rounded-xl h-11 md:h-12 px-2 md:px-6 bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/25 transition-all text-xs sm:text-sm md:text-base font-black md:font-semibold flex items-center justify-center md:justify-start gap-1.5 md:gap-2 cursor-pointer border-0 border-r border-indigo-700/50 md:border-r-0">
                                 <span class="truncate">Ver Actividades</span>
-                                <ArrowRight class="size-3.5 md:size-4 shrink-0" />
+                                <ArrowRight class="size-4 shrink-0" />
                             </Button>
                         </Link>
                         <Link href="/documentos" class="w-full md:w-auto">
                             <Button variant="outline"
-                                class="w-full md:w-auto rounded-none md:rounded-xl h-9 md:h-12 px-2 md:px-6 border-0 md:border border-white/30 md:border-white/20 bg-white/10 md:bg-white/5 text-white hover:bg-white/20 md:hover:bg-white/10 transition-all text-[11px] sm:text-sm md:text-base font-bold md:font-semibold flex items-center justify-center md:justify-start gap-1 md:gap-2 cursor-pointer backdrop-blur-md">
-                                <FileText class="size-3.5 md:size-4 text-indigo-300 shrink-0" />
+                                class="w-full md:w-auto rounded-none md:rounded-xl h-11 md:h-12 px-2 md:px-6 border-0 md:border border-white/30 md:border-white/20 bg-white/10 md:bg-white/5 text-white hover:bg-white/20 md:hover:bg-white/10 transition-all text-xs sm:text-sm md:text-base font-black md:font-semibold flex items-center justify-center md:justify-start gap-1.5 md:gap-2 cursor-pointer backdrop-blur-md">
+                                <FileText class="size-4 text-indigo-300 shrink-0" />
                                 <span class="truncate">Normativas y Guías</span>
                             </Button>
                         </Link>
