@@ -236,9 +236,9 @@ onUnmounted(() => {
 <template>
     <PublicLayout title="Inicio">
         <section
-            class="relative flex flex-col md:flex-row md:items-center overflow-hidden bg-neutral-950 text-white h-[calc(100vh-96px)] min-h-[500px]">
-            <!-- Top 60% Image Carousel Block on Mobile, Full-Screen Overlay on Desktop -->
-            <div class="h-[60%] md:h-full w-full relative md:absolute md:inset-0 z-0 overflow-hidden shrink-0">
+            class="relative flex flex-col md:flex-row md:items-center overflow-hidden bg-neutral-950 text-white h-[calc(100vh-128px)] max-h-[720px] min-h-[480px] md:h-[calc(100vh-96px)] md:max-h-none">
+            <!-- Top 58% Image Carousel Block on Mobile, Full-Screen Overlay on Desktop -->
+            <div class="h-[58%] md:h-full w-full relative md:absolute md:inset-0 z-0 overflow-hidden shrink-0">
                 <transition-group name="fade">
                     <div v-for="(slide, index) in slides" v-show="currentSlide === index" :key="slide"
                         class="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-in-out transform scale-105"
@@ -250,45 +250,45 @@ onUnmounted(() => {
                 </div>
             </div>
 
-            <!-- Bottom 40% Text & Buttons Block on Mobile (Translucent background, taller buttons & badge) -->
-            <div class="h-[40%] md:h-auto w-full bg-neutral-950/85 backdrop-blur-md md:bg-transparent px-0 py-0 sm:px-6 md:px-8 max-w-7xl mx-auto flex flex-col justify-between border-t-2 border-indigo-600/50 md:border-0 shrink-0 z-20 md:my-auto">
+            <!-- Bottom 42% Glassmorphism Text & Buttons Block on Mobile (Efecto Vidrio, Taller Buttons & Badge) -->
+            <div class="h-[42%] md:h-auto w-full bg-neutral-950/40 backdrop-blur-xl md:bg-transparent px-0 py-0 sm:px-6 md:px-8 max-w-7xl mx-auto flex flex-col justify-between border-t border-white/20 md:border-0 shrink-0 z-20 md:my-auto shadow-2xl">
                 <div class="w-full h-full flex flex-col justify-between text-left space-y-1 md:space-y-6">
-                    <!-- Taller Square Badge on Mobile, Pill Badge on Desktop -->
+                    <!-- Taller Square Badge on Mobile (Glass Tinted), Pill Badge on Desktop -->
                     <div
-                        class="w-full md:w-fit flex md:inline-flex items-center gap-2 px-3.5 py-2 md:py-1.5 rounded-none md:rounded-full bg-indigo-500/25 text-indigo-300 text-xs sm:text-sm font-black md:font-semibold uppercase tracking-wider border-l-4 border-indigo-500 border-y border-r border-indigo-500/30 md:border md:border-indigo-500/30 shadow-xs shrink-0">
-                        <TrendingUp class="size-4 shrink-0 text-indigo-400" />
+                        class="w-full md:w-fit flex md:inline-flex items-center gap-2 px-3.5 py-2.5 md:py-1.5 rounded-none md:rounded-full bg-indigo-500/30 backdrop-blur-md text-indigo-200 text-xs sm:text-sm font-black md:font-semibold uppercase tracking-wider border-l-4 border-indigo-400 border-y border-r border-white/20 md:border md:border-indigo-500/30 shadow-sm shrink-0">
+                        <TrendingUp class="size-4.5 shrink-0 text-indigo-300" />
                         <span class="truncate">Compromiso Social y Cultural</span>
                     </div>
 
                     <!-- Inner Container with side padding (px-3.5) for Heading & Description on Mobile -->
                     <div class="px-3.5 md:px-0 space-y-1.5 md:space-y-4 my-auto">
-                        <h1 class="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black md:font-extrabold tracking-tight leading-tight md:leading-[1.1] text-white">
+                        <h1 class="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black md:font-extrabold tracking-tight leading-tight md:leading-[1.1] text-white drop-shadow-sm">
                             Conectando la <span
                                 class="bg-gradient-to-r from-indigo-400 via-blue-400 to-indigo-300 bg-clip-text text-transparent">Universidad</span>
                             <br class="hidden md:block" />
                             con nuestra Sociedad
                         </h1>
 
-                        <p class="text-xs sm:text-sm md:text-lg text-neutral-200 leading-snug md:leading-relaxed max-w-2xl font-medium md:font-normal line-clamp-3 md:line-clamp-none">
+                        <p class="text-xs sm:text-sm md:text-lg text-neutral-200 leading-snug md:leading-relaxed max-w-2xl font-medium md:font-normal line-clamp-3 md:line-clamp-none drop-shadow-xs">
                             La Dirección de Proyección Social y Extensión Cultural de la UNA Puno lidera programas
                             integradores, voluntariados, preservación del patrimonio cultural altiplánico y proyectos
                             sostenibles para el desarrollo regional.
                         </p>
                     </div>
 
-                    <!-- Taller Side-By-Side Edge-To-Edge Buttons on Mobile (h-11, text-xs/font-black), Original Flex Buttons on Desktop -->
+                    <!-- Taller Side-By-Side Edge-To-Edge Buttons on Mobile (h-12, font-black, size-4.5 icons), Original Flex Buttons on Desktop -->
                     <div class="grid grid-cols-2 md:flex md:flex-wrap gap-0 md:gap-4 pt-0 md:pt-2 w-full md:w-auto shrink-0">
                         <Link href="/proyeccion-social" class="w-full md:w-auto">
                             <Button
-                                class="w-full md:w-auto rounded-none md:rounded-xl h-11 md:h-12 px-2 md:px-6 bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/25 transition-all text-xs sm:text-sm md:text-base font-black md:font-semibold flex items-center justify-center md:justify-start gap-1.5 md:gap-2 cursor-pointer border-0 border-r border-indigo-700/50 md:border-r-0">
+                                class="w-full md:w-auto rounded-none md:rounded-xl h-12 md:h-12 px-2 md:px-6 bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-600/30 transition-all text-xs sm:text-sm md:text-base font-black md:font-semibold flex items-center justify-center md:justify-start gap-2 cursor-pointer border-0 border-r border-indigo-700/50 md:border-r-0">
                                 <span class="truncate">Ver Actividades</span>
-                                <ArrowRight class="size-4 shrink-0" />
+                                <ArrowRight class="size-4.5 shrink-0" />
                             </Button>
                         </Link>
                         <Link href="/documentos" class="w-full md:w-auto">
                             <Button variant="outline"
-                                class="w-full md:w-auto rounded-none md:rounded-xl h-11 md:h-12 px-2 md:px-6 border-0 md:border border-white/30 md:border-white/20 bg-white/10 md:bg-white/5 text-white hover:bg-white/20 md:hover:bg-white/10 transition-all text-xs sm:text-sm md:text-base font-black md:font-semibold flex items-center justify-center md:justify-start gap-1.5 md:gap-2 cursor-pointer backdrop-blur-md">
-                                <FileText class="size-4 text-indigo-300 shrink-0" />
+                                class="w-full md:w-auto rounded-none md:rounded-xl h-12 md:h-12 px-2 md:px-6 border-0 md:border border-white/30 md:border-white/20 bg-white/15 md:bg-white/5 text-white hover:bg-white/25 md:hover:bg-white/10 transition-all text-xs sm:text-sm md:text-base font-black md:font-semibold flex items-center justify-center md:justify-start gap-2 cursor-pointer backdrop-blur-md">
+                                <FileText class="size-4.5 text-indigo-300 shrink-0" />
                                 <span class="truncate">Normativas y Guías</span>
                             </Button>
                         </Link>

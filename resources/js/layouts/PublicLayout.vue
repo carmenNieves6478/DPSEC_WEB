@@ -119,8 +119,8 @@ const subunitsFloating = [
                     <Button variant="ghost" size="icon" class="h-10 w-10 rounded-xl hover:bg-neutral-100 dark:hover:bg-neutral-900 cursor-pointer"
                         @click="mobileMenuOpen = !mobileMenuOpen"
                         aria-label="Abrir menú de navegación">
-                        <Menu v-if="!mobileMenuOpen" class="h-6 w-6 text-neutral-800 dark:text-neutral-200" />
-                        <X v-else class="h-6 w-6 text-neutral-800 dark:text-neutral-200" />
+                        <Menu v-if="!mobileMenuOpen" class="h-7 w-7 text-neutral-800 dark:text-neutral-200" />
+                        <X v-else class="h-7 w-7 text-neutral-800 dark:text-neutral-200" />
                     </Button>
                 </div>
 
@@ -132,15 +132,15 @@ const subunitsFloating = [
                             alt="Logo UNA Puno"
                             class="h-9 sm:h-12 w-auto object-contain shrink-0 transition-transform duration-300 group-hover:scale-105" />
 
-                        <!-- Text in the middle -->
+                        <!-- Text in the middle (Larger Font) -->
                         <div
-                            class="flex flex-col items-center justify-center text-center my-auto self-center max-w-[135px] sm:max-w-[200px] md:max-w-[260px] lg:max-w-[340px] leading-[1.2]">
+                            class="flex flex-col items-center justify-center text-center my-auto self-center max-w-[145px] sm:max-w-[200px] md:max-w-[260px] lg:max-w-[340px] leading-snug">
                             <span
-                                class="font-extrabold text-[9px] sm:text-[11px] md:text-sm tracking-tight text-neutral-800 dark:text-neutral-100 block">
+                                class="font-black text-[10px] sm:text-xs md:text-sm tracking-tight text-neutral-900 dark:text-neutral-100 block">
                                 Dirección de Proyección Social y
                             </span>
                             <span
-                                class="font-extrabold text-[9px] sm:text-[11px] md:text-sm tracking-tight text-neutral-800 dark:text-neutral-100 block">
+                                class="font-black text-[10px] sm:text-xs md:text-sm tracking-tight text-neutral-900 dark:text-neutral-100 block">
                                 Extensión Cultural
                             </span>
                         </div>
