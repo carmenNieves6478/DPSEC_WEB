@@ -508,7 +508,7 @@ clearInterval(mobileTeamInterval);
                             v-for="member in team" 
                             :key="member.name"
                             @click="stepNextTeamSlide"
-                            class="w-full shrink-0 snap-center relative rounded-3xl overflow-hidden shadow-xl border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900 group aspect-[4/5] cursor-pointer p-3 flex flex-col transition-all duration-300"
+                            class="w-full shrink-0 snap-center relative rounded-3xl overflow-hidden shadow-none border border-neutral-200/80 dark:border-neutral-800 bg-white dark:bg-neutral-900 group aspect-[4/5] cursor-pointer p-3 flex flex-col transition-all duration-300"
                         >
                             <!-- Inner Photo Frame Box (Estilo marco recto de la web) -->
                             <div class="w-full h-full rounded-2xl overflow-hidden bg-neutral-100 dark:bg-neutral-950 relative flex items-end justify-center border border-neutral-200/60 dark:border-neutral-800/60">
@@ -516,10 +516,10 @@ clearInterval(mobileTeamInterval);
                                 
                                 <!-- Bottom Glass Overlay with Name & Role (Adaptativo: Claro en Light Mode / Oscuro en Dark Mode) -->
                                 <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-white/95 via-white/85 to-transparent dark:from-neutral-950 dark:via-neutral-950/85 dark:to-transparent backdrop-blur-md flex flex-col items-start text-left space-y-1 z-10 border-t border-black/5 dark:border-white/10">
-                                    <span class="px-2.5 py-1 rounded-full text-[9.5px] font-black uppercase tracking-widest bg-indigo-600 text-white shadow-xs">
+                                    <span class="px-2.5 py-1 rounded-full text-[9.5px] font-black uppercase tracking-widest bg-indigo-600 text-white">
                                         {{ member.role }}
                                     </span>
-                                    <h3 class="text-base sm:text-lg font-black text-neutral-950 dark:text-white leading-tight drop-shadow-xs">{{ member.name }}</h3>
+                                    <h3 class="text-base sm:text-lg font-black text-neutral-950 dark:text-white leading-tight">{{ member.name }}</h3>
                                     <p class="text-xs text-neutral-600 dark:text-neutral-300 font-medium line-clamp-1 opacity-95">{{ member.department }}</p>
                                 </div>
                             </div>
